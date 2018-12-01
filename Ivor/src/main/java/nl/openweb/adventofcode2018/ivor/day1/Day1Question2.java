@@ -1,6 +1,7 @@
 package nl.openweb.adventofcode2018.ivor.day1;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.OptionalInt;
 import java.util.Set;
@@ -40,9 +41,9 @@ public class Day1Question2 extends Day1Question1 {
         try {
             return getLines()
                     .map(this::getNewFrequency)
-                    .filter(this::isFrequencyReacedTwice)
+                    .filter(this::isFrequencyReachedTwice)
                     .findFirst();
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             return OptionalInt.empty();
         }
@@ -54,7 +55,7 @@ public class Day1Question2 extends Day1Question1 {
         return currentFrequency;
     }
 
-    private boolean isFrequencyReacedTwice(Integer frequency) {
+    private boolean isFrequencyReachedTwice(Integer frequency) {
         return !frequencies.add(frequency);
     }
 
