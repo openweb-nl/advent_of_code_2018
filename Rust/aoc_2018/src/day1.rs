@@ -5,9 +5,8 @@ use std::collections::HashSet;
 pub fn input_generator(input: &str) -> Vec<i32> {
     input
         .lines()
-        .map(|l| {
-            FromStr::from_str(l).unwrap()
-        }).collect()
+        .map(|l| FromStr::from_str(l).unwrap())
+        .collect()
 }
 
 #[aoc(day1, part1)]
