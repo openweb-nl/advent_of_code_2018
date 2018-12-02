@@ -47,7 +47,7 @@ jobs:
       - persist_to_workspace:
           root: "."
           paths:
-            - Cargo.lock
+            - Rust/aoc_2018/Cargo.lock
       - save_cache:
           key: cargo-v1-{{ checksum "Rust/aoc_2018/Cargo.toml" }}}
           paths:
@@ -66,7 +66,7 @@ jobs:
             - cargo-v1-{{ checksum "Rust/aoc_2018/Cargo.toml" }}
       - run:
           name: Print version information
-          command: rustc --version; cargo --version
+          command: cd Rust/aoc_2018 && rustc --version; cargo --version
       - run:
           name: Build and test
           command: cd Rust/aoc_2018 && cargo test --verbose --frozen
