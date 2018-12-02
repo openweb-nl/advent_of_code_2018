@@ -17,17 +17,17 @@ class Day1Question2 {
             .repeat()
             .map(Integer::valueOf)
             .scan(0, (frequency , frequencyChange) -> frequency + frequencyChange)
-            .scan(new Pair<Set<Integer>, Integer>(new HashSet<>(), null), Day1Question2::tryMatch)
+            .scan(new Pair<Set<Integer>, Integer>(new HashSet<>(), null), Day1Question2::firstDuplicate)
             .takeUntil(pair -> pair.second != null)
             .lastOrError()
             .map(pair -> pair.second);
     }
 
-    private static Pair<Set<Integer>, Integer> tryMatch(Pair<Set<Integer>, Integer> pair, int currentFrequency){
-        if(pair.first.contains(currentFrequency)){
-            pair.second = currentFrequency;
+    static <T> Pair<Set<T>, T> firstDuplicate(Pair<Set<T>, T> pair, T value){
+        if(pair.first.contains(value)){
+            pair.second = value;
         }else{
-            pair.first.add(currentFrequency);
+            pair.first.add(value);
         }
         return pair;
     }

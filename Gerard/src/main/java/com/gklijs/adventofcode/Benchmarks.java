@@ -43,10 +43,11 @@ public class Benchmarks {
     }
 
     /*
-    3547,472 ±(99.9%) 265,454 ops/s [Average]
-    (min, avg, max) = (3214,122, 3547,472, 4099,607), stdev = 354,373
-    CI (99.9%): [3282,018, 3812,926] (assumes normal distribution)
+    18181,520 ±(99.9%) 290,243 ops/s [Average]
+    (min, avg, max) = (16930,868, 18181,520, 18561,866), stdev = 387,466
+    CI (99.9%): [17891,277, 18471,763] (assumes normal distribution)
      */
+    @Benchmark
     public static String bench2of2() {
         return benchStringAnswer("day2question1.txt", Day2Question2::commonLetters);
     }
