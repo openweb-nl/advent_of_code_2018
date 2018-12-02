@@ -1,8 +1,8 @@
 package com.aharpour.adventofcode.utils;
 
 public class Pair<K, V> {
-    private K key;
-    private V value;
+    private final K key;
+    private final V value;
 
     public Pair(K key, V value) {
         this.key = key;
@@ -13,16 +13,8 @@ public class Pair<K, V> {
         return key;
     }
 
-    public void setKey(K key) {
-        this.key = key;
-    }
-
     public V getValue() {
         return value;
-    }
-
-    public void setValue(V value) {
-        this.value = value;
     }
 
     @Override

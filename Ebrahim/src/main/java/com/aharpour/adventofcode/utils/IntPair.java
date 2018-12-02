@@ -1,8 +1,8 @@
 package com.aharpour.adventofcode.utils;
 
 public class IntPair {
-    private int key;
-    private int value;
+    private final int key;
+    private final int value;
 
     public IntPair(int key, int value) {
         this.key = key;
@@ -17,20 +17,8 @@ public class IntPair {
         return value;
     }
 
-    public void setKey(int key) {
-        this.key = key;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
-    public void incrementValue() {
-        this.value++;
-    }
-
-    public void incrementKey() {
-        this.key++;
+    public IntPair combine(IntPair another) {
+        return new IntPair(this.getKey() + another.getKey(), this.getValue() + another.getValue());
     }
 
     @Override

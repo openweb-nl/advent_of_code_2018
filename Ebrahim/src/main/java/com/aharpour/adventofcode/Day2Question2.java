@@ -1,30 +1,28 @@
 package com.aharpour.adventofcode;
 
 
+import com.aharpour.adventofcode.utils.SimpleArrayBiReducer;
+
+import static com.aharpour.adventofcode.utils.StringUtils.intersection;
+
 public class Day2Question2 {
 
     public static String calculate(String string) {
-        String[] split = string.split("\\s+");
-        for (int i = 0; i < split.length - 1; i++) {
-            for (int j = i + 1; j < split.length; j++) {
-                String first = split[i];
-                String second = split[j];
-                String intersection = intersection(first.toCharArray(), second.toCharArray());
-                if (first.length() == second.length() && second.length() == intersection.length() + 1) {
-                    return intersection;
-                }
-            }
-        }
-        return null;
+        return SimpleArrayBiReducer.<String, String>builder()
+                .operator(Day2Question2::operator)
+                .build().operate(string.split("\\s+"))
+                .stream()
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 
-    private static String intersection(char[] first, char[] second) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < Math.min(first.length, second.length); i++) {
-            if (first[i] == second[i]) {
-                builder.append(first[i]);
-            }
+
+    private static String operator(String first, String second) {
+        String result = null;
+        String intersection = intersection(first, second);
+        if (first.length() == second.length() && second.length() == intersection.length() + 1) {
+            result = intersection;
         }
-        return builder.toString();
+        return result;
     }
 }
