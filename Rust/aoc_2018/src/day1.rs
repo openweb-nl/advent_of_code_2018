@@ -5,9 +5,8 @@ use std::collections::HashSet;
 pub fn input_generator(input: &str) -> Vec<i32> {
     input
         .lines()
-        .map(|l| {
-            FromStr::from_str(l).unwrap()
-        }).collect()
+        .map(|l| FromStr::from_str(l).unwrap())
+        .collect()
 }
 
 #[aoc(day1, part1)]
@@ -19,19 +18,14 @@ pub fn calculate_frequency(input: &Vec<i32>) -> i32 {
 
 #[aoc(day1, part2)]
 pub fn first_double_frequency(input: &Vec<i32>) -> i32 {
-    let mut counter = 0;
+    let mut input_cycle = input.iter().cycle();
     let mut frequency = 0;
     let mut past_frequencies = HashSet::new();
-    past_frequencies.insert(0);
-    loop {
-        frequency = frequency + input[counter];
-        if past_frequencies.contains(&frequency){
-            return frequency
-        }else{
-            past_frequencies.insert(frequency);
-            counter = if counter + 1 >= input.len() {0} else {counter + 1};
-        }
+    while !past_frequencies.contains(&frequency) {
+        past_frequencies.insert(frequency);
+        frequency = frequency + input_cycle.next().unwrap();
     };
+    frequency
 }
 
 #[cfg(test)]

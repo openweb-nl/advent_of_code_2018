@@ -6,13 +6,13 @@ import java.util.Objects;
 
 import io.reactivex.Flowable;
 
-public class Utils {
+class Utils {
 
     private Utils(){
         //prevent instantiation
     }
 
-    public static Flowable<String> readLines(String fileName){
+    static Flowable<String> readLines(String fileName){
         return Flowable.generate(
             () -> new BufferedReader(new InputStreamReader(Objects.requireNonNull(Utils.class.getClassLoader().getResourceAsStream(fileName)))),
             (reader, emitter) -> {
