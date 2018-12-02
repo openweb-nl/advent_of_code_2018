@@ -32,4 +32,16 @@ public class StringUtils {
         }
         return true;
     }
+
+    public static String intersection(String arg1, String arg2) {
+        char[] first = arg1.toCharArray();
+        char[] second = arg2.toCharArray();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < Math.min(first.length, second.length); i++) {
+            if (first[i] == second[i]) {
+                builder.append(first[i]);
+            }
+        }
+        return builder.toString();
+    }
 }
