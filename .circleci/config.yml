@@ -96,7 +96,7 @@ jobs:
       - run:
           name: Rerun the tests collecting coverage
           command: |
-            for file in .Rust/aoc_2018/target/debug/*; do
+            for file in Rust/aoc_2018/target/debug/*; do
               if test -x $file; then
                 kcov --verify --exclude-pattern=tests \
                     Rust/aoc_2018/target/coverage/$(basename $file) \
