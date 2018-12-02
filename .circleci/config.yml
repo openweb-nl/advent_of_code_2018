@@ -92,7 +92,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: "."
-      - run: mkdir target/coverage
+      - run: mkdir Rust/aoc_2018/target/coverage
       - run:
           name: Rerun the tests collecting coverage
           command: |
