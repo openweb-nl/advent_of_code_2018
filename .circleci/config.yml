@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
-    working_directory: ~/repo
+    working_directory: ~/repo/Gerard
 
     environment:
       # Customize the JVM maximum heap limit
@@ -23,7 +23,6 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: cd Gerard	
       - run: mvn dependency:go-offline
 
       - save_cache:
