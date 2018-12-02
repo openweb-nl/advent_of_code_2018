@@ -10,8 +10,8 @@ public class StringUtils {
                 .map(i -> i - 48).toArray();
     }
 
-    public static int[] whiteSpaceSeparatedToIntArray(String string) {
-        return Arrays.stream(string.trim().split("\\s"))
+    public static int[] stringToIntArray(String string, String delimiter) {
+        return Arrays.stream(string.trim().split(delimiter))
                 .filter(StringUtils::isNotBlank)
                 .mapToInt(Integer::parseInt).toArray();
     }

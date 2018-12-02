@@ -1,0 +1,9 @@
+[package]
+name = "aoc_2018"
+version = "0.1.0"
+authors = ["Gerard Klijs <g.klijs@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+aoc-runner = "0.1.0"
+aoc-runner-derive = "0.1.3"
