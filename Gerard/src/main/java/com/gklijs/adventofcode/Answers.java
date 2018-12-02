@@ -4,10 +4,6 @@ import java.util.logging.Logger;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.infra.Blackhole;
 
 public class Answers {
 

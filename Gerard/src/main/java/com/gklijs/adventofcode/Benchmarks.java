@@ -2,11 +2,11 @@ package com.gklijs.adventofcode;
 
 import org.openjdk.jmh.annotations.Benchmark;
 
-class Benchmarks {
+public class Benchmarks {
 
-    private Benchmarks() {
-        //prevent instantiation
+    public static void main(String[] args) {
     }
+
 
     private static int benchIntAnswer(String fileName, Answers.SingleIntAnswer singleIntAnswer){
         return  singleIntAnswer.getAnswer(Utils.readLines(fileName).toObservable()).blockingGet();
