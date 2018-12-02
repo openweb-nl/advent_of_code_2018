@@ -4,6 +4,10 @@ import java.util.logging.Logger;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.infra.Blackhole;
 
 public class Answers {
 
@@ -11,7 +15,7 @@ public class Answers {
 
     public static void main(String[] args) {
         if (args.length == 0) {
-            printDay1();
+            printAll();
         } else if (args.length == 1) {
             int day = Integer.parseInt(args[0]);
             switch (day) {
@@ -34,13 +38,32 @@ public class Answers {
         Single<Integer> getAnswer(Observable<String> lines);
     }
 
+    @FunctionalInterface
+    interface SingleStringAnswer {
+        Single<String> getAnswer(Observable<String> lines);
+    }
+
     private static void printIntAnswer(String task, String fileName, SingleIntAnswer singleIntAnswer){
+        setTimeAndStart(task, singleIntAnswer.getAnswer(Utils.readLines(fileName).toObservable())
+            .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
+    }
+
+    private static void printStringAnswer(String task, String fileName, SingleStringAnswer singleStringAnswer){
+        setTimeAndStart(task, singleStringAnswer.getAnswer(Utils.readLines(fileName).toObservable())
+        .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
+    }
+
+    private static void setTimeAndStart(String task, Single job){
         Timer timer = new Timer(task);
-        singleIntAnswer.getAnswer(Utils.readLines(fileName).toObservable())
+        job
             .doOnSubscribe(something -> timer.start())
             .doAfterTerminate(timer::stop)
-            .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result))
             .subscribe();
+    }
+
+    private static void printAll(){
+        printDay1();
+        printDay2();
     }
 
     private static void printDay1() {
@@ -49,6 +72,7 @@ public class Answers {
     }
 
     private static void printDay2() {
-        throw new InvalidUseException("challenge for day 2 is not available yet");
+        printIntAnswer("day2question1", "day2question1.txt", Day2Question1::checksum);
+        printStringAnswer("day2question2", "day2question1.txt", Day2Question2::commonLetters);
     }
 }
