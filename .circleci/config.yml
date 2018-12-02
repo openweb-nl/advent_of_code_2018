@@ -42,8 +42,8 @@ jobs:
           keys:
             - cargo-v1-{{ checksum "Rust/aoc_2018/Cargo.toml" }}
             - cargo-v1-
-      - run: cargo update
-      - run: cargo fetch
+      - run: cd Rust/aoc_2018 && cargo update
+      - run: cd Rust/aoc_2018 && cargo fetch
       - persist_to_workspace:
           root: "."
           paths:
