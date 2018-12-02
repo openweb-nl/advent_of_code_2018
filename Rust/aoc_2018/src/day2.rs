@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::collections::LinkedList;
 use std::iter::FromIterator;
-use core::fmt::Debug;
+use std::fmt::Debug;
 
 #[aoc_generator(day2)]
 pub fn input_generator(input: &str) -> Vec<Vec<char>> {
