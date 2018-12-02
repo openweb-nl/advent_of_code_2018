@@ -117,13 +117,13 @@ jobs:
   codecov-upload:
     docker:
       - image: buildpack-deps:curl
-    working_directory: /mnt/crate/Rust/aoc_2018
+    working_directory: /mnt/crate
     steps:
       # Codecov uploader needs the source and binaries
       # exactly as everything was during the test run.
       - checkout
       - attach_workspace:
-          at: "."
+          at: ".Rust/aoc_2018"
       - run:
           name: Upload to Codecov
           command: bash <(curl -s https://codecov.io/bash)        -
