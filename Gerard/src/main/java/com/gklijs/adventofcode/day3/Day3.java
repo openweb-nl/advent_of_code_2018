@@ -18,36 +18,21 @@ public class Day3 {
 
     public static Single<Integer> multipleClaims(Observable<String> ids) {
         return ids
-            .map(Day3::toRow)
+            .map(Patch::new)
             .reduce(new int[1000][1000], Day3::claim)
             .map(Day3::claimedMultiple);
     }
 
     public static Single<Integer> noClaims(Observable<String> ids) {
         return ids
-            .map(Day3::toRow)
+            .map(Patch::new)
             .reduce(new Pair<>(new int[1000][1000], new HashSet<>()), Day3::claim2)
             .map(x -> x.getSecond().iterator().next());
     }
 
-    private static int[] toRow(String patch){
-        int[] result = new int[5];
-        int startId = patch.indexOf('#') + 1;
-        int startFromLeft = patch.indexOf('@') + 2;
-        int startFromTop = patch.indexOf(',') + 1;
-        int startWidth = patch.indexOf(':') + 2;
-        int startHeight = patch.indexOf('x') + 1;
-        result[0] = Integer.parseInt(patch.substring(startId, startFromLeft - 3));
-        result[1] = Integer.parseInt(patch.substring(startFromLeft, startFromTop - 1));
-        result[2] = Integer.parseInt(patch.substring(startFromTop, startWidth - 2));
-        result[3] = Integer.parseInt(patch.substring(startWidth, startHeight - 1));
-        result[4] = Integer.parseInt(patch.substring(startHeight));
-        return result;
-    }
-
-    private static int[][] claim(int[][] fabric, int[] patch){
-        for (int x = patch[1] ; x < patch[1] + patch[3] ; x ++){
-            for (int y = patch[2] ; y < patch[2] + patch[4] ; y ++){
+    private static int[][] claim(int[][] fabric, Patch patch){
+        for (int x = patch.fromLeft ; x < patch.fromLeft + patch.width ; x ++){
+            for (int y = patch.fromTop ; y < patch.fromTop + patch.height ; y ++){
                 fabric[x][y] = fabric[x][y] + 1;
             }
         }
@@ -66,29 +51,29 @@ public class Day3 {
         return counter;
     }
 
-    private static void setId(int[][] fabric, int[] patch){
-        for (int x = patch[1] ; x < patch[1] + patch[3] ; x ++){
-            for (int y = patch[2] ; y < patch[2] + patch[4] ; y ++){
-                fabric[x][y] = patch[0];
+    private static void setId(int[][] fabric, Patch patch){
+        for (int x = patch.fromLeft ; x < patch.fromLeft + patch.width ; x ++){
+            for (int y = patch.fromTop ; y < patch.fromTop + patch.height ; y ++){
+                fabric[x][y] = patch.id;
             }
         }
     }
 
-    private static Set<Integer> currentIds(int[][] fabric, int[] patch){
+    private static Set<Integer> currentIds(int[][] fabric, Patch patch){
         Set<Integer> ids = new HashSet<>();
-        for (int x = patch[1] ; x < patch[1] + patch[3] ; x ++){
-            for (int y = patch[2] ; y < patch[2] + patch[4] ; y ++){
+        for (int x = patch.fromLeft ; x < patch.fromLeft + patch.width ; x ++){
+            for (int y = patch.fromTop ; y < patch.fromTop + patch.height ; y ++){
                 ids.add(fabric[x][y]);
             }
         }
         return ids;
     }
 
-    private static Pair<int[][],Set<Integer>> claim2(Pair<int[][],Set<Integer>> pair, int[] patch){
+    private static Pair<int[][],Set<Integer>> claim2(Pair<int[][],Set<Integer>> pair, Patch patch){
         Set<Integer> currentClaims = currentIds(pair.getFirst(), patch);
         setId(pair.getFirst(), patch);
         if(ONLY_ZERO.equals(currentClaims)){
-            pair.getSecond().add(patch[0]);
+            pair.getSecond().add(patch.id);
         }else{
             pair.getSecond().removeAll(currentClaims);
         }
