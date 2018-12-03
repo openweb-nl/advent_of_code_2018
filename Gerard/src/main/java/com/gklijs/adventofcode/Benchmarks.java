@@ -59,6 +59,7 @@ public class Benchmarks {
     (min, avg, max) = (378.984, 409.295, 422.954), stdev = 12.518
     CI (99.9%): [399.918, 418.671] (assumes normal distribution)
      */
+    @Benchmark
     public static int bench1of3() {
         return benchIntAnswer("day3.txt", Day3::multipleClaims);
     }
@@ -68,6 +69,7 @@ public class Benchmarks {
     (min, avg, max) = (92.875, 111.211, 139.175), stdev = 13.716
     CI (99.9%): [100.936, 121.485] (assumes normal distribution)
      */
+    @Benchmark
     public static int bench2of3() {
         return benchIntAnswer("day3.txt", Day3::noClaims);
     }
