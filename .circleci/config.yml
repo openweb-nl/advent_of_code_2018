@@ -96,7 +96,7 @@ jobs:
             - cargo-v1-{{ checksum "Rust/aoc_2018/Cargo.toml" }}
       - run:
           name: Install aoc
-          command: cd Rust/aoc_2018 && cargo cargo install cargo-aoc
+          command: cd Rust/aoc_2018 && cargo install cargo-aoc
       - run:
           name: Start bench
           command: cd Rust/aoc_2018 && cargo aoc bench
