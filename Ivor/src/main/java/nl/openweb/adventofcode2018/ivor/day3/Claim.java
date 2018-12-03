@@ -14,6 +14,7 @@ public class Claim {
     private int top;
     private int width;
     private int height;
+    private Set<Point> area = null; // lazy instantiation (without q2 took 68.359ms, with: 58.977ms)
 
 
     public int getId() {
@@ -41,16 +42,19 @@ public class Claim {
     }
 
     public Set<Point> getArea() {
-        Set<Point> area = new HashSet<>();
-        for (int x=left+1;x <=(left+width);x++) {
-            for (int y=top+1;y <=(top+height);y++) {
-                area.add(new Point(x, y));
+        if (area == null) {
+            area = new HashSet<>();
+            for (int x = left + 1; x <= (left + width); x++) {
+                for (int y = top + 1; y <= (top + height); y++) {
+                    area.add(new Point(x, y));
+                }
             }
         }
-        return area;
+        return new HashSet<>(area);
     }
 
     public boolean isOverlapping(Claim other) {
+
         Set<Point> area = getArea();
         area.retainAll(other.getArea());
         return !area.isEmpty();

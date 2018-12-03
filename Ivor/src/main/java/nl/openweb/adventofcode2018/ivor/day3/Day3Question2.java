@@ -9,10 +9,12 @@ import java.util.stream.Collectors;
 public class Day3Question2 extends Day3Question1 {
 
     public static void main(String... args) {
+        long time = System.currentTimeMillis();
         Set<Claim> notOverlappingClaims = new Day3Question2().getNotOverlappingClaims();
         System.out.println("Answer: " + notOverlappingClaims.stream()
                 .map(Claim::getId)
                 .collect(Collectors.toSet()));
+        System.out.println("Calculation took " + (System.currentTimeMillis() - time) + "ms");
     }
 
 
