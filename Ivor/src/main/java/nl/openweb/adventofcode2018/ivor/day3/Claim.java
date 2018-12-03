@@ -14,7 +14,7 @@ public class Claim {
     private int top;
     private int width;
     private int height;
-    private Set<Point> area = null; // lazy instantiation (without q2 took 68.359ms, with: 58.977ms)
+    private Set<Point> area = null; // lazy instantiation
 
 
     public int getId() {
@@ -54,10 +54,19 @@ public class Claim {
     }
 
     public boolean isOverlapping(Claim other) {
-
-        Set<Point> area = getArea();
-        area.retainAll(other.getArea());
-        return !area.isEmpty();
+        boolean horizontalOverlap = (
+                other.left + other.width > left &&
+                        other.left < (left + width)
+                );
+        boolean verticalOverlap = (
+                other.top + other.height > top &&
+                        other.top < (top + height)
+                );
+        return  horizontalOverlap && verticalOverlap;
+//        My first (lazy) solution was to use Retain all on area. But that is time consuming... (time to get q2 dropped from 68s to 152ms)
+//        Set<Point> area = getArea();
+//        area.retainAll(other.getArea());
+//        return !area.isEmpty();
     }
 
     @Override
