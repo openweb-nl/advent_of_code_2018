@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -67,4 +67,5 @@ public class Day3Question1 {
             return Stream.empty();
         }
     }
+
 }

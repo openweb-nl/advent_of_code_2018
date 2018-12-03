@@ -47,8 +47,13 @@ public class Claim {
                 area.add(new Point(x, y));
             }
         }
-        System.out.println("Area of " + id + " is " + area.size());
         return area;
+    }
+
+    public boolean isOverlapping(Claim other) {
+        Set<Point> area = getArea();
+        area.retainAll(other.getArea());
+        return !area.isEmpty();
     }
 
     @Override
