@@ -1,0 +1,194 @@
+# Java Maven CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  build-gerard:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:11-jdk
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
+    
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ "Gerard/pom.xml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: cd Gerard && mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "Gerard/pom.xml" }}
+        
+      # run tests!
+      - run: cd Gerard && mvn integration-test
+  bench-gerard:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:11-jdk
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
+
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ "Gerard/pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: cd Gerard && mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "Gerard/pom.xml" }}
+
+      # run tests!
+      - run: cd Gerard && mvn integration-test -Pbench
+  cargo-fetch:
+    docker:
+      - image: rust:latest
+    working_directory: /mnt/crate
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - cargo-v1-{{ checksum "Rust/aoc_2018/Cargo.toml" }}
+            - cargo-v1-
+      - run: cd Rust/aoc_2018 && cargo update
+      - run: cd Rust/aoc_2018 && cargo fetch
+      - persist_to_workspace:
+          root: "."
+          paths:
+            - Rust/aoc_2018/Cargo.lock
+      - save_cache:
+          key: cargo-v1-{{ checksum "Rust/aoc_2018/Cargo.toml" }}}
+          paths:
+            - /usr/local/cargo/registry
+            - /usr/local/cargo/git
+  test-rust:
+    docker:
+      - image: rust:latest
+    working_directory: /mnt/crate
+    steps:
+      - checkout
+      - attach_workspace:
+          at: "."
+      - restore_cache:
+          keys:
+            - cargo-v1-{{ checksum "Rust/aoc_2018/Cargo.toml" }}
+      - run:
+          name: Print version information
+          command: cd Rust/aoc_2018 && rustc --version; cargo --version
+      - run:
+          name: Build and test
+          command: cd Rust/aoc_2018 && cargo test --verbose --frozen
+          environment:
+            # Need this for the coverage run
+            RUSTFLAGS: "-C link-dead-code"
+      - run:
+          name: Prune the output files
+          command: |
+            for file in Rust/aoc_2018/target/debug/* Rust/aoc_2018/target/debug/.??*; do
+              [ -d $file -o ! -x $file ] && rm -r $file
+            done
+      - persist_to_workspace:
+          root: "."
+          paths:
+            - Rust/aoc_2018/target/debug/*
+  bench-rust:
+    docker:
+      - image: rust:latest
+    working_directory: /mnt/crate
+    steps:
+      - checkout
+      - attach_workspace:
+          at: "."
+      - restore_cache:
+          keys:
+            - cargo-v1-{{ checksum "Rust/aoc_2018/Cargo.toml" }}
+      - run:
+          name: Install aoc
+          command: cd Rust/aoc_2018 && cargo install cargo-aoc
+      - run:
+          name: Start bench
+          command: cd Rust/aoc_2018 && cargo aoc bench
+  rust-coverage:
+    docker:
+      - image: ragnaroek/kcov:v33
+        entrypoint: /bin/bash
+    working_directory: /mnt/crate
+    steps:
+      - checkout
+      - attach_workspace:
+          at: "."
+      - run: mkdir Rust/aoc_2018/target/coverage
+      - run:
+          name: Rerun the tests collecting coverage
+          command: |
+            for file in Rust/aoc_2018/target/debug/*; do
+              if test -x $file; then
+                kcov --verify --exclude-pattern=tests \
+                    Rust/aoc_2018/target/coverage/$(basename $file) \
+                  $file --quiet
+              fi
+            done
+            kcov --merge Rust/aoc_2018/target/coverage-merged Rust/aoc_2018target/coverage/*
+      - store_artifacts:
+          path: Rust/aoc_2018/target/coverage
+          destination: coverage
+      - store_artifacts:
+          path: Rust/aoc_2018/target/coverage-merged
+          destination: coverage-merged
+      - persist_to_workspace:
+          root: "."
+          paths:
+            - Rust/aoc_2018/target/coverage
+  codecov-upload:
+    docker:
+      - image: buildpack-deps:curl
+    working_directory: /mnt/crate
+    steps:
+      # Codecov uploader needs the source and binaries
+      # exactly as everything was during the test run.
+      - checkout
+      - attach_workspace:
+          at: ".Rust/aoc_2018"
+      - run:
+          name: Upload to Codecov
+          command: bash <(curl -s https://codecov.io/bash)        -
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build-gerard
+      - bench-gerard
+      - cargo-fetch
+      - test-rust:
+          requires:
+            - cargo-fetch
+      - bench-rust:
+          requires:
+            - cargo-fetch
+      - rust-coverage:
+          requires:
+            - test-rust
+      - codecov-upload:
+          requires:
+            - rust-coverage
+

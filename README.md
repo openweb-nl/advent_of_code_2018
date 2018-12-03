@@ -1,5 +1,8 @@
 # advent_of_code_2018
 
+[![CircleCI](https://circleci.com/gh/gklijs/advent_of_code_2018.svg?style=svg)](https://circleci.com/gh/gklijs/advent_of_code_2018) 
+[![Coverage badge](https://codecov.io/gh/gklijs/advent_of_code_2018/branch/master/graph/badge.svg)](https://codecov.io/gh/gklijs/advent_of_code_2018)
+
 ## What is advent of code?
 
 Advent of code is an annual event in December when each day a new coding 
