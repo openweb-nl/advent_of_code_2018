@@ -23,7 +23,7 @@ public class SimpleArrayBiReducer<T, M> {
     }
 
     public static final class Builder<T, M> {
-        private boolean reflective = true;
+        private boolean commutative = true;
         private boolean includeSelf = false;
         private boolean applyReverseIfEqual = false;
         private BiFunction<T, T, M> operator;
@@ -32,8 +32,8 @@ public class SimpleArrayBiReducer<T, M> {
         }
 
 
-        public Builder<T, M> reflective(boolean reflective) {
-            this.reflective = reflective;
+        public Builder<T, M> commutative(boolean commutative) {
+            this.commutative = commutative;
             return this;
         }
 
@@ -57,7 +57,7 @@ public class SimpleArrayBiReducer<T, M> {
                     .accumulator(List::add)
                     .finisher(Function.identity())
                     .operator(operator)
-                    .reflective(reflective)
+                    .commutative(commutative)
                     .includeSelf(includeSelf)
                     .applyReverseIfEqual(applyReverseIfEqual).build());
         }

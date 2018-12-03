@@ -10,7 +10,7 @@ public class ArrayBiReducer<T, M, A, R> {
     private ArrayBiReducer() {
     }
 
-    private boolean reflective;
+    private boolean commutative;
     private boolean includeSelf;
     private boolean applyReverseIfEqual;
     private Supplier<A> supplier;
@@ -25,7 +25,7 @@ public class ArrayBiReducer<T, M, A, R> {
                 T first = array[i];
                 T second = array[j];
                 apply(first, second, accumulation);
-                if (!reflective && i != j && (applyReverseIfEqual || !first.equals(second))) {
+                if (!commutative && i != j && (applyReverseIfEqual || !first.equals(second))) {
                     apply(second, first, accumulation);
                 }
             }
@@ -45,7 +45,7 @@ public class ArrayBiReducer<T, M, A, R> {
     }
 
     public static class Builder<T, M, A, R> {
-        private boolean reflective = true;
+        private boolean commutative = true;
         private boolean includeSelf = false;
         private boolean applyReverseIfEqual = false;
         private Supplier<A> supplier;
@@ -56,8 +56,8 @@ public class ArrayBiReducer<T, M, A, R> {
         private Builder() {
         }
 
-        public Builder<T, M, A, R> reflective(boolean reflective) {
-            this.reflective = reflective;
+        public Builder<T, M, A, R> commutative(boolean commutative) {
+            this.commutative = commutative;
             return this;
         }
 
@@ -102,7 +102,7 @@ public class ArrayBiReducer<T, M, A, R> {
             arrayBiReducer.finisher = this.finisher;
             arrayBiReducer.includeSelf = this.includeSelf;
             arrayBiReducer.applyReverseIfEqual = this.applyReverseIfEqual;
-            arrayBiReducer.reflective = this.reflective;
+            arrayBiReducer.commutative = this.commutative;
             return arrayBiReducer;
         }
     }
