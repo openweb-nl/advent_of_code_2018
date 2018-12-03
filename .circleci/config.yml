@@ -44,6 +44,7 @@ jobs:
             - cargo-v1-
       - run: cd Rust/aoc_2018 && cargo update
       - run: cd Rust/aoc_2018 && cargo fetch
+      - run: cd Rust/aoc_2018 && cargo install cargo-aoc
       - persist_to_workspace:
           root: "."
           paths:
@@ -83,6 +84,20 @@ jobs:
           root: "."
           paths:
             - Rust/aoc_2018/target/debug/*
+  bench-rust:
+    docker:
+      - image: rust:latest
+    working_directory: /mnt/crate
+    steps:
+      - checkout
+      - attach_workspace:
+          at: "."
+      - restore_cache:
+          keys:
+            - cargo-v1-{{ checksum "Rust/aoc_2018/Cargo.toml" }}
+      - run:
+          name: Start bench
+          command: cd Rust/aoc_2018 && cargo aoc bench
   rust-coverage:
     docker:
       - image: ragnaroek/kcov:v33
@@ -134,6 +149,9 @@ workflows:
       - build-gerard
       - cargo-fetch
       - test-rust:
+          requires:
+            - cargo-fetch
+      - bench-rust:
           requires:
             - cargo-fetch
       - rust-coverage:
