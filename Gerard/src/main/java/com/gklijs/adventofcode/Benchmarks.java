@@ -1,5 +1,8 @@
 package com.gklijs.adventofcode;
 
+import com.gklijs.adventofcode.day1.Day1;
+import com.gklijs.adventofcode.day2.Day2;
+import com.gklijs.adventofcode.day3.Day3;
 import org.openjdk.jmh.annotations.Benchmark;
 
 public class Benchmarks {
@@ -21,7 +24,7 @@ public class Benchmarks {
      CI (99.9%): [11747,699, 11863,226] (assumes normal distribution)
      */
     public static int bench1of1() {
-        return benchIntAnswer("day1question1.txt", Day1Question1::calculateFrequency);
+        return benchIntAnswer("day1.txt", Day1::calculateFrequency);
     }
 
     /*
@@ -30,7 +33,7 @@ public class Benchmarks {
     CI (99.9%): [3051,922, 5608,233] (assumes normal distribution)
      */
     public static int bench2of1() {
-        return benchIntAnswer("day1question1.txt", Day1Question2::firstDoubleFrequency);
+        return benchIntAnswer("day1.txt", Day1::firstDoubleFrequency);
     }
 
     /*
@@ -39,7 +42,7 @@ public class Benchmarks {
     CI (99.9%): [4809,129, 5162,987] (assumes normal distribution)
      */
     public static int bench1of2() {
-        return benchIntAnswer("day2question1.txt", Day2Question1::checksum);
+        return benchIntAnswer("day2.txt", Day2::checksum);
     }
 
     /*
@@ -47,8 +50,17 @@ public class Benchmarks {
     (min, avg, max) = (16930,868, 18181,520, 18561,866), stdev = 387,466
     CI (99.9%): [17891,277, 18471,763] (assumes normal distribution)
      */
-    @Benchmark
     public static String bench2of2() {
-        return benchStringAnswer("day2question1.txt", Day2Question2::commonLetters);
+        return benchStringAnswer("day2.txt", Day2::commonLetters);
+    }
+
+    @Benchmark
+    public static int bench1of3() {
+        return benchIntAnswer("day3.txt", Day3::multipleClaims);
+    }
+
+    @Benchmark
+    public static int bench2of3() {
+        return benchIntAnswer("day3.txt", Day3::noClaims);
     }
 }

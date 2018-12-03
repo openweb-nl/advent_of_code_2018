@@ -2,6 +2,9 @@ package com.gklijs.adventofcode;
 
 import java.util.logging.Logger;
 
+import com.gklijs.adventofcode.day1.Day1;
+import com.gklijs.adventofcode.day2.Day2;
+import com.gklijs.adventofcode.day3.Day3;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -20,6 +23,9 @@ public class Answers {
                     break;
                 case 2:
                     printDay2();
+                    break;
+                case 3:
+                    printDay3();
                     break;
                 default:
                     throw new InvalidUseException("Day " + day + " has no answers (yet)");
@@ -63,12 +69,17 @@ public class Answers {
     }
 
     private static void printDay1() {
-        printIntAnswer("day1question1", "day1question1.txt", Day1Question1::calculateFrequency);
-        printIntAnswer("day1question2", "day1question1.txt", Day1Question2::firstDoubleFrequency);
+        printIntAnswer("day1question1", "day1.txt", Day1::calculateFrequency);
+        printIntAnswer("day1question2", "day1.txt", Day1::firstDoubleFrequency);
     }
 
     private static void printDay2() {
-        printIntAnswer("day2question1", "day2question1.txt", Day2Question1::checksum);
-        printStringAnswer("day2question2", "day2question1.txt", Day2Question2::commonLetters);
+        printIntAnswer("day2question1", "day2.txt", Day2::checksum);
+        printStringAnswer("day2question2", "day2.txt", Day2::commonLetters);
+    }
+
+    private static void printDay3() {
+        printIntAnswer("day3question1", "day3.txt", Day3::multipleClaims);
+        printIntAnswer("day3question2", "day3.txt", Day3::noClaims);
     }
 }
