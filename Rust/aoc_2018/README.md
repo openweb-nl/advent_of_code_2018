@@ -9,3 +9,7 @@ If you have rust and cargo-aoc installed (`cargo install cargo-aoc`), you can ru
 ## Test
 
 You can run all tests with `cargo test`, run `cargo test dayx` to only run that day
+
+## Bench
+
+Run `cargo aoc bench`
