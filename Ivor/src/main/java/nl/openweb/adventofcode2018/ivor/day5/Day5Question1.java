@@ -31,7 +31,7 @@ public class Day5Question1 {
             input = input.replaceAll(c + String.valueOf(c).toUpperCase(), "");
             input = input.replaceAll(String.valueOf(c).toUpperCase() + c, "");
         }
-
+//        System.out.println("result=" + input + " from " + originalLine);
         if (originalLine.length() == input.length() ) {
             return Optional.of(input);
         }
