@@ -32,7 +32,6 @@ public class Benchmarks {
      CI (99.9%): [11747,699, 11863,226] (assumes normal distribution)
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
     public static int bench1of1() {
         return benchIntAnswer("day1.txt", Day1::calculateFrequency);
     }
@@ -43,7 +42,6 @@ public class Benchmarks {
     CI (99.9%): [3051,922, 5608,233] (assumes normal distribution)
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
     public static int bench2of1() {
         return benchIntAnswer("day1.txt", Day1::firstDoubleFrequency);
     }
@@ -54,7 +52,6 @@ public class Benchmarks {
     CI (99.9%): [4809,129, 5162,987] (assumes normal distribution)
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
     public static int bench1of2() {
         return benchIntAnswer("day2.txt", Day2::checksum);
     }
@@ -65,7 +62,6 @@ public class Benchmarks {
     CI (99.9%): [17891,277, 18471,763] (assumes normal distribution)
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
     public static String bench2of2() {
         return benchStringAnswer("day2.txt", Day2::commonLetters);
     }
@@ -76,7 +72,6 @@ public class Benchmarks {
     CI (99.9%): [399.918, 418.671] (assumes normal distribution)
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
     public static int bench1of3() {
         return benchIntAnswer("day3.txt", Day3::multipleClaims);
     }
@@ -87,19 +82,16 @@ public class Benchmarks {
     CI (99.9%): [100.936, 121.485] (assumes normal distribution)
      */
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
     public static int bench2of3() {
         return benchIntAnswer("day3.txt", Day3::noClaims);
     }
 
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
     public static Pair<Integer,Integer> bench1of4() {
         return benchPairAnswer("day4.txt", Day4::bestOpportunity);
     }
 
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime)
     public static Pair<Integer,Integer> bench2of4() {
         return benchPairAnswer("day4.txt", Day4::mostAtSameMinute);
     }
