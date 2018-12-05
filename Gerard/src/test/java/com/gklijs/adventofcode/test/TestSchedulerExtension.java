@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
 public class TestSchedulerExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback, ParameterResolver {
+
     private TestScheduler testScheduler = new TestScheduler();
 
     @Override

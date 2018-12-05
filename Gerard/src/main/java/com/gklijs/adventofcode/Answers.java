@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 import com.gklijs.adventofcode.day1.Day1;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
+import com.gklijs.adventofcode.day4.Day4;
+import com.gklijs.adventofcode.utils.Pair;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -27,6 +29,9 @@ public class Answers {
                 case 3:
                     printDay3();
                     break;
+                case 4:
+                    printDay4();
+                    break;
                 default:
                     throw new InvalidUseException("Day " + day + " has no answers (yet)");
             }
@@ -37,25 +42,38 @@ public class Answers {
 
     @FunctionalInterface
     interface SingleIntAnswer {
+
         Single<Integer> getAnswer(Observable<String> lines);
     }
 
     @FunctionalInterface
     interface SingleStringAnswer {
+
         Single<String> getAnswer(Observable<String> lines);
     }
 
-    private static void printIntAnswer(String task, String fileName, SingleIntAnswer singleIntAnswer){
+    @FunctionalInterface
+    interface SinglePairAnswer {
+
+        Single<Pair<Integer, Integer>> getAnswer(Observable<String> lines);
+    }
+
+    private static void printIntAnswer(String task, String fileName, SingleIntAnswer singleIntAnswer) {
         setTimeAndStart(task, singleIntAnswer.getAnswer(Utils.readLines(fileName).toObservable())
             .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
     }
 
-    private static void printStringAnswer(String task, String fileName, SingleStringAnswer singleStringAnswer){
+    private static void printStringAnswer(String task, String fileName, SingleStringAnswer singleStringAnswer) {
         setTimeAndStart(task, singleStringAnswer.getAnswer(Utils.readLines(fileName).toObservable())
-        .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
+            .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
     }
 
-    private static void setTimeAndStart(String task, Single job){
+    private static void printPairAnswer(String task, String fileName, SinglePairAnswer singlePairAnswer) {
+        setTimeAndStart(task, singlePairAnswer.getAnswer(Utils.readLines(fileName).toObservable())
+            .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result.getFirst() * result.getSecond())));
+    }
+
+    private static void setTimeAndStart(String task, Single job) {
         Timer timer = new Timer(task);
         job
             .doOnSubscribe(something -> timer.start())
@@ -63,9 +81,11 @@ public class Answers {
             .subscribe();
     }
 
-    private static void printAll(){
+    private static void printAll() {
         printDay1();
         printDay2();
+        printDay3();
+        printDay4();
     }
 
     private static void printDay1() {
@@ -81,5 +101,10 @@ public class Answers {
     private static void printDay3() {
         printIntAnswer("day3question1", "day3.txt", Day3::multipleClaims);
         printIntAnswer("day3question2", "day3.txt", Day3::noClaims);
+    }
+
+    private static void printDay4() {
+        printPairAnswer("day4question1", "day4.txt", Day4::bestOpportunity);
+        printPairAnswer("day4question2", "day4.txt", Day4::mostAtSameMinute);
     }
 }
