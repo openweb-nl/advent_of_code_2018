@@ -36,9 +36,7 @@ public class Day2Question1 {
     }
 
     private void addCount(int i) {
-        if (countMap.containsKey(i)) {
-            countMap.put(i, countMap.get(i) + 1);
-        }
+        countMap.put(i, countMap.get(i) + 1);
     }
 
     private boolean filterCounts(Integer value) {
