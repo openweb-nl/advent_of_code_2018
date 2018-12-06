@@ -8,10 +8,11 @@ import java.util.Set;
 
 import com.gklijs.adventofcode.Utils;
 import com.gklijs.adventofcode.utils.Pair;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import static io.reactivex.Observable.concat;
-import static io.reactivex.Observable.zip;
+import static io.reactivex.Flowable.concat;
 
 public class Day5 {
 
@@ -20,7 +21,7 @@ public class Day5 {
     }
 
     public static Single<Integer> react(Observable<String> polymer) {
-        return concat(polymer, Single.just("").repeat().toObservable())
+        return concat(polymer.toFlowable(BackpressureStrategy.BUFFER), Single.just("").repeat())
             .scan(new Pair<>(new ArrayList<>(), -1), Day5::doReaction)
             .takeUntil(result -> result.getSecond() == 0)
             .lastOrError()
@@ -28,14 +29,16 @@ public class Day5 {
     }
 
     public static Single<Integer> reactDeleteReact(Observable<String> polymer) {
-        return concat(polymer, Single.just("").repeat().toObservable())
+        return concat(polymer.toFlowable(BackpressureStrategy.BUFFER), Single.just("").repeat())
             .scan(new Pair<>(new ArrayList<>(), -1), Day5::doReaction)
             .takeUntil(result -> result.getSecond() == 0)
             .lastOrError()
             .map(Pair::getFirst)
             .map(Day5::variants)
-            .flattenAsObservable(g -> g)
+            .flattenAsFlowable(g -> g)
+            .parallel(12)
             .flatMap(Day5::sizeReactChild)
+            .sequential()
             .reduce(Integer.MAX_VALUE, Math::min);
     }
 
@@ -78,8 +81,8 @@ public class Day5 {
         return new ArrayList<>(characterSet);
     }
 
-    private static Observable<Integer> sizeReactChild (List<Character> polymer){
-        return Single.just("").repeat().toObservable()
+    private static Flowable<Integer> sizeReactChild (List<Character> polymer){
+        return Single.just("").repeat()
             .scan(new Pair<>(polymer, -1), Day5::doReaction)
             .takeUntil(result -> result.getSecond() == 0)
             .map(result -> result.getFirst().size());
