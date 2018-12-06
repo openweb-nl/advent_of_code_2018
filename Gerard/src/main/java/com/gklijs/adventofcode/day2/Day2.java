@@ -1,8 +1,6 @@
 package com.gklijs.adventofcode.day2;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,19 +17,11 @@ public class Day2 {
 
     public static Single<Integer> checksum(Observable<String> ids) {
         return ids
-            .map(Day2::toCharList)
+            .map(Utils::toList)
             .map(Utils::toFrequencyMap)
             .map(Day2::hasTwoHasThree)
             .reduce(new Pair<>(0, 0), Day2::reduce)
             .map(pair -> pair.getFirst() * pair.getSecond());
-    }
-
-    private static List<Character> toCharList(String input) {
-        List<Character> charList = new ArrayList<>();
-        for (char c : input.toCharArray()) {
-            charList.add(c);
-        }
-        return charList;
     }
 
     public static Single<String> commonLetters(Observable<String> ids) {

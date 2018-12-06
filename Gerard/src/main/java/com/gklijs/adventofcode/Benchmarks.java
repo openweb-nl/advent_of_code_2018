@@ -4,10 +4,9 @@ import com.gklijs.adventofcode.day1.Day1;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
+import com.gklijs.adventofcode.day5.Day5;
 import com.gklijs.adventofcode.utils.Pair;
 import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Mode;
 
 public class Benchmarks {
 
@@ -94,5 +93,15 @@ public class Benchmarks {
     @Benchmark
     public static Pair<Integer,Integer> bench2of4() {
         return benchPairAnswer("day4.txt", Day4::mostAtSameMinute);
+    }
+
+    @Benchmark
+    public static int bench1of5() {
+        return benchIntAnswer("day5.txt", Day5::react);
+    }
+
+    @Benchmark
+    public static int bench2of5() {
+        return benchIntAnswer("day5.txt", Day5::reactDeleteReact);
     }
 }

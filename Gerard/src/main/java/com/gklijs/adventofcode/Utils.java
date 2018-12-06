@@ -2,8 +2,10 @@ package com.gklijs.adventofcode;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -54,5 +56,13 @@ public class Utils {
                 frequencyMap.put(item, 1);
             }
         }
+    }
+
+    public static List<Character> toList(String input) {
+        List<Character> charList = new ArrayList<>();
+        for (char c : input.toCharArray()) {
+            charList.add(c);
+        }
+        return charList;
     }
 }
