@@ -1,13 +1,12 @@
 package com.gklijs.adventofcode.day6;
 
-import com.gklijs.adventofcode.day5.Day5;
 import com.gklijs.adventofcode.test.TestSchedulerExtension;
 import io.reactivex.schedulers.TestScheduler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static com.gklijs.adventofcode.test.TestUtil.testSingle;
 
-public class Day6Test {
+class Day6Test {
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test

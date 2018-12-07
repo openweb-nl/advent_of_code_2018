@@ -5,6 +5,8 @@ import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
 import com.gklijs.adventofcode.day5.Day5;
+import com.gklijs.adventofcode.day6.Day6;
+import com.gklijs.adventofcode.day7.Day7;
 import com.gklijs.adventofcode.utils.Pair;
 import org.openjdk.jmh.annotations.Benchmark;
 
@@ -103,5 +105,25 @@ public class Benchmarks {
     @Benchmark
     public static int bench2of5() {
         return benchIntAnswer("day5.txt", Day5::reactDeleteReact);
+    }
+
+    @Benchmark
+    public static int bench1of6() {
+        return benchIntAnswer("day6.txt", Day6::largestFiniteArea);
+    }
+
+    @Benchmark
+    public static int bench2of6() {
+        return benchIntAnswer("day6.txt", x -> Day6.toAllLessThen(x, 10000));
+    }
+
+    @Benchmark
+    public static String bench1of7() {
+        return benchStringAnswer("day7.txt", Day7::getOrder);
+    }
+
+    @Benchmark
+    public static int bench2of7() {
+        return benchIntAnswer("day7.txt", x -> Day7.work(x, 5, 60));
     }
 }

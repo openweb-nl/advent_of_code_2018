@@ -33,7 +33,6 @@ public class Day6 {
         return coords
             .map(Day6::getCord)
             .reduce(new Pair<>(new int[]{Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE}, new HashSet<>()), Day6::reduce)
-            .map(p -> new Triple<>(p.getFirst(), p.getSecond(), atBorder(p.getFirst(), p.getSecond())))
             .map(Day6::toDistances)
             .flattenAsObservable(s -> s)
             .filter(x -> x[2] < threshHold)
@@ -114,7 +113,7 @@ public class Day6 {
         return allDistances;
     }
 
-    private static Set<int[]> toDistances(Triple<int[], Set<Triple<Integer,Integer, UUID>>, Set<UUID>> t){
+    private static Set<int[]> toDistances(Pair<int[], Set<Triple<Integer,Integer, UUID>>> t){
         Set<int[]> nodes = new HashSet<>();
         int[] mm = t.getFirst();
         for(int x = mm[0] + 1; x < mm[2] ;x++){

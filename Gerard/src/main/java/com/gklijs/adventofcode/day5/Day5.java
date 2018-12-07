@@ -82,7 +82,7 @@ public class Day5 {
         while(result.getSecond() != 0){
             doReaction(result, "");
         }
-        return result.getSecond();
+        return result.getFirst().size();
     }
 
     private static List<List<Character>> variants(final List<Character> characters) {

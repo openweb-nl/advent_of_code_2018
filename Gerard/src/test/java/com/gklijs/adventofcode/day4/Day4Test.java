@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static com.gklijs.adventofcode.test.TestUtil.testSingle;
 
-public class Day4Test {
+class Day4Test {
 
     private String[] data = new String[]
         {
