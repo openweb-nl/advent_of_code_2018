@@ -10,6 +10,7 @@ import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
 import com.gklijs.adventofcode.day5.Day5;
+import com.gklijs.adventofcode.day6.Day6;
 import com.gklijs.adventofcode.utils.Pair;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -42,6 +43,10 @@ public class Answers {
         ANS.put(5, new Pair<>(
             (t, f) -> printIntAnswer(t, f, Day5::react),
             (t, f) -> printIntAnswer(t, f, Day5::reactDeleteReact)
+        ));
+        ANS.put(6, new Pair<>(
+            (t, f) -> printIntAnswer(t, f, Day6::largestFiniteArea),
+            (t, f) -> printIntAnswer(t, f, x -> Day6.toAllLessThen(x, 10000))
         ));
     }
 

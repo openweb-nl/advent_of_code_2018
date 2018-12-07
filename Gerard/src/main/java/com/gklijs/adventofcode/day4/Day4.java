@@ -3,9 +3,12 @@ package com.gklijs.adventofcode.day4;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.gklijs.adventofcode.Utils;
 import com.gklijs.adventofcode.utils.Pair;
+import com.gklijs.adventofcode.utils.Triple;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -20,7 +23,7 @@ public class Day4 {
             .map(GuardEvent::new)
             .toSortedList()
             .flattenAsObservable(g -> g)
-            .reduce(new Pair<>(new HashMap<>(), null), Day4::updateFrequencies)
+            .reduce(new Triple<>(new HashMap<>(), null, -1), Day4::updateFrequencies)
             .map(Day4::getSleeper)
             .map(Day4::getHour);
     }
@@ -30,24 +33,32 @@ public class Day4 {
             .map(GuardEvent::new)
             .toSortedList()
             .flattenAsObservable(g -> g)
-            .reduce(new Pair<>(new HashMap<>(), null), Day4::updateFrequencies)
+            .reduce(new Triple<>(new HashMap<>(), null, -1), Day4::updateFrequencies)
             .map(Day4::getSleeper2);
     }
 
-    private static Pair<Map<Integer, Map<Integer, Integer>>, GuardEvent> updateFrequencies(Pair<Map<Integer, Map<Integer, Integer>>, GuardEvent> result, GuardEvent guardEvent) {
-        List<Integer> sleep = guardEvent.guardEventType.getAsleep(result.getSecond(), guardEvent);
-        if (!sleep.isEmpty()) {
-            if (result.getFirst().containsKey(guardEvent.id)) {
-                Utils.addToFrequencyMap(result.getFirst().get(guardEvent.id), sleep);
+    private static Triple<Map<Integer, Map<Integer, Integer>>, GuardEvent, Integer> updateFrequencies(Triple<Map<Integer, Map<Integer, Integer>>, GuardEvent, Integer> result, GuardEvent guardEvent) {
+        List<Integer> ids = null;
+        if(guardEvent.guardEventType == GuardEventType.BEGINS_SHIFT){
+            result.setThird(guardEvent.id);
+            if (result.getSecond() != null && result.getSecond().guardEventType == GuardEventType.FALLS_ASLEEP) {
+                ids = IntStream.range(result.getSecond().minute, 60).boxed().collect(Collectors.toList());
+            }
+        }else if (guardEvent.guardEventType == GuardEventType.WAKES_UP && result.getSecond().guardEventType == GuardEventType.FALLS_ASLEEP) {
+            ids = IntStream.range(result.getSecond().minute, guardEvent.minute).boxed().collect(Collectors.toList());
+        }
+        if (ids != null) {
+            if (result.getFirst().containsKey(result.getThird())) {
+                Utils.addToFrequencyMap(result.getFirst().get(result.getThird()), ids);
             } else {
-                result.getFirst().put(guardEvent.id, Utils.toFrequencyMap(sleep));
+                result.getFirst().put(result.getThird(), Utils.toFrequencyMap(ids));
             }
         }
         result.setSecond(guardEvent);
         return result;
     }
 
-    private static Pair<Integer, Map<Integer, Integer>> getSleeper(Pair<Map<Integer, Map<Integer, Integer>>, GuardEvent> result) {
+    private static Pair<Integer, Map<Integer, Integer>> getSleeper(Triple<Map<Integer, Map<Integer, Integer>>, GuardEvent, Integer> result) {
         int currentId = -1;
         int maxAsleep = -1;
         for (Map.Entry<Integer, Map<Integer, Integer>> idFrequencyMap : result.getFirst().entrySet()) {
@@ -84,7 +95,7 @@ public class Day4 {
         return new Pair<>(maxAsleep, currentMinute);
     }
 
-    private static Pair<Integer, Integer> getSleeper2(Pair<Map<Integer, Map<Integer, Integer>>, GuardEvent> result) {
+    private static Pair<Integer, Integer> getSleeper2(Triple<Map<Integer, Map<Integer, Integer>>, GuardEvent, Integer> result) {
         int currentId = -1;
         int currentMinute = -1;
         int maxAsleep = -1;

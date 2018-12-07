@@ -58,6 +58,14 @@ public class Utils {
         }
     }
 
+    public static <T> void addToFrequencyMap(Map<T, Integer> frequencyMap, T item) {
+        if (frequencyMap.containsKey(item)) {
+            frequencyMap.put(item, frequencyMap.get(item) + 1);
+        } else {
+            frequencyMap.put(item, 1);
+        }
+    }
+
     public static List<Character> toList(String input) {
         List<Character> charList = new ArrayList<>();
         for (char c : input.toCharArray()) {

@@ -1,7 +1,6 @@
 package com.gklijs.adventofcode.test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -10,7 +9,6 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.TestScheduler;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 public class TestUtil {
 

@@ -8,11 +8,9 @@ import java.util.Set;
 
 import com.gklijs.adventofcode.Utils;
 import com.gklijs.adventofcode.utils.Pair;
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import static io.reactivex.Flowable.concat;
+import static io.reactivex.Observable.concat;
 
 public class Day5 {
 
@@ -21,7 +19,7 @@ public class Day5 {
     }
 
     public static Single<Integer> react(Observable<String> polymer) {
-        return concat(polymer.toFlowable(BackpressureStrategy.BUFFER), Single.just("").repeat())
+        return concat(polymer, Single.just("").repeat().toObservable())
             .scan(new Pair<>(new ArrayList<>(), -1), Day5::doReaction)
             .takeUntil(result -> result.getSecond() == 0)
             .lastOrError()
@@ -29,16 +27,14 @@ public class Day5 {
     }
 
     public static Single<Integer> reactDeleteReact(Observable<String> polymer) {
-        return concat(polymer.toFlowable(BackpressureStrategy.BUFFER), Single.just("").repeat())
+        return concat(polymer, Single.just("").repeat().toObservable())
             .scan(new Pair<>(new ArrayList<>(), -1), Day5::doReaction)
             .takeUntil(result -> result.getSecond() == 0)
             .lastOrError()
             .map(Pair::getFirst)
             .map(Day5::variants)
             .flattenAsFlowable(g -> g)
-            .parallel(12)
-            .flatMap(Day5::sizeReactChild)
-            .sequential()
+            .map(Day5::sizeReactChild)
             .reduce(Integer.MAX_VALUE, Math::min);
     }
 
@@ -81,11 +77,12 @@ public class Day5 {
         return new ArrayList<>(characterSet);
     }
 
-    private static Flowable<Integer> sizeReactChild (List<Character> polymer){
-        return Single.just("").repeat()
-            .scan(new Pair<>(polymer, -1), Day5::doReaction)
-            .takeUntil(result -> result.getSecond() == 0)
-            .map(result -> result.getFirst().size());
+    private static int sizeReactChild (List<Character> polymer){
+        Pair<List<Character>, Integer> result = new Pair<>(polymer, -1);
+        while(result.getSecond() != 0){
+            doReaction(result, "");
+        }
+        return result.getSecond();
     }
 
     private static List<List<Character>> variants(final List<Character> characters) {
