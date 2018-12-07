@@ -10,20 +10,18 @@ pub fn input_generator(input: &str) -> Vec<i32> {
 }
 
 #[aoc(day1, part1)]
-pub fn calculate_frequency(input: &Vec<i32>) -> i32 {
-    input
-        .iter()
-        .fold(0, |frequency, frequency_change| frequency + frequency_change)
+pub fn calculate_frequency(input: &[i32]) -> i32 {
+    input.iter().sum()
 }
 
 #[aoc(day1, part2)]
-pub fn first_double_frequency(input: &Vec<i32>) -> i32 {
+pub fn first_double_frequency(input: &[i32]) -> i32 {
     let mut input_cycle = input.iter().cycle();
     let mut frequency = 0;
     let mut past_frequencies = HashSet::new();
     while !past_frequencies.contains(&frequency) {
         past_frequencies.insert(frequency);
-        frequency = frequency + input_cycle.next().unwrap();
+        frequency += input_cycle.next().unwrap();
     };
     frequency
 }
@@ -49,21 +47,21 @@ mod tests {
 
     #[test]
     fn sample4() {
-        assert_eq!(0, first_double_frequency(&vec!(1,-1)));
+        assert_eq!(0, first_double_frequency(&vec!(1, -1)));
     }
 
     #[test]
     fn sample5() {
-        assert_eq!(10, first_double_frequency(&vec!(3,3,4,-2,-4)));
+        assert_eq!(10, first_double_frequency(&vec!(3, 3, 4, -2, -4)));
     }
 
     #[test]
     fn sample6() {
-        assert_eq!(5, first_double_frequency(&vec!(-6,3,8,5,-6)));
+        assert_eq!(5, first_double_frequency(&vec!(-6, 3, 8, 5, -6)));
     }
 
     #[test]
     fn sample7() {
-        assert_eq!(14, first_double_frequency(&vec!(7,7,-2,-7,-4)));
+        assert_eq!(14, first_double_frequency(&vec!(7, 7, -2, -7, -4)));
     }
 }

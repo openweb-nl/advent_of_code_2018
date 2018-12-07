@@ -3,6 +3,7 @@ package com.gklijs.adventofcode;
 import java.util.logging.Logger;
 
 class Timer {
+
     private static final Logger LOGGER = Logger.getLogger(Timer.class.getName());
 
     private static final long BILLION = 1_000_000_000L;
@@ -17,23 +18,23 @@ class Timer {
     private final String process;
     private long start;
 
-    Timer (String process){
+    Timer(String process) {
         this.process = process;
     }
 
-    void start(){
+    void start() {
         start = System.nanoTime();
     }
 
-    void stop(){
+    void stop() {
         double time = (double) System.nanoTime() - start;
-        if(time > BILLION){
-            LOGGER.info(() -> String.format(MSG, process, time/BILLION, SECONDS));
-        }else if(time > MILLION){
-            LOGGER.info(() -> String.format(MSG, process, time/MILLION, MILLI_SECONDS));
-        }else if(time > THOUSAND){
-            LOGGER.info(() -> String.format(MSG, process, time/THOUSAND, MICRO_SECONDS));
-        }else{
+        if (time > BILLION) {
+            LOGGER.info(() -> String.format(MSG, process, time / BILLION, SECONDS));
+        } else if (time > MILLION) {
+            LOGGER.info(() -> String.format(MSG, process, time / MILLION, MILLI_SECONDS));
+        } else if (time > THOUSAND) {
+            LOGGER.info(() -> String.format(MSG, process, time / THOUSAND, MICRO_SECONDS));
+        } else {
             LOGGER.info(() -> String.format(MSG, process, time, NANO_SECONDS));
         }
     }

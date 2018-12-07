@@ -10,21 +10,21 @@ import io.reactivex.Single;
 
 public class Day1 {
 
-    private Day1(){
+    private Day1() {
         //prevent instantiation
     }
 
     public static Single<Integer> calculateFrequency(Observable<String> frequencyChanges) {
         return frequencyChanges
             .map(Integer::valueOf)
-            .reduce(0, (frequency , frequencyChange) -> frequency + frequencyChange);
+            .reduce(0, (frequency, frequencyChange) -> frequency + frequencyChange);
     }
 
     public static Single<Integer> firstDoubleFrequency(Observable<String> frequencyChanges) {
         return frequencyChanges
             .repeat()
             .map(Integer::valueOf)
-            .scan(0, (frequency , frequencyChange) -> frequency + frequencyChange)
+            .scan(0, (frequency, frequencyChange) -> frequency + frequencyChange)
             .scan(new Pair<Set<Integer>, Integer>(new HashSet<>(), null), Utils::firstDuplicate)
             .takeUntil(pair -> pair.getSecond() != null)
             .lastOrError()

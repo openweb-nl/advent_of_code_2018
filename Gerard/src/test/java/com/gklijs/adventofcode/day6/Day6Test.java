@@ -1,4 +1,4 @@
-package com.gklijs.adventofcode.day3;
+package com.gklijs.adventofcode.day6;
 
 import com.gklijs.adventofcode.test.TestSchedulerExtension;
 import io.reactivex.schedulers.TestScheduler;
@@ -6,17 +6,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static com.gklijs.adventofcode.test.TestUtil.testSingle;
 
-class Day3Test {
+class Day6Test {
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example1(TestScheduler scheduler) throws Exception {
-        testSingle(scheduler, new String[]{"#1 @ 1,3: 4x4", "#2 @ 3,1: 4x4", "#3 @ 5,5: 2x2"}, Day3::multipleClaims, 4);
+        testSingle(scheduler, new String[]{"1, 1" , "1, 6" , "8, 3" , "3, 4" , "5, 5" , "8, 9"}, Day6::largestFiniteArea, 17);
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example2(TestScheduler scheduler) throws Exception {
-        testSingle(scheduler, new String[]{"#1 @ 1,3: 4x4", "#2 @ 3,1: 4x4", "#3 @ 5,5: 2x2"}, Day3::noClaims, 3);
+        testSingle(scheduler, new String[]{"1, 1" , "1, 6" , "8, 3" , "3, 4" , "5, 5" , "8, 9"}, x -> Day6.toAllLessThen(x, 32), 16);
     }
 }
