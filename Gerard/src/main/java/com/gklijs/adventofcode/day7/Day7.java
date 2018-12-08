@@ -88,7 +88,7 @@ public class Day7 {
         int timeSpend = 0;
         while(! graph.isEmpty()){
             Character nextTask = nextTask(graph, done);
-            while(nextTask != null && workersWorking <= workers){
+            while(nextTask != null && workersWorking < workers){
                 workersWorking++;
                 atWork.put(nextTask, nextTask - 64 + additionalSeconds);
                 graph.remove(nextTask);
