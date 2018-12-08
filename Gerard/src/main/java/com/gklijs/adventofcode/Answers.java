@@ -12,6 +12,7 @@ import com.gklijs.adventofcode.day4.Day4;
 import com.gklijs.adventofcode.day5.Day5;
 import com.gklijs.adventofcode.day6.Day6;
 import com.gklijs.adventofcode.day7.Day7;
+import com.gklijs.adventofcode.day8.Day8;
 import com.gklijs.adventofcode.utils.Pair;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -52,6 +53,10 @@ public class Answers {
         ANS.put(7, new Pair<>(
             (t, f) -> printStringAnswer(t, f, Day7::getOrder),
             (t, f) -> printIntAnswer(t, f, x -> Day7.work(x, 5, 60))
+        ));
+        ANS.put(8, new Pair<>(
+            (t, f) -> printIntAnswer(t, f, Day8::allMetaData),
+            (t, f) -> printIntAnswer(t, f, Day8::getValue)
         ));
     }
 
