@@ -65,11 +65,11 @@ public class Answers {
             printAll();
         } else if (args.length == 1) {
             int day = Integer.parseInt(args[0]);
-            if(ANS.containsKey(day)){
+            if (ANS.containsKey(day)) {
                 Pair<BiFunction<String, String, String>, BiFunction<String, String, String>> pair = ANS.get(day);
                 pair.getFirst().apply(String.format(FIRST_TASK_FORMAT, day), String.format(FILE_FORMAT, day));
                 pair.getSecond().apply(String.format(SECOND_TASK_FORMAT, day), String.format(FILE_FORMAT, day));
-            }else{
+            } else {
                 throw new InvalidUseException("Day " + day + " has no answers (yet)");
             }
         } else {
@@ -120,7 +120,7 @@ public class Answers {
     }
 
     private static void printAll() {
-        for(Map.Entry<Integer, Pair<BiFunction<String, String, String>, BiFunction<String, String, String>>> entry : ANS.entrySet()){
+        for (Map.Entry<Integer, Pair<BiFunction<String, String, String>, BiFunction<String, String, String>>> entry : ANS.entrySet()) {
             entry.getValue().getFirst().apply(String.format(FIRST_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
             entry.getValue().getSecond().apply(String.format(SECOND_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
         }

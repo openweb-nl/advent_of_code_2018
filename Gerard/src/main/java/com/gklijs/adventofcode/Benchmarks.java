@@ -56,6 +56,9 @@ public class Benchmarks {
         return benchStringAnswer("day2.txt", Day2::commonLetters);
     }
 
+    /*
+    414.699 ±  11.086  ops/s
+     */
     @Benchmark
     public static int bench1of3() {
         return benchIntAnswer("day3.txt", Day3::multipleClaims);
@@ -64,6 +67,7 @@ public class Benchmarks {
     /*
     115.326 ±   12.167  ops/s
      */
+    @Benchmark
     public static int bench2of3() {
         return benchIntAnswer("day3.txt", Day3::noClaims);
     }
@@ -71,14 +75,14 @@ public class Benchmarks {
     /*
     1177.029 ±   22.148  ops/s
      */
-    public static Pair<Integer,Integer> bench1of4() {
+    public static Pair<Integer, Integer> bench1of4() {
         return benchPairAnswer("day4.txt", Day4::bestOpportunity);
     }
 
     /*
     1229.435 ±   15.518  ops/s
      */
-    public static Pair<Integer,Integer> bench2of4() {
+    public static Pair<Integer, Integer> bench2of4() {
         return benchPairAnswer("day4.txt", Day4::mostAtSameMinute);
     }
 
@@ -99,6 +103,7 @@ public class Benchmarks {
     /*
     31.364 ±    0.652  ops/s
      */
+    @Benchmark
     public static int bench1of6() {
         return benchIntAnswer("day6.txt", Day6::largestFiniteArea);
     }
@@ -106,10 +111,14 @@ public class Benchmarks {
     /*
     25.751 ±    0.797  ops/s
      */
+    @Benchmark
     public static int bench2of6() {
         return benchIntAnswer("day6.txt", x -> Day6.toAllLessThen(x, 10000));
     }
 
+    /*
+    7325.436 ± 181.437  ops/s
+     */
     @Benchmark
     public static String bench1of7() {
         return benchStringAnswer("day7.txt", Day7::getOrder);
@@ -118,6 +127,7 @@ public class Benchmarks {
     /*
     4608.070 ±  293.548  ops/s
      */
+    @Benchmark
     public static int bench2of7() {
         return benchIntAnswer("day7.txt", x -> Day7.work(x, 5, 60));
     }

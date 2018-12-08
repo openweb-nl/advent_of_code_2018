@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 import com.gklijs.adventofcode.Utils;
 import com.gklijs.adventofcode.utils.Pair;
@@ -47,10 +48,10 @@ public class Day6 {
 
     private static Pair<int[], Set<Triple<Integer,Integer, UUID>>> reduce(Pair<int[], Set<Triple<Integer,Integer, UUID>>> result, Triple<Integer,Integer, UUID> coord){
         int[] mm = result.getFirst();
-        mm[0] = coord.getFirst() < mm[0] ? coord.getFirst() : mm[0];
-        mm[1] = coord.getSecond() < mm[1] ? coord.getSecond() : mm[1];
-        mm[2] = coord.getFirst() > mm[2] ? coord.getFirst() : mm[2];
-        mm[3] = coord.getSecond() > mm[3] ? coord.getSecond() : mm[3];
+        mm[0] = Math.min(coord.getFirst(), mm[0]);
+        mm[1] = Math.min(coord.getSecond(), mm[1]);
+        mm[2] = Math.max(coord.getFirst(), mm[2]);
+        mm[3] = Math.max(coord.getSecond(), mm[3]);
         result.getSecond().add(coord);
         return result;
     }
@@ -76,18 +77,10 @@ public class Day6 {
     private static Set<UUID> atBorder(int[] mm, Set<Triple<Integer,Integer, UUID>> coords){
         Set<UUID> borderCoords = new HashSet<>();
         borderCoords.add(null);
-        for(int x = mm[0] + 1; x < mm[2] ; x ++){
-            borderCoords.add(nearestNeighbour(x, mm[1], coords));
-        }
-        for(int x = mm[0] + 1; x < mm[2] ; x ++){
-            borderCoords.add(nearestNeighbour(x, mm[3], coords));
-        }
-        for(int y = mm[1] + 1; y < mm[3] ; y ++){
-            borderCoords.add(nearestNeighbour(mm[0],y, coords));
-        }
-        for(int y = mm[1] + 1; y < mm[3] ; y ++){
-            borderCoords.add(nearestNeighbour(mm[2],y, coords));
-        }
+        IntStream.range(mm[0] + 1, mm[2]).forEach(x -> borderCoords.add(nearestNeighbour(x, mm[1], coords)));
+        IntStream.range(mm[0] + 1, mm[2]).forEach(x -> borderCoords.add(nearestNeighbour(x, mm[3], coords)));
+        IntStream.range(mm[1] + 1, mm[3]).forEach(y -> borderCoords.add(nearestNeighbour(mm[0], y, coords)));
+        IntStream.range(mm[1] + 1, mm[3]).forEach(y -> borderCoords.add(nearestNeighbour(mm[2], y, coords)));
         return borderCoords;
     }
 

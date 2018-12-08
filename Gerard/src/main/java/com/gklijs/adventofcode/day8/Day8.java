@@ -55,28 +55,22 @@ public class Day8 {
     }
 
     private static int totalMeta(Node node){
-        int value = 0;
-        for(Integer i : node.metaData){
-            value += i;
-        }
-        for(Node n : node.childNodes){
-            value += totalMeta(n);
-        }
-        return value;
+        int value = node.metaData.stream()
+            .reduce(0, Integer::sum);
+        return node.childNodes.stream()
+            .map(Day8::totalMeta)
+            .reduce(value, Integer::sum);
     }
 
     private static int getValue(Node node){
-        int value = 0;
         if(node.childNodes.isEmpty()){
-            for(Integer i : node.metaData){
-                value += i;
-            }
+            return node.metaData.stream()
+                .reduce(0, Integer::sum);
         }else{
-            for(Integer i : node.metaData){
-                if(i == 0 || i > node.childCount) continue;
-                value += getValue(node.childNodes.get(i - 1));
-            }
+            return node.metaData.stream()
+                .filter(x -> x == 0 || x < node.childCount)
+                .map(x -> getValue(node.childNodes.get(x - 1)))
+                .reduce(0, Integer::sum);
         }
-        return value;
     }
 }

@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import com.gklijs.adventofcode.utils.Pair;
@@ -65,20 +63,19 @@ public class Day7 {
         return path;
     }
 
+    private static boolean isValid(Map.Entry<Character, Set<Character>> entry, Collection<Character> path) {
+        Set<Character> set = new HashSet<>(entry.getValue());
+        set.removeAll(path);
+        return set.isEmpty();
+    }
+
     private static Character nextTask(final Map<Character, Set<Character>> graph, final Collection<Character> path) {
-        SortedSet<Character> options = new TreeSet<>();
-        for(Map.Entry<Character, Set<Character>> entry : graph.entrySet()){
-            Set<Character> set = new HashSet<>(entry.getValue());
-            set.removeAll(path);
-            if(set.isEmpty()){
-                options.add(entry.getKey());
-            }
-        }
-        if(options.isEmpty()){
-            return null;
-        }else{
-            return options.first();
-        }
+        return graph.entrySet().stream()
+            .filter(x -> isValid(x, path))
+            .map(Map.Entry::getKey)
+            .sorted()
+            .findFirst()
+            .orElse(null);
     }
 
     private static Integer go(final Map<Character, Set<Character>> graph, final int workers, final int additionalSeconds) {
@@ -96,19 +93,14 @@ public class Day7 {
             }
             int progresTimeBy = atWork.values().stream().reduce(Integer.MAX_VALUE, (o,n) -> n < o ? n : o);
             timeSpend+= progresTimeBy;
-            List<Character> justCompleted = new ArrayList<>();
-            for(Map.Entry<Character, Integer> entry : atWork.entrySet()){
-                if(entry.getValue() == progresTimeBy){
-                    justCompleted.add(entry.getKey());
-                }else{
-                    entry.setValue(entry.getValue() - progresTimeBy);
-                }
-            }
-            for(Character complete : justCompleted){
-                atWork.remove(complete);
-                done.add(complete);
-                workersWorking--;
-            }
+            List<Character> justCompleted = atWork.entrySet().stream()
+                .peek(x -> x.setValue(x.getValue() - progresTimeBy))
+                .filter(x -> x.getValue() <= 0)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+            atWork.keySet().removeAll(justCompleted);
+            workersWorking -= justCompleted.size();
+            done.addAll(justCompleted);
         }
         return timeSpend;
     }
