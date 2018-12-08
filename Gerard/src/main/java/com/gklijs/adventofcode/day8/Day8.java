@@ -55,22 +55,21 @@ public class Day8 {
     }
 
     private static int totalMeta(Node node){
-        int value = node.metaData.stream()
-            .reduce(0, Integer::sum);
-        return node.childNodes.stream()
+        int value = node.metaData.stream().mapToInt(Integer::intValue).sum();
+        return value + node.childNodes.stream()
             .map(Day8::totalMeta)
-            .reduce(value, Integer::sum);
+            .mapToInt(Integer::intValue)
+            .sum();
     }
 
     private static int getValue(Node node){
         if(node.childNodes.isEmpty()){
-            return node.metaData.stream()
-                .reduce(0, Integer::sum);
+            return node.metaData.stream().mapToInt(Integer::intValue).sum();
         }else{
             return node.metaData.stream()
-                .filter(x -> x == 0 || x < node.childCount)
-                .map(x -> getValue(node.childNodes.get(x - 1)))
-                .reduce(0, Integer::sum);
+                .filter(x -> x == 0 || x <= node.childCount)
+                .mapToInt(x -> getValue(node.childNodes.get(x - 1)))
+                .sum();
         }
     }
 }

@@ -84,37 +84,28 @@ public class Day6 {
         return borderCoords;
     }
 
+    private static void addNearestWhenValid(int x, int y, Triple<int[], Set<Triple<Integer, Integer, UUID>>, Set<UUID>> t, Map<UUID, Integer> frequencyMap) {
+        UUID nearest = nearestNeighbour(x, y, t.getSecond());
+        if (!t.getThird().contains(nearest)) {
+            Utils.addToFrequencyMap(frequencyMap, nearest);
+        }
+    }
+
     private static Map<UUID, Integer> toFrequencyMap(Triple<int[], Set<Triple<Integer,Integer, UUID>>, Set<UUID>> t){
         Map<UUID, Integer> frequencyMap = new HashMap<>();
         int[] mm = t.getFirst();
-        for(int x = mm[0] + 1; x < mm[2] ;x++){
-            for(int y = mm[1] + 1; y < mm[3] ;y++){
-                UUID nearest = nearestNeighbour(x,y,t.getSecond());
-                if(! t.getThird().contains(nearest)){
-                    Utils.addToFrequencyMap(frequencyMap, nearest);
-                }
-            }
-        }
+        IntStream.range(mm[0] + 1, mm[2]).forEach(x -> IntStream.range(mm[1] + 1, mm[3]).forEach(y -> addNearestWhenValid(x, y, t, frequencyMap)));
         return frequencyMap;
     }
 
     private static int allDistances (int x, int y, Set<Triple<Integer,Integer, UUID>> coords){
-        int allDistances = 0;
-        for(Triple<Integer,Integer, UUID> coord : coords){
-            allDistances += Math.abs(x - coord.getFirst()) +  Math.abs(y - coord.getSecond());
-        }
-        return allDistances;
+        return coords.stream().mapToInt(c -> Math.abs(x - c.getFirst()) + Math.abs(y - c.getSecond())).sum();
     }
 
     private static Set<int[]> toDistances(Pair<int[], Set<Triple<Integer,Integer, UUID>>> t){
         Set<int[]> nodes = new HashSet<>();
         int[] mm = t.getFirst();
-        for(int x = mm[0] + 1; x < mm[2] ;x++){
-            for(int y = mm[1] + 1; y < mm[3] ;y++){
-                int ad = allDistances(x, y, t.getSecond());
-                nodes.add(new int[]{x, y, ad});
-            }
-        }
+        IntStream.range(mm[0] + 1, mm[2]).forEach(x -> IntStream.range(mm[1] + 1, mm[3]).forEach(y -> nodes.add(new int[]{x, y, allDistances(x, y, t.getSecond())})));
         return nodes;
     }
 }

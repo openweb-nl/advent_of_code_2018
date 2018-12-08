@@ -62,7 +62,7 @@ public class Day4 {
         int currentId = -1;
         int maxAsleep = -1;
         for (Map.Entry<Integer, Map<Integer, Integer>> idFrequencyMap : result.getFirst().entrySet()) {
-            int asleep = idFrequencyMap.getValue().values().stream().reduce(0, Integer::sum);
+            int asleep = idFrequencyMap.getValue().values().stream().mapToInt(integer -> integer).sum();
             if (asleep > maxAsleep) {
                 currentId = idFrequencyMap.getKey();
                 maxAsleep = asleep;

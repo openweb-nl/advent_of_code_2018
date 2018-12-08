@@ -41,8 +41,7 @@ public class Day3 {
 
     private static int claimedMultiple(int[][] fabric) {
         return Arrays.stream(fabric)
-            .map(row -> Arrays.stream(row).reduce(0, (o, n) -> n > 1 ? o + 1 : o))
-            .reduce(0, Integer::sum);
+            .map(row -> Arrays.stream(row).reduce(0, (o, n) -> n > 1 ? o + 1 : o)).mapToInt(Integer::intValue).sum();
     }
 
     private static void setId(int[][] fabric, Patch patch) {

@@ -24,7 +24,7 @@ public class Day1 {
         return frequencyChanges
             .repeat()
             .map(Integer::valueOf)
-            .scan(0, (frequency, frequencyChange) -> frequency + frequencyChange)
+            .scan(0, Integer::sum)
             .scan(new Pair<Set<Integer>, Integer>(new HashSet<>(), null), Utils::firstDuplicate)
             .takeUntil(pair -> pair.getSecond() != null)
             .lastOrError()
