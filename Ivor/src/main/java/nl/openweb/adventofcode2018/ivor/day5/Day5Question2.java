@@ -29,8 +29,9 @@ public class Day5Question2 extends Day5Question1 {
         for (char c : ALPHABET) {
             String key = String.valueOf(c);
             System.out.println("key: " + key);
-            String testLine = line.replaceAll(key, "");
-            testLine = testLine.replaceAll(key.toUpperCase(), "");
+            String regex = "[" + key + key.toUpperCase() + "]";
+            String testLine = line.replaceAll(regex, "");
+//            testLine = testLine.replaceAll(key.toUpperCase(), "");
             replaceOpposites(testLine).ifPresent(it -> result.put(key, it));
         }
         System.out.println("map: " + result );
