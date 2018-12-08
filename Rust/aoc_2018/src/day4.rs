@@ -27,7 +27,7 @@ impl Patch {
     }
 }
 
-#[aoc_generator(day3)]
+#[aoc_generator(day4)]
 pub fn input_generator(input: &str) -> Vec<Patch> {
     input
         .lines()
@@ -35,7 +35,7 @@ pub fn input_generator(input: &str) -> Vec<Patch> {
         .collect()
 }
 
-#[aoc(day3, part1)]
+#[aoc(day4, part1)]
 pub fn multiple_claims(input: &[Patch]) -> i32 {
     let mut fabric: Vec<[i32; 1000]> = vec![[0; 1000]; 1000];
     for patch in input{
@@ -73,7 +73,7 @@ fn current_ids(fabric: &[[i32; 1000]], patch: &Patch) -> HashSet<i32>{
     set
 }
 
-#[aoc(day3, part2)]
+#[aoc(day4, part2)]
 pub fn no_claims(input: &[Patch]) -> i32 {
     let mut fabric: Vec<[i32; 1000]> = vec![[0; 1000]; 1000];
     let mut ids = HashSet::with_capacity(1000);
