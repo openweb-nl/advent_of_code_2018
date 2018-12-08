@@ -119,10 +119,14 @@ public class Answers {
         return task;
     }
 
+    private static int startBoth(Map.Entry<Integer, Pair<BiFunction<String, String, String>, BiFunction<String, String, String>>> entry) {
+        entry.getValue().getFirst().apply(String.format(FIRST_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
+        entry.getValue().getSecond().apply(String.format(SECOND_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
+        return 2;
+    }
+
     private static void printAll() {
-        for (Map.Entry<Integer, Pair<BiFunction<String, String, String>, BiFunction<String, String, String>>> entry : ANS.entrySet()) {
-            entry.getValue().getFirst().apply(String.format(FIRST_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
-            entry.getValue().getSecond().apply(String.format(SECOND_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
-        }
+        int tasks = ANS.entrySet().stream().mapToInt(Answers::startBoth).sum();
+        LOGGER.info(() -> "Started " + tasks + " tasks");
     }
 }
