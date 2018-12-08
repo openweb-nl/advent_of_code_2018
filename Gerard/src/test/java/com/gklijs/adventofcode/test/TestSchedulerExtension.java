@@ -15,9 +15,9 @@ public class TestSchedulerExtension implements BeforeTestExecutionCallback, Afte
 
     @Override
     public void beforeTestExecution(final ExtensionContext extensionContext) throws Exception {
-        RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
-        RxJavaPlugins.setComputationSchedulerHandler(scheduler -> Schedulers.trampoline());
-        RxJavaPlugins.setNewThreadSchedulerHandler(scheduler -> Schedulers.trampoline());
+        RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.single());
+        RxJavaPlugins.setComputationSchedulerHandler(scheduler -> Schedulers.single());
+        RxJavaPlugins.setNewThreadSchedulerHandler(scheduler -> Schedulers.single());
     }
 
     @Override

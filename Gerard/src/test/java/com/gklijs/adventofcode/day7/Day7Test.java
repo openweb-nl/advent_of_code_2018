@@ -21,13 +21,13 @@ class Day7Test {
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
-    void example1(TestScheduler scheduler) throws Exception {
+    void example1(TestScheduler scheduler) {
         testSingle(scheduler, data, Day7::getOrder, "CABDFE");
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
-    void example2(TestScheduler scheduler) throws Exception {
+    void example2(TestScheduler scheduler) {
         testSingle(scheduler, data, x -> Day7.work(x, 2, 0), 15);
     }
 }

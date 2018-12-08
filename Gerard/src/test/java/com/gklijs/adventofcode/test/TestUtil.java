@@ -12,18 +12,20 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TestUtil {
 
-    private static String[] input;
-
     private TestUtil() {
         //prevent instantiation
     }
 
-    public static <T> void testSingle(TestScheduler scheduler, String[] input, Function<Observable<String>, Single<T>> function, T expected) throws Exception {
-        TestUtil.input = input;
+    public static <T> void testSingle(TestScheduler scheduler, String[] input, Function<Observable<String>, Single<T>> function, T expected) {
         var result = new ArrayList<T>();
-        function.apply((Observable.fromArray(input)))
-            .doOnSuccess(result::add)
-            .subscribe();
+        try {
+            function.apply((Observable.fromArray(input)))
+                .doOnSuccess(result::add)
+                .timeout(2, TimeUnit.SECONDS)
+                .subscribe();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         scheduler.advanceTimeBy(2, TimeUnit.SECONDS);
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());

@@ -127,6 +127,6 @@ public class Answers {
 
     private static void printAll() {
         int tasks = ANS.entrySet().stream().mapToInt(Answers::startBoth).sum();
-        LOGGER.info(() -> "Started " + tasks + " tasks");
+        LOGGER.info(() -> "Done with " + tasks + " tasks");
     }
 }
