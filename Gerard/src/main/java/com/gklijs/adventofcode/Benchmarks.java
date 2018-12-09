@@ -8,6 +8,7 @@ import com.gklijs.adventofcode.day5.Day5;
 import com.gklijs.adventofcode.day6.Day6;
 import com.gklijs.adventofcode.day7.Day7;
 import com.gklijs.adventofcode.day8.Day8;
+import com.gklijs.adventofcode.day9.Day9;
 import com.gklijs.adventofcode.utils.Pair;
 import org.openjdk.jmh.annotations.Benchmark;
 
@@ -26,6 +27,10 @@ public class Benchmarks {
 
     private static Pair<Integer, Integer> benchPairAnswer(String fileName, Answers.SinglePairAnswer singlePairAnswer) {
         return singlePairAnswer.getAnswer(Utils.readLines(fileName).toObservable()).blockingGet();
+    }
+
+    private static long benchLongAnswer(String fileName, Answers.SingleLongAnswer singleLongAnswer) {
+        return singleLongAnswer.getAnswer(Utils.readLines(fileName).toObservable()).blockingGet();
     }
 
     /*
@@ -140,5 +145,15 @@ public class Benchmarks {
     @Benchmark
     public static int bench2of8() {
         return benchIntAnswer("day8.txt", Day8::getValue);
+    }
+
+    @Benchmark
+    public static long bench1of9() {
+        return benchLongAnswer("day9.txt", Day9::winningScore);
+    }
+
+    @Benchmark
+    public static long bench2of9() {
+        return benchLongAnswer("day9.txt", x -> Day9.winningScore(x, 100));
     }
 }

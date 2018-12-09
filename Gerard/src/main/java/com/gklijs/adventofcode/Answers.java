@@ -13,6 +13,8 @@ import com.gklijs.adventofcode.day5.Day5;
 import com.gklijs.adventofcode.day6.Day6;
 import com.gklijs.adventofcode.day7.Day7;
 import com.gklijs.adventofcode.day8.Day8;
+import com.gklijs.adventofcode.day9.Day9;
+import com.gklijs.adventofcode.errors.InvalidUseException;
 import com.gklijs.adventofcode.utils.Pair;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -58,6 +60,10 @@ public class Answers {
             (t, f) -> printIntAnswer(t, f, Day8::allMetaData),
             (t, f) -> printIntAnswer(t, f, Day8::getValue)
         ));
+        ANS.put(9, new Pair<>(
+            (t, f) -> printLongAnswer(t, f, Day9::winningScore),
+            (t, f) -> printLongAnswer(t, f, x -> Day9.winningScore(x, 100))
+        ));
     }
 
     public static void main(String[] args) {
@@ -95,6 +101,12 @@ public class Answers {
         Single<Pair<Integer, Integer>> getAnswer(Observable<String> lines);
     }
 
+    @FunctionalInterface
+    interface SingleLongAnswer {
+
+        Single<Long> getAnswer(Observable<String> lines);
+    }
+
     private static String printIntAnswer(String task, String fileName, SingleIntAnswer singleIntAnswer) {
         return setTimeAndStart(task, singleIntAnswer.getAnswer(Utils.readLines(fileName).toObservable())
             .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
@@ -108,6 +120,11 @@ public class Answers {
     private static String printPairAnswer(String task, String fileName, SinglePairAnswer singlePairAnswer) {
         return setTimeAndStart(task, singlePairAnswer.getAnswer(Utils.readLines(fileName).toObservable())
             .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result.getFirst() * result.getSecond())));
+    }
+
+    private static String printLongAnswer(String task, String fileName, SingleLongAnswer singleLongAnswer) {
+        return setTimeAndStart(task, singleLongAnswer.getAnswer(Utils.readLines(fileName).toObservable())
+            .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
     }
 
     private static String setTimeAndStart(String task, Single job) {
