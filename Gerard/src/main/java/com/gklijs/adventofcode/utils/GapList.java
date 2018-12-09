@@ -1,7 +1,6 @@
 package com.gklijs.adventofcode.utils;
 
 import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -673,33 +672,6 @@ public class GapList<E> extends AbstractList<E> implements List<E>, RandomAccess
     }
 
     /**
-     * Internal consistency check.
-     */
-    void consistencyCheck() {
-        if (gapStart < 0 || gapLength < 0
-            || gapStart + gapLength > elementData.length
-        ) {
-            consistencyError("Inconsistent gap"); // NOI18N
-        }
-
-        // Check whether the whole gap contains only nulls
-        for (int i = gapStart + gapLength - 1; i >= gapStart; i--) {
-            if (elementData[i] != null) {
-                consistencyError("Non-null value at raw-index i"); // NOI18N
-            }
-        }
-    }
-
-    private void consistencyError(String s) {
-        throw new IllegalStateException(s + ": " + toStringInternals()); // NOI18N
-    }
-
-    private String toStringInternals() {
-        return "elementData.length=" + elementData.length // NOI18N
-            + ", gapStart=" + gapStart + ", gapLength=" + gapLength; // NOI18N
-    }
-
-    /**
      * {@inheritDoc}
      */
     public boolean equals(Object o) {
@@ -714,7 +686,7 @@ public class GapList<E> extends AbstractList<E> implements List<E>, RandomAccess
         final int expectedModCount = modCount;
         // ArrayList can be subclassed and given arbitrary behavior, but we can
         // still deal with the common case where o is ArrayList precisely
-        boolean equal = equalsRange((List<?>) o, gapLength);
+        boolean equal = equalsRange((List<?>) o, elementData.length - gapLength);
         checkForComodification(expectedModCount);
         return equal;
     }
@@ -744,7 +716,7 @@ public class GapList<E> extends AbstractList<E> implements List<E>, RandomAccess
      */
     public int hashCode() {
         int expectedModCount = modCount;
-        int hash = hashCodeRange(gapLength);
+        int hash = hashCodeRange(elementData.length - gapLength);
         checkForComodification(expectedModCount);
         return hash;
     }

@@ -9,6 +9,7 @@ import com.gklijs.adventofcode.day6.Day6;
 import com.gklijs.adventofcode.day7.Day7;
 import com.gklijs.adventofcode.day8.Day8;
 import com.gklijs.adventofcode.day9.Day9;
+import com.gklijs.adventofcode.day9.GapListDay9;
 import com.gklijs.adventofcode.utils.Pair;
 import org.openjdk.jmh.annotations.Benchmark;
 
@@ -155,5 +156,15 @@ public class Benchmarks {
     @Benchmark
     public static long bench2of9() {
         return benchLongAnswer("day9.txt", x -> Day9.winningScore(x, 100));
+    }
+
+    @Benchmark
+    public static long bench1of9gaplist() {
+        return benchLongAnswer("day9.txt", GapListDay9::winningScore);
+    }
+
+    @Benchmark
+    public static long bench2of9gaplist() {
+        return benchLongAnswer("day9.txt", x -> GapListDay9.winningScore(x, 100));
     }
 }

@@ -4,14 +4,14 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 import com.gklijs.adventofcode.errors.InvalidInputException;
-import com.gklijs.adventofcode.utils.FastRandomIntList;
+import com.gklijs.adventofcode.utils.GapList;
 import com.gklijs.adventofcode.utils.Triple;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
-public class Day9 {
+public class GapListDay9 {
 
-    private Day9() {
+    private GapListDay9() {
         //prevent instantiation
     }
 
@@ -19,14 +19,14 @@ public class Day9 {
         return input
             .lastOrError()
             .map(i -> playGame(i, 1))
-            .map(Day9::heigestScore);
+            .map(GapListDay9::heigestScore);
     }
 
     public static Single<Long> winningScore(Observable<String> input, int multiplier) {
         return input
             .lastOrError()
             .map(i -> playGame(i, multiplier))
-            .map(Day9::heigestScore);
+            .map(GapListDay9::heigestScore);
     }
 
     private static int[] playersAndMarbles(String input, int multiplier) {
@@ -50,16 +50,16 @@ public class Day9 {
         throw new InvalidInputException("Could not get players and marbles from string: " + input);
     }
 
-    private static Triple<int[], FastRandomIntList, long[]> initialState(int[] input) {
+    private static Triple<int[], GapList<Integer>, long[]> initialState(int[] input) {
         // first is the index of the current marble, second the id of the player about to play
         int[] trackers = new int[]{0, input[0]};
-        FastRandomIntList marblesInPlay = new FastRandomIntList(input[1]);
+        GapList<Integer> marblesInPlay = new GapList<>(input[1]);
         marblesInPlay.add(0);
         long[] scores = new long[input[0]];
         return new Triple<>(trackers, marblesInPlay, scores);
     }
 
-    private static void updateState(Triple<int[], FastRandomIntList, long[]> state, int marble) {
+    private static void updateState(Triple<int[], GapList<Integer>, long[]> state, int marble) {
         int player = state.getFirst()[1] + 1;
         player = player >= state.getThird().length ? 0 : player;
         state.getFirst()[1] = player;
@@ -78,14 +78,14 @@ public class Day9 {
         }
     }
 
-    private static Triple<int[], FastRandomIntList, long[]> playGame(String input, int multiplier) {
+    private static Triple<int[], GapList<Integer>, long[]> playGame(String input, int multiplier) {
         int[] playersAndMarbles = playersAndMarbles(input, multiplier);
-        Triple<int[], FastRandomIntList, long[]> state = initialState(playersAndMarbles);
+        Triple<int[], GapList<Integer>, long[]> state = initialState(playersAndMarbles);
         IntStream.range(1, playersAndMarbles[1] + 1).forEach(marble -> updateState(state, marble));
         return state;
     }
 
-    private static long heigestScore(Triple<int[], FastRandomIntList, long[]> input) {
+    private static long heigestScore(Triple<int[], GapList<Integer>, long[]> input) {
         return Arrays.stream(input.getThird()).max().orElse(-1L);
     }
 }
