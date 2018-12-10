@@ -1,124 +1,120 @@
 extern crate regex;
 
 use self::regex::Regex;
-use std::collections::HashSet;
+use std::collections::HashMap;
 
-pub struct Patch {
-    pub id: i32,
-    pub from_left: usize,
-    pub from_top: usize,
-    pub width: usize,
-    pub height: usize,
-}
-
-impl Patch {
-    fn new(patch: &str) -> Patch {
-        lazy_static! {
-            static ref RE: Regex = Regex::new(r"^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)$").unwrap();
-        }
-        let cap = RE.captures(patch).unwrap();
-        Patch {
-            id: cap[1].parse::<i32>().unwrap(),
-            from_left: cap[2].parse::<usize>().unwrap(),
-            from_top: cap[3].parse::<usize>().unwrap(),
-            width: cap[4].parse::<usize>().unwrap(),
-            height: cap[5].parse::<usize>().unwrap(),
-        }
-    }
-}
+type Data = (HashMap<usize, usize>, HashMap<usize, Vec<(usize, usize)>>);
 
 #[aoc_generator(day4)]
-pub fn input_generator(input: &str) -> Vec<Patch> {
-    input.lines().map(|l| Patch::new(l)).collect()
+pub fn input_generator(input: &str) -> Vec<&str> {
+    let mut lines: Vec<&str> = input.trim().lines().map(|l| l.trim()).collect::<Vec<_>>();
+    lines.sort();
+    lines
 }
 
-#[aoc(day4, part1)]
-pub fn multiple_claims(input: &[Patch]) -> i32 {
-    let mut fabric: Vec<[i32; 1000]> = vec![[0; 1000]; 1000];
-    for patch in input {
-        for row in fabric.iter_mut().skip(patch.from_left).take(patch.width) {
-            for inch in row.iter_mut().skip(patch.from_top).take(patch.height) {
-                *inch += &1;
-            }
-        }
-    }
-    let mut counter = 0;
-    for row in fabric.iter() {
-        for inch in row.iter() {
-            if *inch > 1 {
-                counter += 1
-            }
-        }
-    }
-    counter
-}
+fn to_data(lines: Vec<&str>) -> Data{
+    let regex_number = Regex::new(r"(\d+)").unwrap();
+    let regex_start = Regex::new(r"begins shift").unwrap();
+    let regex_sleep = Regex::new(r"falls asleep").unwrap();
+    let regex_wake = Regex::new(r"wakes up").unwrap();
 
-fn set_id(mut fabric: Vec<[i32; 1000]>, patch: &Patch) -> Vec<[i32; 1000]> {
-    for row in fabric.iter_mut().skip(patch.from_left).take(patch.width) {
-        for inch in row.iter_mut().skip(patch.from_top).take(patch.height) {
-            *inch = patch.id;
-        }
-    }
-    fabric
-}
+    // Track each guard's minutes asleep and the sleep ranges
+    let mut time_asleep = HashMap::new();
+    let mut sleep_ranges = HashMap::new();
+    let mut current_guard = 0;
+    let mut start_sleep = 0;
+    for line in lines {
+        let caps: Vec<_> = regex_number.captures_iter(&line).map(|cap| cap[1].parse::<usize>().unwrap()).collect();
+        let time = ((caps[3] + 12) % 24) * 60 + caps[4];
 
-fn current_ids(fabric: &[[i32; 1000]], patch: &Patch) -> HashSet<i32> {
-    let mut set = HashSet::new();
-    for row in fabric.iter().skip(patch.from_left).take(patch.width) {
-        for inch in row.iter().skip(patch.from_top).take(patch.height) {
-            set.insert(*inch);
-        }
-    }
-    set
-}
-
-#[aoc(day4, part2)]
-pub fn no_claims(input: &[Patch]) -> i32 {
-    let mut fabric: Vec<[i32; 1000]> = vec![[0; 1000]; 1000];
-    let mut ids = HashSet::with_capacity(1000);
-    for patch in input {
-        let current_claims = current_ids(&fabric, patch);
-        fabric = set_id(fabric, patch);
-        if current_claims.len() == 1 && current_claims.contains(&0) {
-            ids.insert(patch.id);
+        if regex_start.captures(&line).is_some() {
+            current_guard = caps[5];
+        } else if regex_sleep.captures(&line).is_some() {
+            start_sleep = time;
+        } else if regex_wake.captures(&line).is_some() {
+            *time_asleep.entry(current_guard).or_insert(0) += time - start_sleep;
+            sleep_ranges.entry(current_guard).or_insert(vec![]).push((start_sleep, time));
         } else {
-            for id in current_claims {
-                ids.remove(&id);
-            }
+            panic!("Unable to parse input");
         }
     }
-    *ids.iter().next().unwrap()
+    (time_asleep, sleep_ranges)
+}
+
+pub fn best_opportunity (input: Vec<&str> )  -> i32 {
+    let (time_asleep, sleep_ranges) = to_data(input);
+    // Find which guard slept the most
+    let guard = time_asleep.iter().map(|(guard, minutes)| (minutes, guard)).max().unwrap().1;
+
+    // Find the minute that the guard spent the most days asleep during
+    let mut days_asleep = HashMap::new();
+    for range in &sleep_ranges[guard] {
+        for minute in range.0 .. range.1 {
+            *days_asleep.entry(minute).or_insert(0) += 1;
+        }
+    }
+    let minute = days_asleep.iter().map(|(m, d)| (d, m)).max().unwrap().1 % 60;
+    (guard * minute) as i32
+}
+
+pub fn most_at_same_minute (input: Vec<&str> ) -> i32 {
+    let (_, sleep_ranges) = to_data(input);
+    let mut most = (0, 0, 0); // (days, minute, guard)
+    for (guard, ranges) in &sleep_ranges {
+        let mut days_asleep = HashMap::new();
+        for range in ranges {
+            for minute in range.0 .. range.1 {
+                *days_asleep.entry(minute).or_insert(0) += 1;
+            }
+        }
+        let (days, minute) = days_asleep.iter().map(|(m, d)| (d, m)).max().unwrap();
+        let cand = (*days, *minute, *guard);
+        if cand > most {
+            most = cand;
+        }
+    }
+    let guard = most.2;
+    let minute = most.1 % 60;
+    (guard * minute) as i32
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{multiple_claims, no_claims, Patch};
+    use super::{best_opportunity, most_at_same_minute, input_generator};
 
-    fn to_patch_vec(values: Vec<&str>) -> Vec<Patch> {
-        values.iter().map(|l| Patch::new(l)).collect()
+    fn test_input() -> &'static str {
+        "[1518-11-01 00:00] Guard #10 begins shift
+        [1518-11-01 00:05] falls asleep
+        [1518-11-01 00:25] wakes up
+        [1518-11-01 00:30] falls asleep
+        [1518-11-01 00:55] wakes up
+        [1518-11-01 23:58] Guard #99 begins shift
+        [1518-11-02 00:40] falls asleep
+        [1518-11-02 00:50] wakes up
+        [1518-11-03 00:05] Guard #10 begins shift
+        [1518-11-03 00:24] falls asleep
+        [1518-11-03 00:29] wakes up
+        [1518-11-04 00:02] Guard #99 begins shift
+        [1518-11-04 00:36] falls asleep
+        [1518-11-04 00:46] wakes up
+        [1518-11-05 00:03] Guard #99 begins shift
+        [1518-11-05 00:45] falls asleep
+        [1518-11-05 00:55] wakes up"
     }
 
     #[test]
     fn sample1() {
         assert_eq!(
-            4,
-            multiple_claims(&to_patch_vec(vec!(
-                "#1 @ 1,3: 4x4",
-                "#2 @ 3,1: 4x4",
-                "#3 @ 5,5: 2x2"
-            )))
+            240,
+            best_opportunity(input_generator(test_input()))
         );
     }
 
     #[test]
     fn sample2() {
         assert_eq!(
-            3,
-            no_claims(&to_patch_vec(vec!(
-                "#1 @ 1,3: 4x4",
-                "#2 @ 3,1: 4x4",
-                "#3 @ 5,5: 2x2"
-            )))
+            4455,
+            most_at_same_minute(input_generator(test_input()))
         );
     }
 }
