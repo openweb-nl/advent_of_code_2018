@@ -6,12 +6,16 @@ import java.util.function.BiFunction;
 import java.util.logging.Logger;
 
 import com.gklijs.adventofcode.day1.Day1;
+import com.gklijs.adventofcode.day10.Day10;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
 import com.gklijs.adventofcode.day5.Day5;
 import com.gklijs.adventofcode.day6.Day6;
 import com.gklijs.adventofcode.day7.Day7;
+import com.gklijs.adventofcode.day8.Day8;
+import com.gklijs.adventofcode.day9.Day9;
+import com.gklijs.adventofcode.errors.InvalidUseException;
 import com.gklijs.adventofcode.utils.Pair;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -53,6 +57,18 @@ public class Answers {
             (t, f) -> printStringAnswer(t, f, Day7::getOrder),
             (t, f) -> printIntAnswer(t, f, x -> Day7.work(x, 5, 60))
         ));
+        ANS.put(8, new Pair<>(
+            (t, f) -> printIntAnswer(t, f, Day8::allMetaData),
+            (t, f) -> printIntAnswer(t, f, Day8::getValue)
+        ));
+        ANS.put(9, new Pair<>(
+            (t, f) -> printLongAnswer(t, f, Day9::winningScore),
+            (t, f) -> printLongAnswer(t, f, x -> Day9.winningScore(x, 100))
+        ));
+        ANS.put(10, new Pair<>(
+            (t, f) -> printStringAnswer(t, f, Day10::displayStars),
+            (t, f) -> printIntAnswer(t, f, Day10::stepsNeeded)
+        ));
     }
 
     public static void main(String[] args) {
@@ -60,11 +76,11 @@ public class Answers {
             printAll();
         } else if (args.length == 1) {
             int day = Integer.parseInt(args[0]);
-            if(ANS.containsKey(day)){
+            if (ANS.containsKey(day)) {
                 Pair<BiFunction<String, String, String>, BiFunction<String, String, String>> pair = ANS.get(day);
                 pair.getFirst().apply(String.format(FIRST_TASK_FORMAT, day), String.format(FILE_FORMAT, day));
                 pair.getSecond().apply(String.format(SECOND_TASK_FORMAT, day), String.format(FILE_FORMAT, day));
-            }else{
+            } else {
                 throw new InvalidUseException("Day " + day + " has no answers (yet)");
             }
         } else {
@@ -90,6 +106,12 @@ public class Answers {
         Single<Pair<Integer, Integer>> getAnswer(Observable<String> lines);
     }
 
+    @FunctionalInterface
+    interface SingleLongAnswer {
+
+        Single<Long> getAnswer(Observable<String> lines);
+    }
+
     private static String printIntAnswer(String task, String fileName, SingleIntAnswer singleIntAnswer) {
         return setTimeAndStart(task, singleIntAnswer.getAnswer(Utils.readLines(fileName).toObservable())
             .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
@@ -105,6 +127,11 @@ public class Answers {
             .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result.getFirst() * result.getSecond())));
     }
 
+    private static String printLongAnswer(String task, String fileName, SingleLongAnswer singleLongAnswer) {
+        return setTimeAndStart(task, singleLongAnswer.getAnswer(Utils.readLines(fileName).toObservable())
+            .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
+    }
+
     private static String setTimeAndStart(String task, Single job) {
         Timer timer = new Timer(task);
         job
@@ -114,10 +141,14 @@ public class Answers {
         return task;
     }
 
+    private static int startBoth(Map.Entry<Integer, Pair<BiFunction<String, String, String>, BiFunction<String, String, String>>> entry) {
+        entry.getValue().getFirst().apply(String.format(FIRST_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
+        entry.getValue().getSecond().apply(String.format(SECOND_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
+        return 2;
+    }
+
     private static void printAll() {
-        for(Map.Entry<Integer, Pair<BiFunction<String, String, String>, BiFunction<String, String, String>>> entry : ANS.entrySet()){
-            entry.getValue().getFirst().apply(String.format(FIRST_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
-            entry.getValue().getSecond().apply(String.format(SECOND_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
-        }
+        int tasks = ANS.entrySet().stream().mapToInt(Answers::startBoth).sum();
+        LOGGER.info(() -> "Done with " + tasks + " tasks");
     }
 }

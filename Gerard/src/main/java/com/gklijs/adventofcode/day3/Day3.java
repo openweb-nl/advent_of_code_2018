@@ -1,8 +1,11 @@
 package com.gklijs.adventofcode.day3;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.IntConsumer;
+import java.util.stream.IntStream;
 
 import com.gklijs.adventofcode.utils.Pair;
 import io.reactivex.Observable;
@@ -31,41 +34,30 @@ public class Day3 {
     }
 
     private static int[][] claim(int[][] fabric, Patch patch) {
-        for (int x = patch.fromLeft; x < patch.fromLeft + patch.width; x++) {
-            for (int y = patch.fromTop; y < patch.fromTop + patch.height; y++) {
-                fabric[x][y] = fabric[x][y] + 1;
-            }
-        }
+        IntStream.range(patch.fromLeft, patch.fromLeft + patch.width).iterator()
+            .forEachRemaining((IntConsumer) x -> doForY(patch, y -> fabric[x][y] = fabric[x][y] + 1));
         return fabric;
     }
 
     private static int claimedMultiple(int[][] fabric) {
-        int counter = 0;
-        for (int[] row : fabric) {
-            for (int value : row) {
-                if (value > 1) {
-                    counter++;
-                }
-            }
-        }
-        return counter;
+        return Arrays.stream(fabric)
+            .map(row -> Arrays.stream(row).reduce(0, (o, n) -> n > 1 ? o + 1 : o)).mapToInt(Integer::intValue).sum();
     }
 
     private static void setId(int[][] fabric, Patch patch) {
-        for (int x = patch.fromLeft; x < patch.fromLeft + patch.width; x++) {
-            for (int y = patch.fromTop; y < patch.fromTop + patch.height; y++) {
-                fabric[x][y] = patch.id;
-            }
-        }
+        IntStream.range(patch.fromLeft, patch.fromLeft + patch.width).iterator()
+            .forEachRemaining((IntConsumer) x -> doForY(patch, y -> fabric[x][y] = patch.id));
+    }
+
+    private static void doForY(Patch patch, IntConsumer c) {
+        IntStream.range(patch.fromTop, patch.fromTop + patch.height).iterator()
+            .forEachRemaining(c);
     }
 
     private static Set<Integer> currentIds(int[][] fabric, Patch patch) {
         Set<Integer> ids = new HashSet<>();
-        for (int x = patch.fromLeft; x < patch.fromLeft + patch.width; x++) {
-            for (int y = patch.fromTop; y < patch.fromTop + patch.height; y++) {
-                ids.add(fabric[x][y]);
-            }
-        }
+        IntStream.range(patch.fromLeft, patch.fromLeft + patch.width).iterator()
+            .forEachRemaining((IntConsumer) x -> doForY(patch, y -> ids.add(fabric[x][y])));
         return ids;
     }
 

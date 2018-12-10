@@ -1,5 +1,5 @@
-use std::str::FromStr;
 use std::collections::HashSet;
+use std::str::FromStr;
 
 #[aoc_generator(day1)]
 pub fn input_generator(input: &str) -> Vec<i32> {
@@ -22,7 +22,7 @@ pub fn first_double_frequency(input: &[i32]) -> i32 {
     while !past_frequencies.contains(&frequency) {
         past_frequencies.insert(frequency);
         frequency += input_cycle.next().unwrap();
-    };
+    }
     frequency
 }
 

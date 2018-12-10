@@ -1,12 +1,15 @@
 package com.gklijs.adventofcode;
 
 import com.gklijs.adventofcode.day1.Day1;
+import com.gklijs.adventofcode.day10.Day10;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
 import com.gklijs.adventofcode.day5.Day5;
 import com.gklijs.adventofcode.day6.Day6;
 import com.gklijs.adventofcode.day7.Day7;
+import com.gklijs.adventofcode.day8.Day8;
+import com.gklijs.adventofcode.day9.Day9;
 import com.gklijs.adventofcode.utils.Pair;
 import org.openjdk.jmh.annotations.Benchmark;
 
@@ -27,103 +30,143 @@ public class Benchmarks {
         return singlePairAnswer.getAnswer(Utils.readLines(fileName).toObservable()).blockingGet();
     }
 
-    /* Run on laptop
-    11805,463 ±(99.9%) 57,764 ops/s [Average]
-    (min, avg, max) = (11657,614, 11805,463, 11946,789), stdev = 77,113
-     CI (99.9%): [11747,699, 11863,226] (assumes normal distribution)
+    private static long benchLongAnswer(String fileName, Answers.SingleLongAnswer singleLongAnswer) {
+        return singleLongAnswer.getAnswer(Utils.readLines(fileName).toObservable()).blockingGet();
+    }
+
+    /*
+    11271.264 ±  616.525  ops/s
      */
-    @Benchmark
     public static int bench1of1() {
         return benchIntAnswer("day1.txt", Day1::calculateFrequency);
     }
 
-    /* Run on laptop
-    4330,078 ±(99.9%) 1278,156 ops/s [Average]
-    (min, avg, max) = (937,131, 4330,078, 5483,925), stdev = 1706,301
-    CI (99.9%): [3051,922, 5608,233] (assumes normal distribution)
+    /*
+    58.980 ±    1.085  ops/s
      */
-    @Benchmark
     public static int bench2of1() {
         return benchIntAnswer("day1.txt", Day1::firstDoubleFrequency);
     }
 
-    /* Run on laptop
-    4986,058 ±(99.9%) 176,929 ops/s [Average]
-    (min, avg, max) = (4609,706, 4986,058, 5264,102), stdev = 236,195
-    CI (99.9%): [4809,129, 5162,987] (assumes normal distribution)
+    /*
+    3196.944 ±   49.840  ops/s
      */
-    @Benchmark
     public static int bench1of2() {
         return benchIntAnswer("day2.txt", Day2::checksum);
     }
 
-    /* Run on laptop
-    18181,520 ±(99.9%) 290,243 ops/s [Average]
-    (min, avg, max) = (16930,868, 18181,520, 18561,866), stdev = 387,466
-    CI (99.9%): [17891,277, 18471,763] (assumes normal distribution)
+    /*
+    18775.081 ± 3303.557  ops/s
      */
-    @Benchmark
     public static String bench2of2() {
         return benchStringAnswer("day2.txt", Day2::commonLetters);
     }
 
-    /* Using circle ci
-    409.295 ±(99.9%) 9.377 ops/s [Average]
-    (min, avg, max) = (378.984, 409.295, 422.954), stdev = 12.518
-    CI (99.9%): [399.918, 418.671] (assumes normal distribution)
+    /*
+    219.603 ±  36.755  ops/s
      */
-    @Benchmark
     public static int bench1of3() {
         return benchIntAnswer("day3.txt", Day3::multipleClaims);
     }
 
-    /* Using circle ci
-    111.211 ±(99.9%) 10.274 ops/s [Average]
-    (min, avg, max) = (92.875, 111.211, 139.175), stdev = 13.716
-    CI (99.9%): [100.936, 121.485] (assumes normal distribution)
+    /*
+    111.062 ±   5.080  ops/s
      */
-    @Benchmark
     public static int bench2of3() {
         return benchIntAnswer("day3.txt", Day3::noClaims);
     }
 
-    @Benchmark
-    public static Pair<Integer,Integer> bench1of4() {
+    /*
+    1177.029 ±   22.148  ops/s
+     */
+    public static Pair<Integer, Integer> bench1of4() {
         return benchPairAnswer("day4.txt", Day4::bestOpportunity);
     }
 
-    @Benchmark
-    public static Pair<Integer,Integer> bench2of4() {
+    /*
+    1229.435 ±   15.518  ops/s
+     */
+    public static Pair<Integer, Integer> bench2of4() {
         return benchPairAnswer("day4.txt", Day4::mostAtSameMinute);
     }
 
-    @Benchmark
+    /*
+    6.372 ±    0.191  ops/s
+     */
     public static int bench1of5() {
         return benchIntAnswer("day5.txt", Day5::react);
     }
 
-    @Benchmark
+    /*
+    5.042 ±    0.022  ops/s
+     */
     public static int bench2of5() {
         return benchIntAnswer("day5.txt", Day5::reactDeleteReact);
     }
 
-    @Benchmark
+    /*
+    19.026 ±   4.813  ops/s
+     */
     public static int bench1of6() {
         return benchIntAnswer("day6.txt", Day6::largestFiniteArea);
     }
 
-    @Benchmark
+    /*
+    11.050 ±   0.910  ops/s
+     */
     public static int bench2of6() {
         return benchIntAnswer("day6.txt", x -> Day6.toAllLessThen(x, 10000));
     }
 
-    @Benchmark
+    /*
+    6353.701 ± 368.702  ops/s
+     */
     public static String bench1of7() {
         return benchStringAnswer("day7.txt", Day7::getOrder);
     }
 
-    @Benchmark
+    /*
+    3769.542 ± 282.248  ops/s
+     */
     public static int bench2of7() {
         return benchIntAnswer("day7.txt", x -> Day7.work(x, 5, 60));
+    }
+
+    /*
+    457.389 ±   4.543  ops/s
+     */
+    public static int bench1of8() {
+        return benchIntAnswer("day8.txt", Day8::allMetaData);
+    }
+
+    /*
+    506.008 ±   5.322  ops/s
+     */
+    public static int bench2of8() {
+        return benchIntAnswer("day8.txt", Day8::getValue);
+    }
+
+    /*
+    2379.998 ±  12.818  ops/s
+     */
+    public static long bench1of9() {
+        return benchLongAnswer("day9.txt", Day9::winningScore);
+    }
+
+    /*
+    32.629 ±   5.909  ops/s
+     */
+    public static long bench2of9() {
+        return benchLongAnswer("day9.txt", x -> Day9.winningScore(x, 100));
+    }
+
+    @Benchmark
+    public static String bench1of10() {
+        return benchStringAnswer("day10.txt", Day10::displayStars);
+    }
+
+    @Benchmark
+    public static long bench2of10() {
+        return benchIntAnswer("day10.txt", Day10::stepsNeeded);
     }
 }

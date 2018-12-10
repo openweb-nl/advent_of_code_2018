@@ -17,14 +17,14 @@ public class Day1 {
     public static Single<Integer> calculateFrequency(Observable<String> frequencyChanges) {
         return frequencyChanges
             .map(Integer::valueOf)
-            .reduce(0, (frequency, frequencyChange) -> frequency + frequencyChange);
+            .reduce(0, Integer::sum);
     }
 
     public static Single<Integer> firstDoubleFrequency(Observable<String> frequencyChanges) {
         return frequencyChanges
             .repeat()
             .map(Integer::valueOf)
-            .scan(0, (frequency, frequencyChange) -> frequency + frequencyChange)
+            .scan(0, Integer::sum)
             .scan(new Pair<Set<Integer>, Integer>(new HashSet<>(), null), Utils::firstDuplicate)
             .takeUntil(pair -> pair.getSecond() != null)
             .lastOrError()
