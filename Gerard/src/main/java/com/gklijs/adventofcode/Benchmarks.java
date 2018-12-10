@@ -1,6 +1,7 @@
 package com.gklijs.adventofcode;
 
 import com.gklijs.adventofcode.day1.Day1;
+import com.gklijs.adventofcode.day10.Day10;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -62,17 +63,15 @@ public class Benchmarks {
     }
 
     /*
-    414.699 ±  11.086  ops/s
+    219.603 ±  36.755  ops/s
      */
-    @Benchmark
     public static int bench1of3() {
         return benchIntAnswer("day3.txt", Day3::multipleClaims);
     }
 
     /*
-    115.326 ±   12.167  ops/s
+    111.062 ±   5.080  ops/s
      */
-    @Benchmark
     public static int bench2of3() {
         return benchIntAnswer("day3.txt", Day3::noClaims);
     }
@@ -106,54 +105,68 @@ public class Benchmarks {
     }
 
     /*
-    31.364 ±    0.652  ops/s
+    19.026 ±   4.813  ops/s
      */
-    @Benchmark
     public static int bench1of6() {
         return benchIntAnswer("day6.txt", Day6::largestFiniteArea);
     }
 
     /*
-    25.751 ±    0.797  ops/s
+    11.050 ±   0.910  ops/s
      */
-    @Benchmark
     public static int bench2of6() {
         return benchIntAnswer("day6.txt", x -> Day6.toAllLessThen(x, 10000));
     }
 
     /*
-    7325.436 ± 181.437  ops/s
+    6353.701 ± 368.702  ops/s
      */
-    @Benchmark
     public static String bench1of7() {
         return benchStringAnswer("day7.txt", Day7::getOrder);
     }
 
     /*
-    4608.070 ±  293.548  ops/s
+    3769.542 ± 282.248  ops/s
      */
-    @Benchmark
     public static int bench2of7() {
         return benchIntAnswer("day7.txt", x -> Day7.work(x, 5, 60));
     }
 
-    @Benchmark
+    /*
+    457.389 ±   4.543  ops/s
+     */
     public static int bench1of8() {
         return benchIntAnswer("day8.txt", Day8::allMetaData);
     }
 
-    @Benchmark
+    /*
+    506.008 ±   5.322  ops/s
+     */
     public static int bench2of8() {
         return benchIntAnswer("day8.txt", Day8::getValue);
     }
 
-    @Benchmark
+    /*
+    2379.998 ±  12.818  ops/s
+     */
     public static long bench1of9() {
         return benchLongAnswer("day9.txt", Day9::winningScore);
     }
 
-    @Benchmark
+    /*
+    32.629 ±   5.909  ops/s
+     */
     public static long bench2of9() {
         return benchLongAnswer("day9.txt", x -> Day9.winningScore(x, 100));
+    }
+
+    @Benchmark
+    public static String bench1of10() {
+        return benchStringAnswer("day10.txt", Day10::displayStars);
+    }
+
+    @Benchmark
+    public static long bench2of10() {
+        return benchIntAnswer("day10.txt", Day10::stepsNeeded);
     }
 }

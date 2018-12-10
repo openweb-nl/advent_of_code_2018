@@ -6,6 +6,7 @@ import java.util.function.BiFunction;
 import java.util.logging.Logger;
 
 import com.gklijs.adventofcode.day1.Day1;
+import com.gklijs.adventofcode.day10.Day10;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -63,6 +64,10 @@ public class Answers {
         ANS.put(9, new Pair<>(
             (t, f) -> printLongAnswer(t, f, Day9::winningScore),
             (t, f) -> printLongAnswer(t, f, x -> Day9.winningScore(x, 100))
+        ));
+        ANS.put(10, new Pair<>(
+            (t, f) -> printStringAnswer(t, f, Day10::displayStars),
+            (t, f) -> printIntAnswer(t, f, Day10::stepsNeeded)
         ));
     }
 
