@@ -6,10 +6,10 @@ use std::collections::HashMap;
 type Data = (Vec<usize>, Vec<usize>, Vec<Vec<(usize, usize)>>);
 
 #[aoc_generator(day4)]
-pub fn input_generator(input: &str) -> Data {
+pub fn input_generator(input: &str) -> Box<Data> {
     let mut lines: Vec<&str> = input.trim().lines().map(|l| l.trim()).collect::<Vec<_>>();
     lines.sort();
-    to_data(lines)
+    Box::new(to_data(lines))
 }
 
 fn to_data(lines: Vec<&str>) -> Data{
@@ -46,8 +46,8 @@ fn to_data(lines: Vec<&str>) -> Data{
     (guards, sleep, sleep_range)
 }
 
-
-pub fn best_opportunity (input: Data)  -> i32 {
+#[aoc(day4, part1)]
+pub fn best_opportunity (input: &Data)  -> i32 {
     let (g,s,r) = input;
     // Find the id of the that guard slept the most
     let mut id = 0;
@@ -69,8 +69,8 @@ pub fn best_opportunity (input: Data)  -> i32 {
     (g[id] * minute) as i32
 }
 
-
-pub fn most_at_same_minute (input: Data) -> i32 {
+#[aoc(day4, part2)]
+pub fn most_at_same_minute (input: &Data) -> i32 {
     let (g,_s,r) = input;
     let mut most = (0, 0, 0); // (days, minute, guard)
     for i in 0..g.len() {
