@@ -1,13 +1,12 @@
 package com.gklijs.adventofcode.day10;
 
-import com.gklijs.adventofcode.day7.Day7;
 import com.gklijs.adventofcode.test.TestSchedulerExtension;
 import io.reactivex.schedulers.TestScheduler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static com.gklijs.adventofcode.test.TestUtil.testSingle;
 
-public class Day10Test {
+class Day10Test {
 
     private String[] data = new String[]
         {
