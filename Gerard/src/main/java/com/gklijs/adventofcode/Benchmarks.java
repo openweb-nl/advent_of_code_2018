@@ -160,11 +160,17 @@ public class Benchmarks {
         return benchLongAnswer("day9.txt", x -> Day9.winningScore(x, 100));
     }
 
+    /*
+    136.157 ± 0.914  ops/s
+     */
     @Benchmark
     public static String bench1of10() {
         return benchStringAnswer("day10.txt", Day10::displayStars);
     }
 
+    /*
+    136.287 ± 1.863  ops/s
+     */
     @Benchmark
     public static long bench2of10() {
         return benchIntAnswer("day10.txt", Day10::stepsNeeded);
