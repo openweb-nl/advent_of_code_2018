@@ -119,7 +119,7 @@ mod tests {
     fn sample1() {
         assert_eq!(
             240,
-            best_opportunity(input_generator(test_input()))
+            best_opportunity(&input_generator(test_input()))
         );
     }
 
@@ -127,7 +127,7 @@ mod tests {
     fn sample2() {
         assert_eq!(
             4455,
-            most_at_same_minute(input_generator(test_input()))
+            most_at_same_minute(&input_generator(test_input()))
         );
     }
 }
