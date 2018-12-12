@@ -104,16 +104,30 @@ public class Day10 {
     }
 
     private static Pair<List<int[]>, Integer> process(List<int[]> input) {
-        int counter = 0;
-        int oldDiff = Integer.MAX_VALUE;
-        int diff = Integer.MAX_VALUE - 1;
-        while (oldDiff > diff) {
-            oldDiff = diff;
-            diff = moveBy(input, 1);
-            counter++;
+        int compareCounter = 1;
+        while (input.get(0)[2] == input.get(compareCounter)[2]) {
+            compareCounter++;
         }
-        counter--;
-        moveBy(input, -1);
+        int counter = Math.abs((input.get(0)[0] - input.get(compareCounter)[0]) / (input.get(0)[2] - input.get(compareCounter)[2]));
+        int oldDiff = moveBy(input, counter - 1);
+        int diff = moveBy(input, 1);
+        if (oldDiff > diff) {
+            while (oldDiff > diff) {
+                oldDiff = diff;
+                diff = moveBy(input, 1);
+                counter++;
+            }
+            counter--;
+            moveBy(input, -1);
+        } else {
+            while (oldDiff < diff) {
+                oldDiff = diff;
+                diff = moveBy(input, -1);
+                counter--;
+            }
+            counter++;
+            moveBy(input, 1);
+        }
         return new Pair<>(input, counter);
     }
 }

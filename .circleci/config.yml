@@ -97,7 +97,7 @@ jobs:
           command: cd Rust/aoc_2018 && rustc --version; cargo --version
       - run:
           name: Build and test
-          command: cd Rust/aoc_2018 && cargo test --verbose --frozen
+          command: cd Rust/aoc_2018 && cargo test --verbose
           environment:
             # Need this for the coverage run
             RUSTFLAGS: "-C link-dead-code"

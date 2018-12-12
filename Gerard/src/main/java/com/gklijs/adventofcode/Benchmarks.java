@@ -2,6 +2,7 @@ package com.gklijs.adventofcode;
 
 import com.gklijs.adventofcode.day1.Day1;
 import com.gklijs.adventofcode.day10.Day10;
+import com.gklijs.adventofcode.day11.Day11;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -160,13 +161,27 @@ public class Benchmarks {
         return benchLongAnswer("day9.txt", x -> Day9.winningScore(x, 100));
     }
 
-    @Benchmark
+    /*
+    136.157 ± 0.914  ops/s
+     */
     public static String bench1of10() {
         return benchStringAnswer("day10.txt", Day10::displayStars);
     }
 
-    @Benchmark
+    /*
+    136.287 ± 1.863  ops/s
+     */
     public static long bench2of10() {
         return benchIntAnswer("day10.txt", Day10::stepsNeeded);
+    }
+
+    @Benchmark
+    public static String bench1of11() {
+        return benchStringAnswer("day11.txt", Day11::sizeThree);
+    }
+
+    @Benchmark
+    public static String bench2of11() {
+        return benchStringAnswer("day11.txt", Day11::sizeVariable);
     }
 }

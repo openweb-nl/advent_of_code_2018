@@ -4,6 +4,7 @@ import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.RandomAccess;
@@ -696,7 +697,7 @@ public class GapList<E> extends AbstractList<E> implements List<E>, RandomAccess
         if (to > es.length) {
             throw new ConcurrentModificationException();
         }
-        var oit = other.iterator();
+        Iterator<?> oit = other.iterator();
         for (int i = 0; i < to; i++) {
             if (!oit.hasNext() || !Objects.equals(es[i], oit.next())) {
                 return false;

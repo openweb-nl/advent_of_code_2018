@@ -3,20 +3,17 @@ extern crate regex;
 use self::regex::Regex;
 use std::collections::HashMap;
 
-type Data = (HashMap<usize, usize>, HashMap<usize, Vec<(usize, usize)>>);
+type Data = (Vec<usize>, Vec<usize>, Vec<Vec<(usize, usize)>>);
 
 #[aoc_generator(day4)]
-pub fn input_generator(input: &str) -> Vec<&str> {
+pub fn input_generator(input: &str) -> Box<Data> {
     let mut lines: Vec<&str> = input.trim().lines().map(|l| l.trim()).collect::<Vec<_>>();
     lines.sort();
-    lines
+    Box::new(to_data(lines))
 }
 
 fn to_data(lines: Vec<&str>) -> Data{
     let regex_number = Regex::new(r"(\d+)").unwrap();
-    let regex_start = Regex::new(r"begins shift").unwrap();
-    let regex_sleep = Regex::new(r"falls asleep").unwrap();
-    let regex_wake = Regex::new(r"wakes up").unwrap();
 
     // Track each guard's minutes asleep and the sleep ranges
     let mut time_asleep = HashMap::new();
@@ -27,48 +24,64 @@ fn to_data(lines: Vec<&str>) -> Data{
         let caps: Vec<_> = regex_number.captures_iter(&line).map(|cap| cap[1].parse::<usize>().unwrap()).collect();
         let time = ((caps[3] + 12) % 24) * 60 + caps[4];
 
-        if regex_start.captures(&line).is_some() {
+        if line.contains("begins shift") {
             current_guard = caps[5];
-        } else if regex_sleep.captures(&line).is_some() {
+        } else if line.contains("falls asleep") {
             start_sleep = time;
-        } else if regex_wake.captures(&line).is_some() {
+        } else if line.contains("wakes up") {
             *time_asleep.entry(current_guard).or_insert(0) += time - start_sleep;
             sleep_ranges.entry(current_guard).or_insert(vec![]).push((start_sleep, time));
         } else {
             panic!("Unable to parse input");
         }
     }
-    (time_asleep, sleep_ranges)
+    let mut guards = Vec::new();
+    let mut sleep = Vec::new();
+    let mut sleep_range = Vec::new();
+    for kv in time_asleep.iter(){
+        guards.push(*kv.0);
+        sleep.push(*kv.1);
+        sleep_range.push(sleep_ranges[kv.0].clone())
+    };
+    (guards, sleep, sleep_range)
 }
 
-pub fn best_opportunity (input: Vec<&str> )  -> i32 {
-    let (time_asleep, sleep_ranges) = to_data(input);
-    // Find which guard slept the most
-    let guard = time_asleep.iter().map(|(guard, minutes)| (minutes, guard)).max().unwrap().1;
-
+#[aoc(day4, part1)]
+pub fn best_opportunity (input: &Data)  -> i32 {
+    let (g,s,r) = input;
+    // Find the id of the that guard slept the most
+    let mut id = 0;
+    let mut max_asleep = 0;
+    for i in 0..s.len(){
+        if s[i] > max_asleep {
+            max_asleep = s[i];
+            id = i;
+        }
+    }
     // Find the minute that the guard spent the most days asleep during
     let mut days_asleep = HashMap::new();
-    for range in &sleep_ranges[guard] {
+    for range in &r[id] {
         for minute in range.0 .. range.1 {
             *days_asleep.entry(minute).or_insert(0) += 1;
         }
     }
     let minute = days_asleep.iter().map(|(m, d)| (d, m)).max().unwrap().1 % 60;
-    (guard * minute) as i32
+    (g[id] * minute) as i32
 }
 
-pub fn most_at_same_minute (input: Vec<&str> ) -> i32 {
-    let (_, sleep_ranges) = to_data(input);
+#[aoc(day4, part2)]
+pub fn most_at_same_minute (input: &Data) -> i32 {
+    let (g,_s,r) = input;
     let mut most = (0, 0, 0); // (days, minute, guard)
-    for (guard, ranges) in &sleep_ranges {
+    for i in 0..g.len() {
         let mut days_asleep = HashMap::new();
-        for range in ranges {
+        for range in &r[i] {
             for minute in range.0 .. range.1 {
                 *days_asleep.entry(minute).or_insert(0) += 1;
             }
         }
         let (days, minute) = days_asleep.iter().map(|(m, d)| (d, m)).max().unwrap();
-        let cand = (*days, *minute, *guard);
+        let cand = (*days, *minute, g[i]);
         if cand > most {
             most = cand;
         }
@@ -106,7 +119,7 @@ mod tests {
     fn sample1() {
         assert_eq!(
             240,
-            best_opportunity(input_generator(test_input()))
+            best_opportunity(&input_generator(test_input()))
         );
     }
 
@@ -114,7 +127,7 @@ mod tests {
     fn sample2() {
         assert_eq!(
             4455,
-            most_at_same_minute(input_generator(test_input()))
+            most_at_same_minute(&input_generator(test_input()))
         );
     }
 }
