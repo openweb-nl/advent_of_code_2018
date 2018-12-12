@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import com.gklijs.adventofcode.day1.Day1;
 import com.gklijs.adventofcode.day10.Day10;
 import com.gklijs.adventofcode.day11.Day11;
+import com.gklijs.adventofcode.day12.Day12;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -73,6 +74,10 @@ public class Answers {
         ANS.put(11, new Pair<>(
             (t, f) -> printStringAnswer(t, f, Day11::sizeThree),
             (t, f) -> printStringAnswer(t, f, Day11::sizeVariable)
+        ));
+        ANS.put(12, new Pair<>(
+            (t, f) -> printIntAnswer(t, f, Day12::plantIndex),
+            (t, f) -> printLongAnswer(t, f, Day12::plantIndexTwo)
         ));
     }
 

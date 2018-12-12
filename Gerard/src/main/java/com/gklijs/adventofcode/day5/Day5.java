@@ -39,7 +39,7 @@ public class Day5 {
     }
 
     private static Pair<List<Character>, Integer> doReaction(Pair<List<Character>, Integer> result, String arg){
-        if(arg.isBlank()){
+        if (arg.isEmpty()) {
             List<Integer> ids = toBeRemoved(result.getFirst());
             int correction = 0;
             for(int id : ids){

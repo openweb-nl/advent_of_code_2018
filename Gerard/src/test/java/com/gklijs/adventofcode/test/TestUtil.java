@@ -1,6 +1,7 @@
 package com.gklijs.adventofcode.test;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -17,7 +18,7 @@ public class TestUtil {
     }
 
     public static <T> void testSingle(TestScheduler scheduler, String[] input, Function<Observable<String>, Single<T>> function, T expected) {
-        var result = new ArrayList<T>();
+        List<T> result = new ArrayList<T>();
         try {
             function.apply((Observable.fromArray(input)))
                 .doOnSuccess(result::add)
