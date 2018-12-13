@@ -28,12 +28,14 @@ public class Pair<T, U> {
         this.second = second;
     }
 
-    public void changeFirst(Function<T, T> function) {
+    public Pair<T, U> changeFirst(Function<T, T> function) {
         this.first = function.apply(first);
+        return this;
     }
 
-    public void changeSecond(Function<U, U> function) {
+    public Pair<T, U> changeSecond(Function<U, U> function) {
         this.second = function.apply(second);
+        return this;
     }
 
     @Override

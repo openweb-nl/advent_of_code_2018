@@ -39,6 +39,7 @@ public class MainVerticle extends AbstractVerticle {
                         "                           <option value=\"10\">Day 10</option>\n" +
                         "                           <option value=\"11\">Day 11</option>\n" +
                         "                           <option value=\"12\">Day 12</option>\n" +
+                        "                           <option value=\"13\">Day 13</option>\n" +
                         "                       </div>\n" +
                         "                   </select>\n" +
                         "               </div>\n" +
