@@ -4,6 +4,7 @@ import com.gklijs.adventofcode.day1.Day1;
 import com.gklijs.adventofcode.day10.Day10;
 import com.gklijs.adventofcode.day11.Day11;
 import com.gklijs.adventofcode.day12.Day12;
+import com.gklijs.adventofcode.day13.Day13;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -176,23 +177,41 @@ public class Benchmarks {
         return benchIntAnswer("day10.txt", Day10::stepsNeeded);
     }
 
-    @Benchmark
+    /*
+    400.856 ± 4.034  ops/s
+     */
     public static String bench1of11() {
         return benchStringAnswer("day11.txt", Day11::sizeThree);
     }
 
-    @Benchmark
+    /*
+    13.936 ± 0.130  ops/s
+     */
     public static String bench2of11() {
         return benchStringAnswer("day11.txt", Day11::sizeVariable);
     }
 
-    @Benchmark
+    /*
+    15685.785 ± 621.429  ops/s
+     */
     public static int bench1of12() {
         return benchIntAnswer("day12.txt", Day12::plantIndex);
     }
 
-    @Benchmark
+    /*
+    3484.004 ± 210.209  ops/s
+     */
     public static long bench2of12() {
         return benchLongAnswer("day12.txt", Day12::plantIndexTwo);
+    }
+
+    @Benchmark
+    public static String bench1of13() {
+        return benchStringAnswer("day13.txt", Day13::firstCrash);
+    }
+
+    @Benchmark
+    public static String bench2of13() {
+        return benchStringAnswer("day13.txt", Day13::lastCard);
     }
 }
