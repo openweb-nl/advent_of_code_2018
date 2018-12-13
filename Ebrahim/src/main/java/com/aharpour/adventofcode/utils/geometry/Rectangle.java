@@ -1,8 +1,8 @@
 package com.aharpour.adventofcode.utils.geometry;
 
-import lombok.Data;
-
 import java.util.Optional;
+
+import lombok.Data;
 
 @Data
 public class Rectangle {
@@ -29,10 +29,14 @@ public class Rectangle {
         boolean result = false;
         if (lowerLeft.getX() <= point.getX() && lowerLeft.getY() <= point.getY()
                 && point.getX() <= upperRight.getX() && point.getY() <= upperRight.getY()
-        ) {
+                ) {
             result = true;
         }
         return result;
+    }
+
+    public int area() {
+        return (upperRight.getX() - lowerLeft.getX()) * (upperRight.getY() - lowerLeft.getY());
     }
 
     public Optional<Rectangle> intersection(Rectangle another) {
