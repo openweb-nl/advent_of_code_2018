@@ -22,6 +22,7 @@ public class Day14 {
     public static Single<Integer> doTill(Observable<String> input) {
         return input
             .lastOrError()
+            .map(Day14::toIntArray)
             .map(sequence -> new Pair<>(new RecipeList(100000000), sequence))
             .map(pair -> pair.getFirst().complete(pair.getSecond()));
     }
@@ -32,5 +33,14 @@ public class Day14 {
             builder.append(scores[i]);
         }
         return builder.toString();
+    }
+
+    private static int[] toIntArray(String input) {
+        char[] chars = input.toCharArray();
+        int[] ints = new int[chars.length];
+        for (int x = 0; x < chars.length; x++) {
+            ints[x] = Character.getNumericValue(chars[x]);
+        }
+        return ints;
     }
 }

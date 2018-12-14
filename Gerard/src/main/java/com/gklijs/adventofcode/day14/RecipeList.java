@@ -6,6 +6,7 @@ class RecipeList {
     private int elfOne = 0;
     private int elfTwo = 1;
     private int gradedTill = 1;
+    private boolean lastBiggerThenTen;
 
     RecipeList(int maxSize) {
         grades = new int[maxSize];
@@ -20,18 +21,19 @@ class RecipeList {
         return grades;
     }
 
-    int complete(String till) {
-        while (!till.equals(getFirstXOfLastTen(till.length()))) {
+    int complete(int[] till) {
+        while (!firstXOfLastTenAreSame(till)) {
             step();
         }
-        return gradedTill - 9;
+        return lastBiggerThenTen ? gradedTill - 10 : gradedTill - 9;
     }
 
     private void step() {
         int recipeOne = grades[elfOne];
         int recipeTwo = grades[elfTwo];
         int nextGrade = recipeOne + recipeTwo;
-        if (nextGrade > 9) {
+        lastBiggerThenTen = nextGrade > 9;
+        if (lastBiggerThenTen) {
             gradedTill++;
             grades[gradedTill] = 1;
             if (gradedTill < (grades.length - 1)) {
@@ -46,14 +48,15 @@ class RecipeList {
         elfTwo = (elfTwo + 1 + recipeTwo) % (gradedTill + 1);
     }
 
-    private String getFirstXOfLastTen(int x) {
+    private boolean firstXOfLastTenAreSame(int[] till) {
         if (gradedTill < 10) {
-            return null;
+            return false;
         }
-        StringBuilder builder = new StringBuilder();
-        for (int i = gradedTill - 9; i < gradedTill - (9 - x); i++) {
-            builder.append(grades[i]);
+        for (int i = 0; i < till.length; i++) {
+            if (till[i] != grades[gradedTill - 9 + i - (lastBiggerThenTen ? 1 : 0)]) {
+                return false;
+            }
         }
-        return builder.toString();
+        return true;
     }
 }
