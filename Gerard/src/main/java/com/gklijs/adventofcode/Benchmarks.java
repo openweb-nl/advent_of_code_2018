@@ -5,6 +5,7 @@ import com.gklijs.adventofcode.day10.Day10;
 import com.gklijs.adventofcode.day11.Day11;
 import com.gklijs.adventofcode.day12.Day12;
 import com.gklijs.adventofcode.day13.Day13;
+import com.gklijs.adventofcode.day14.Day14;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -213,5 +214,15 @@ public class Benchmarks {
     @Benchmark
     public static String bench2of13() {
         return benchStringAnswer("day13.txt", Day13::lastCard);
+    }
+
+    @Benchmark
+    public static String bench1of14() {
+        return benchStringAnswer("day14.txt", Day14::tenAfter);
+    }
+
+    @Benchmark
+    public static int bench2of14() {
+        return benchIntAnswer("day14.txt", Day14::doTill);
     }
 }

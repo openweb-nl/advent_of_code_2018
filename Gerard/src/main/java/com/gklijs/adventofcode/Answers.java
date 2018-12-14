@@ -10,6 +10,7 @@ import com.gklijs.adventofcode.day10.Day10;
 import com.gklijs.adventofcode.day11.Day11;
 import com.gklijs.adventofcode.day12.Day12;
 import com.gklijs.adventofcode.day13.Day13;
+import com.gklijs.adventofcode.day14.Day14;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -54,7 +55,7 @@ public class Answers {
         ));
         ANS.put(6, new Pair<>(
             (t, f) -> printIntAnswer(t, f, Day6::largestFiniteArea),
-            (t, f) -> printIntAnswer(t, f, x -> Day6.toAllLessThen(x, 10000))
+            (t, f) -> printIntAnswer(t, f, x -> Day6.toAllLessThen(x, 100000))
         ));
         ANS.put(7, new Pair<>(
             (t, f) -> printStringAnswer(t, f, Day7::getOrder),
@@ -83,6 +84,10 @@ public class Answers {
         ANS.put(13, new Pair<>(
             (t, f) -> printStringAnswer(t, f, Day13::firstCrash),
             (t, f) -> printStringAnswer(t, f, Day13::lastCard)
+        ));
+        ANS.put(14, new Pair<>(
+            (t, f) -> printStringAnswer(t, f, Day14::tenAfter),
+            (t, f) -> printIntAnswer(t, f, Day14::doTill)
         ));
     }
 
