@@ -1,5 +1,8 @@
 package com.aharpour.adventofcode.utils;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode(of = {"key", "value"})
 public class IntPair {
     private final int key;
     private final int value;

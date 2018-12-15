@@ -1,11 +1,11 @@
 package com.aharpour.adventofcode;
 
 
+import com.aharpour.adventofcode.utils.graph.DirectionalGraph;
+
 import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import com.aharpour.adventofcode.utils.graph.DirectionalGraph;
 
 public class Day7Question1 extends Day7 {
 
@@ -18,7 +18,7 @@ public class Day7Question1 extends Day7 {
 
             for (Iterator<DirectionalGraph.Node> iterator = nodes.iterator(); iterator.hasNext(); ) {
                 DirectionalGraph.Node node = iterator.next();
-                Set<DirectionalGraph.Node> from = node.getFrom();
+                Set<DirectionalGraph.Node> from = node.getFromNodes();
                 from.removeAll(dones);
                 if (from.isEmpty()) {
                     dones.add(node);
