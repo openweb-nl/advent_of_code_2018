@@ -1,5 +1,6 @@
-package com.gklijs.adventofcode.day3;
+package com.gklijs.adventofcode;
 
+import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.test.TestSchedulerExtension;
 import io.reactivex.schedulers.TestScheduler;
 import org.junit.jupiter.api.Test;

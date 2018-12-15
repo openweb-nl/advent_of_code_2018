@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.gklijs.adventofcode.Utils;
 import com.gklijs.adventofcode.utils.Pair;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -16,7 +17,7 @@ public class Day13 {
 
     public static Single<String> firstCrash(Observable<String> input) {
         return input
-            .reduce(new ArrayList<>(), Day13::addString)
+            .reduce(new ArrayList<>(), Utils::addString)
             .map(Day13::addMineCards)
             .map(Day13::tillCrash)
             .map(Day13::display);
@@ -24,15 +25,10 @@ public class Day13 {
 
     public static Single<String> lastCard(Observable<String> input) {
         return input
-            .reduce(new ArrayList<>(), Day13::addString)
+            .reduce(new ArrayList<>(), Utils::addString)
             .map(Day13::addMineCards)
             .map(Day13::tillLast)
             .map(Day13::display);
-    }
-
-    private static List<char[]> addString(List<char[]> tracks, String line) {
-        tracks.add(line.toCharArray());
-        return tracks;
     }
 
     private static Pair<List<char[]>, List<MineCart>> addMineCards(List<char[]> tracks) {

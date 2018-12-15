@@ -73,4 +73,9 @@ public class Utils {
         }
         return charList;
     }
+
+    public static List<char[]> addString(List<char[]> tracks, String line) {
+        tracks.add(line.toCharArray());
+        return tracks;
+    }
 }

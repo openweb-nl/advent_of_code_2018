@@ -1,58 +1,53 @@
-package com.gklijs.adventofcode.day14;
+package com.gklijs.adventofcode;
 
+import com.gklijs.adventofcode.day1.Day1;
 import com.gklijs.adventofcode.test.TestSchedulerExtension;
 import io.reactivex.schedulers.TestScheduler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static com.gklijs.adventofcode.test.TestUtil.testSingle;
 
-public class Day14Test {
+class Day1Test {
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example1(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"9"}, Day14::tenAfter, "5158916779");
+        testSingle(scheduler, new String[]{"+1", "+1", "+1"}, Day1::calculateFrequency, 3);
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example2(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"5"}, Day14::tenAfter, "0124515891");
+        testSingle(scheduler, new String[]{"+1", "+1", "-2"}, Day1::calculateFrequency, 0);
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example3(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"18"}, Day14::tenAfter, "9251071085");
+        testSingle(scheduler, new String[]{"-1", "-2", "-3"}, Day1::calculateFrequency, -6);
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example4(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"2018"}, Day14::tenAfter, "5941429882");
+        testSingle(scheduler, new String[]{"+1", "-1"}, Day1::firstDoubleFrequency, 0);
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example5(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"51589"}, Day14::doTill, 9);
+        testSingle(scheduler, new String[]{"+3", "+3", "+4", "-2", "-4"}, Day1::firstDoubleFrequency, 10);
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example6(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"01245"}, Day14::doTill, 5);
+        testSingle(scheduler, new String[]{"-6", "+3", "+8", "+5", "-6"}, Day1::firstDoubleFrequency, 5);
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example7(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"92510"}, Day14::doTill, 18);
-    }
-
-    @ExtendWith(TestSchedulerExtension.class)
-    @Test
-    void example8(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"59414"}, Day14::doTill, 2018);
+        testSingle(scheduler, new String[]{"+7", "+7", "-2", "-7", "-4"}, Day1::firstDoubleFrequency, 14);
     }
 }

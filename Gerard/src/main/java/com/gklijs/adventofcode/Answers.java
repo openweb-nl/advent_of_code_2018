@@ -11,6 +11,7 @@ import com.gklijs.adventofcode.day11.Day11;
 import com.gklijs.adventofcode.day12.Day12;
 import com.gklijs.adventofcode.day13.Day13;
 import com.gklijs.adventofcode.day14.Day14;
+import com.gklijs.adventofcode.day15.Day15;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -88,6 +89,10 @@ public class Answers {
         ANS.put(14, new Pair<>(
             (t, f) -> printStringAnswer(t, f, Day14::tenAfter),
             (t, f) -> printIntAnswer(t, f, Day14::doTill)
+        ));
+        ANS.put(15, new Pair<>(
+            (t, f) -> printStringAnswer(t, f, Day15::lastTurn),
+            (t, f) -> printStringAnswer(t, f, Day15::noDeadElf)
         ));
     }
 
