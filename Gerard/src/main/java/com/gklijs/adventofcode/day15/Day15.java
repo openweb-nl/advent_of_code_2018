@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.gklijs.adventofcode.Utils;
 import com.gklijs.adventofcode.utils.Pair;
+import com.gklijs.adventofcode.utils.Triple;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -74,8 +75,49 @@ public class Day15 {
         map.get(next.getSecond())[next.getFirst()] = current;
     }
 
+    private static void nextMove(EnumMap<Move, Pair<List<Pair<Integer, Integer>>, Set<Pair<Integer, Integer>>>> paths,
+                                 List<Triple<Integer, Integer, Move>> targets,
+                                 List<char[]> map, char target, boolean firstIter, Move move) {
+        if (paths.containsKey(move)) {
+            List<Pair<Integer, Integer>> endpoints = paths.get(move).getFirst();
+            List<Pair<Integer, Integer>> next = new ArrayList<>();
+            for (Move nextMove : Move.values()) {
+                if (nextMove == Move.NOT || (firstIter && Move.skip(move, nextMove) && paths.containsKey(nextMove))) {
+                    continue;
+                }
+                for (Pair<Integer, Integer> endpoint : endpoints) {
+                    Pair<Integer, Integer> option = nextMove.nextCord(endpoint);
+                    if (isTarget(option, map, target)) {
+                        targets.add(new Triple<>(option.getSecond(), option.getFirst(), move));
+                    }
+                    if (paths.get(move).getSecond().contains(option)) {
+                        continue;
+                    }
+                    if (isFree(option, map)) {
+                        paths.get(move).getSecond().add(option);
+                        next.add(option);
+                    }
+                }
+            }
+            if (next.isEmpty()) {
+                paths.remove(move);
+            } else {
+                paths.get(move).setFirst(next);
+            }
+        }
+    }
+
+    private static void nextStep(EnumMap<Move, Pair<List<Pair<Integer, Integer>>, Set<Pair<Integer, Integer>>>> paths,
+                                 List<Triple<Integer, Integer, Move>> targets,
+                                 List<char[]> map, char target, boolean firstIter) {
+        for (Move move : Move.values()) {
+            nextMove(paths, targets, map, target, firstIter, move);
+        }
+    }
+
     private static Move nextMove(Pair<Integer, Integer> current, List<char[]> map, char target) {
         EnumMap<Move, Pair<List<Pair<Integer, Integer>>, Set<Pair<Integer, Integer>>>> paths = new EnumMap<>(Move.class);
+        List<Triple<Integer, Integer, Move>> targets = new ArrayList<>();
         for (Move move : Move.values()) {
             Pair<Integer, Integer> next = move.nextCord(current);
             if (isTarget(next, map, target)) {
@@ -90,39 +132,16 @@ public class Day15 {
             }
         }
         boolean firstIter = true;
-        while (!paths.isEmpty()) {
-            for (Move move : Move.values()) {
-                if (paths.containsKey(move)) {
-                    List<Pair<Integer, Integer>> endpints = paths.get(move).getFirst();
-                    List<Pair<Integer, Integer>> next = new ArrayList<>();
-                    for (Move nextMove : Move.values()) {
-                        if (nextMove == Move.NOT || (firstIter && Move.skip(move, nextMove) && paths.containsKey(nextMove))) {
-                            continue;
-                        }
-                        for (Pair<Integer, Integer> endpoint : endpints) {
-                            Pair<Integer, Integer> option = nextMove.nextCord(endpoint);
-                            if (isTarget(option, map, target)) {
-                                return move;
-                            }
-                            if (paths.get(move).getSecond().contains(option)) {
-                                continue;
-                            }
-                            if (isFree(option, map)) {
-                                paths.get(move).getSecond().add(option);
-                                next.add(option);
-                            }
-                        }
-                    }
-                    if (next.isEmpty()) {
-                        paths.remove(move);
-                    } else {
-                        paths.get(move).setFirst(next);
-                    }
-                }
-            }
+        while (!paths.isEmpty() && targets.isEmpty()) {
+            nextStep(paths, targets, map, target, firstIter);
             firstIter = false;
         }
-        return Move.NOT;
+        if (targets.isEmpty()) {
+            return Move.NOT;
+        } else {
+            targets.sort((t1, t2) -> t1.getFirst().equals(t2.getFirst()) ? t1.getSecond() - t2.getSecond() : t1.getFirst() - t2.getFirst());
+            return targets.get(0).getThird();
+        }
     }
 
     private static boolean bothCampsAlive(List<Creature> creatures) {
@@ -136,16 +155,6 @@ public class Day15 {
             }
         }
         return elfs != 0 && goblins != 0;
-    }
-
-    private static int elfsAlive(List<Creature> creatures) {
-        int elfs = 0;
-        for (Creature creature : creatures) {
-            if (creature instanceof Elf) {
-                elfs++;
-            }
-        }
-        return elfs;
     }
 
     private static Creature getCreatureFrom(Pair<Integer, Integer> location, List<Creature> creatures) {
@@ -198,7 +207,7 @@ public class Day15 {
     private static List<Creature> noElfDies(Pair<List<char[]>, List<Creature>> input) {
         List<char[]> map = input.getFirst();
         List<Creature> creatures = input.getSecond();
-        int elfsAlive = elfsAlive(creatures);
+        long elfsAlive = creatures.stream().filter(x -> x instanceof Elf).count();
         for (int power = 4; power < 201; power++) {
             List<char[]> newMap = new ArrayList<>();
             for (char[] chars : map) {
@@ -213,7 +222,7 @@ public class Day15 {
                 }
             }
             List<Creature> result = fight(new Pair<>(newMap, newCreatures));
-            if (elfsAlive(result) == elfsAlive) {
+            if (result.stream().filter(x -> x instanceof Elf).count() == elfsAlive) {
                 return result;
             }
         }
