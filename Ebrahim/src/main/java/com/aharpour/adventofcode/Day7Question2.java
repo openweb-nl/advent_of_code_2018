@@ -1,11 +1,11 @@
 package com.aharpour.adventofcode;
 
 
-import java.util.ArrayList;
-import java.util.Set;
-
 import com.aharpour.adventofcode.utils.graph.DirectionalGraph;
 import com.aharpour.adventofcode.utils.worker.Pool;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 public class Day7Question2 extends Day7 {
 
@@ -23,7 +23,7 @@ public class Day7Question2 extends Day7 {
         int i = 0;
         for (final int originalSize = this.nodes.size(); dones.size() < originalSize; i++) {
             for (DirectionalGraph.Node node : new ArrayList<>(nodes)) {
-                Set<DirectionalGraph.Node> from = node.getFrom();
+                Set<DirectionalGraph.Node> from = node.getFromNodes();
                 from.removeAll(dones);
                 if (from.isEmpty()) {
                     pool.addTask(getTask(node));

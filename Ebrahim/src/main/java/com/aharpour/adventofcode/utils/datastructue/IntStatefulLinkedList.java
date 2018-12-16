@@ -82,4 +82,17 @@ public class IntStatefulLinkedList {
         }
         return currentMarble.item;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append('[');
+        Node node = this.first;
+        while (node != null) {
+            builder.append(node.item).append(", ");
+            node = node.next;
+        }
+        builder.append(']');
+        return builder.toString();
+    }
 }
