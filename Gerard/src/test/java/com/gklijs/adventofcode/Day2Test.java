@@ -1,5 +1,6 @@
-package com.gklijs.adventofcode.day2;
+package com.gklijs.adventofcode;
 
+import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.test.TestSchedulerExtension;
 import io.reactivex.schedulers.TestScheduler;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ class Day2Test {
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example1(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"abcdef", "bababc", "abbcde", "abcccd", "aabcdd", "abcdee", "ababab"}, Day2::checksum, 12);
+        testSingle(scheduler, new String[]{"abcdef", "bababc", "abbcde", "abcccd", "aabcdd", "abcdee", "ababab"}, Day2::checksum, "12");
     }
 
     @ExtendWith(TestSchedulerExtension.class)

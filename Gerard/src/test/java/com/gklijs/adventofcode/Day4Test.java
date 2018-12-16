@@ -1,5 +1,6 @@
-package com.gklijs.adventofcode.day4;
+package com.gklijs.adventofcode;
 
+import com.gklijs.adventofcode.day4.Day4;
 import com.gklijs.adventofcode.test.TestSchedulerExtension;
 import com.gklijs.adventofcode.utils.Pair;
 import io.reactivex.schedulers.TestScheduler;
@@ -33,12 +34,12 @@ class Day4Test {
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example1(TestScheduler scheduler) {
-        testSingle(scheduler, data, Day4::bestOpportunity, new Pair<>(10, 24));
+        testSingle(scheduler, data, Day4::bestOpportunity, "240");
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example2(TestScheduler scheduler) {
-        testSingle(scheduler, data, Day4::mostAtSameMinute, new Pair<>(99, 45));
+        testSingle(scheduler, data, Day4::mostAtSameMinute, "4455");
     }
 }

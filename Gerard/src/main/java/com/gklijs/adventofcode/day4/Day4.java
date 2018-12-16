@@ -18,23 +18,25 @@ public class Day4 {
         //prevent instantiation
     }
 
-    public static Single<Pair<Integer, Integer>> bestOpportunity(Observable<String> guardEvents) {
+    public static Single<String> bestOpportunity(Observable<String> guardEvents) {
         return guardEvents
             .map(GuardEvent::new)
             .toSortedList()
             .flattenAsObservable(g -> g)
             .reduce(new Triple<>(new HashMap<>(), null, -1), Day4::updateFrequencies)
             .map(Day4::getSleeper)
-            .map(Day4::getHour);
+            .map(Day4::getHour)
+            .map(x -> Integer.toString(x.getFirst() * x.getSecond()));
     }
 
-    public static Single<Pair<Integer, Integer>> mostAtSameMinute(Observable<String> guardEvents) {
+    public static Single<String> mostAtSameMinute(Observable<String> guardEvents) {
         return guardEvents
             .map(GuardEvent::new)
             .toSortedList()
             .flattenAsObservable(g -> g)
             .reduce(new Triple<>(new HashMap<>(), null, -1), Day4::updateFrequencies)
-            .map(Day4::getSleeper2);
+            .map(Day4::getSleeper2)
+            .map(x -> Integer.toString(x.getFirst() * x.getSecond()));
     }
 
     private static Triple<Map<Integer, Map<Integer, Integer>>, GuardEvent, Integer> updateFrequencies(Triple<Map<Integer, Map<Integer, Integer>>, GuardEvent, Integer> result, GuardEvent guardEvent) {

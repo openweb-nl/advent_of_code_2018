@@ -1,5 +1,6 @@
-package com.gklijs.adventofcode.day7;
+package com.gklijs.adventofcode;
 
+import com.gklijs.adventofcode.day7.Day7;
 import com.gklijs.adventofcode.test.TestSchedulerExtension;
 import io.reactivex.schedulers.TestScheduler;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,6 @@ class Day7Test {
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example2(TestScheduler scheduler) {
-        testSingle(scheduler, data, x -> Day7.work(x, 2, 0), 15);
+        testSingle(scheduler, data, x -> Day7.work(x, 2, 0), "15");
     }
 }

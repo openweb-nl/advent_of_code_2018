@@ -3,6 +3,7 @@ package com.gklijs.adventofcode.day3;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
@@ -19,18 +20,20 @@ public class Day3 {
 
     private static final Set<Integer> ONLY_ZERO = Collections.singleton(0);
 
-    public static Single<Integer> multipleClaims(Observable<String> ids) {
+    public static Single<String> multipleClaims(Observable<String> ids) {
         return ids
             .map(Patch::new)
             .reduce(new int[1000][1000], Day3::claim)
-            .map(Day3::claimedMultiple);
+            .map(Day3::claimedMultiple)
+            .map(Objects::toString);
     }
 
-    public static Single<Integer> noClaims(Observable<String> ids) {
+    public static Single<String> noClaims(Observable<String> ids) {
         return ids
             .map(Patch::new)
             .reduce(new Pair<>(new int[1000][1000], new HashSet<>()), Day3::claim2)
-            .map(x -> x.getSecond().iterator().next());
+            .map(x -> x.getSecond().iterator().next())
+            .map(Objects::toString);
     }
 
     private static int[][] claim(int[][] fabric, Patch patch) {

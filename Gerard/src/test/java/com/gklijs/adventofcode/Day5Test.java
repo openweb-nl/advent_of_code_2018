@@ -1,22 +1,23 @@
-package com.gklijs.adventofcode.day6;
+package com.gklijs.adventofcode;
 
+import com.gklijs.adventofcode.day5.Day5;
 import com.gklijs.adventofcode.test.TestSchedulerExtension;
 import io.reactivex.schedulers.TestScheduler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static com.gklijs.adventofcode.test.TestUtil.testSingle;
 
-class Day6Test {
+class Day5Test {
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example1(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"1, 1" , "1, 6" , "8, 3" , "3, 4" , "5, 5" , "8, 9"}, Day6::largestFiniteArea, 17);
+        testSingle(scheduler, new String[]{"dabAcCaCBAcCcaDA"}, Day5::react, "10");
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example2(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"1, 1" , "1, 6" , "8, 3" , "3, 4" , "5, 5" , "8, 9"}, x -> Day6.toAllLessThen(x, 32), 16);
+        testSingle(scheduler, new String[]{"dabAcCaCBAcCcaDA"}, Day5::reactDeleteReact, "4");
     }
 }
