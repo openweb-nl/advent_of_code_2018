@@ -13,18 +13,20 @@ public class Day9 {
         //prevent instantiation
     }
 
-    public static Single<Long> winningScore(Observable<String> input) {
+    public static Single<String> winningScore(Observable<String> input) {
         return input
             .lastOrError()
             .map(i -> playGame(i, 1))
-            .map(Day9::heightScore);
+            .map(Day9::heightScore)
+            .map(Object::toString);
     }
 
-    public static Single<Long> winningScore(Observable<String> input, int multiplier) {
+    public static Single<String> winningScore(Observable<String> input, int multiplier) {
         return input
             .lastOrError()
             .map(i -> playGame(i, multiplier))
-            .map(Day9::heightScore);
+            .map(Day9::heightScore)
+            .map(Object::toString);
     }
 
     private static int[] playersAndMarbles(String input, int multiplier) {

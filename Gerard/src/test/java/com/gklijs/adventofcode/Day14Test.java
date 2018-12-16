@@ -36,24 +36,24 @@ class Day14Test {
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example5(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"51589"}, Day14::doTill, 9);
+        testSingle(scheduler, new String[]{"51589"}, Day14::doTill, "9");
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example6(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"01245"}, Day14::doTill, 5);
+        testSingle(scheduler, new String[]{"01245"}, Day14::doTill, "5");
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example7(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"92510"}, Day14::doTill, 18);
+        testSingle(scheduler, new String[]{"92510"}, Day14::doTill, "18");
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example8(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"59414"}, Day14::doTill, 2018);
+        testSingle(scheduler, new String[]{"59414"}, Day14::doTill, "2018");
     }
 }

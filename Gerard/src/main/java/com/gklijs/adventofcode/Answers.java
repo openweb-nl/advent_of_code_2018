@@ -2,7 +2,7 @@ package com.gklijs.adventofcode;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 import com.gklijs.adventofcode.day1.Day1;
@@ -12,6 +12,7 @@ import com.gklijs.adventofcode.day12.Day12;
 import com.gklijs.adventofcode.day13.Day13;
 import com.gklijs.adventofcode.day14.Day14;
 import com.gklijs.adventofcode.day15.Day15;
+import com.gklijs.adventofcode.day16.Day16;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -28,72 +29,28 @@ import io.reactivex.Single;
 public class Answers {
 
     private static final Logger LOGGER = Logger.getLogger(Answers.class.getName());
-    private static final Map<Integer, Pair<BiFunction<String, String, String>, BiFunction<String, String, String>>> ANS = new HashMap<>();
+    static final Map<Integer, Pair<Function<Observable<String>, Single<String>>, Function<Observable<String>, Single<String>>>> ANS = new HashMap<>();
     private static final String FILE_FORMAT = "day%d.txt";
     private static final String FIRST_TASK_FORMAT = "first task for day %d";
     private static final String SECOND_TASK_FORMAT = "second task for day %d";
 
     static {
-        ANS.put(1, new Pair<>(
-            (t, f) -> printIntAnswer(t, f, Day1::calculateFrequency),
-            (t, f) -> printIntAnswer(t, f, Day1::firstDoubleFrequency)
-        ));
-        ANS.put(2, new Pair<>(
-            (t, f) -> printIntAnswer(t, f, Day2::checksum),
-            (t, f) -> printStringAnswer(t, f, Day2::commonLetters)
-        ));
-        ANS.put(3, new Pair<>(
-            (t, f) -> printIntAnswer(t, f, Day3::multipleClaims),
-            (t, f) -> printIntAnswer(t, f, Day3::noClaims)
-        ));
-        ANS.put(4, new Pair<>(
-            (t, f) -> printPairAnswer(t, f, Day4::bestOpportunity),
-            (t, f) -> printPairAnswer(t, f, Day4::mostAtSameMinute)
-        ));
-        ANS.put(5, new Pair<>(
-            (t, f) -> printIntAnswer(t, f, Day5::react),
-            (t, f) -> printIntAnswer(t, f, Day5::reactDeleteReact)
-        ));
-        ANS.put(6, new Pair<>(
-            (t, f) -> printIntAnswer(t, f, Day6::largestFiniteArea),
-            (t, f) -> printIntAnswer(t, f, x -> Day6.toAllLessThen(x, 100000))
-        ));
-        ANS.put(7, new Pair<>(
-            (t, f) -> printStringAnswer(t, f, Day7::getOrder),
-            (t, f) -> printIntAnswer(t, f, x -> Day7.work(x, 5, 60))
-        ));
-        ANS.put(8, new Pair<>(
-            (t, f) -> printIntAnswer(t, f, Day8::allMetaData),
-            (t, f) -> printIntAnswer(t, f, Day8::getValue)
-        ));
-        ANS.put(9, new Pair<>(
-            (t, f) -> printLongAnswer(t, f, Day9::winningScore),
-            (t, f) -> printLongAnswer(t, f, x -> Day9.winningScore(x, 100))
-        ));
-        ANS.put(10, new Pair<>(
-            (t, f) -> printStringAnswer(t, f, Day10::displayStars),
-            (t, f) -> printIntAnswer(t, f, Day10::stepsNeeded)
-        ));
-        ANS.put(11, new Pair<>(
-            (t, f) -> printStringAnswer(t, f, Day11::sizeThree),
-            (t, f) -> printStringAnswer(t, f, Day11::sizeVariable)
-        ));
-        ANS.put(12, new Pair<>(
-            (t, f) -> printIntAnswer(t, f, Day12::plantIndex),
-            (t, f) -> printLongAnswer(t, f, Day12::plantIndexTwo)
-        ));
-        ANS.put(13, new Pair<>(
-            (t, f) -> printStringAnswer(t, f, Day13::firstCrash),
-            (t, f) -> printStringAnswer(t, f, Day13::lastCard)
-        ));
-        ANS.put(14, new Pair<>(
-            (t, f) -> printStringAnswer(t, f, Day14::tenAfter),
-            (t, f) -> printIntAnswer(t, f, Day14::doTill)
-        ));
-        ANS.put(15, new Pair<>(
-            (t, f) -> printStringAnswer(t, f, Day15::lastTurn),
-            (t, f) -> printStringAnswer(t, f, Day15::noDeadElf)
-        ));
+        ANS.put(1, new Pair<>(Day1::calculateFrequency, Day1::firstDoubleFrequency));
+        ANS.put(2, new Pair<>(Day2::checksum, Day2::commonLetters));
+        ANS.put(3, new Pair<>(Day3::multipleClaims, Day3::noClaims));
+        ANS.put(4, new Pair<>(Day4::bestOpportunity, Day4::mostAtSameMinute));
+        ANS.put(5, new Pair<>(Day5::react, Day5::reactDeleteReact));
+        ANS.put(6, new Pair<>(Day6::largestFiniteArea, x -> Day6.toAllLessThen(x, 100000)));
+        ANS.put(7, new Pair<>(Day7::getOrder, x -> Day7.work(x, 5, 60)));
+        ANS.put(8, new Pair<>(Day8::allMetaData, Day8::getValue));
+        ANS.put(9, new Pair<>(Day9::winningScore, x -> Day9.winningScore(x, 100)));
+        ANS.put(10, new Pair<>(Day10::displayStars, Day10::stepsNeeded));
+        ANS.put(11, new Pair<>(Day11::sizeThree, Day11::sizeVariable));
+        ANS.put(12, new Pair<>(Day12::plantIndex, Day12::plantIndexTwo));
+        ANS.put(13, new Pair<>(Day13::firstCrash, Day13::lastCard));
+        ANS.put(14, new Pair<>(Day14::tenAfter, Day14::doTill));
+        ANS.put(15, new Pair<>(Day15::lastTurn, Day15::noDeadElf));
+        ANS.put(16, new Pair<>(Day16::threeOrMoreMatches, Day16::getResult));
     }
 
     public static void main(String[] args) {
@@ -102,9 +59,9 @@ public class Answers {
         } else if (args.length == 1) {
             int day = Integer.parseInt(args[0]);
             if (ANS.containsKey(day)) {
-                Pair<BiFunction<String, String, String>, BiFunction<String, String, String>> pair = ANS.get(day);
-                pair.getFirst().apply(String.format(FIRST_TASK_FORMAT, day), String.format(FILE_FORMAT, day));
-                pair.getSecond().apply(String.format(SECOND_TASK_FORMAT, day), String.format(FILE_FORMAT, day));
+                Pair<Function<Observable<String>, Single<String>>, Function<Observable<String>, Single<String>>> pair = ANS.get(day);
+                printAnswer(String.format(FIRST_TASK_FORMAT, day), String.format(FILE_FORMAT, day), pair.getFirst());
+                printAnswer(String.format(SECOND_TASK_FORMAT, day), String.format(FILE_FORMAT, day), pair.getSecond());
             } else {
                 throw new InvalidUseException("Day " + day + " has no answers (yet)");
             }
@@ -113,62 +70,22 @@ public class Answers {
         }
     }
 
-    @FunctionalInterface
-    interface SingleIntAnswer {
-
-        Single<Integer> getAnswer(Observable<String> lines);
-    }
-
-    @FunctionalInterface
-    interface SingleStringAnswer {
-
-        Single<String> getAnswer(Observable<String> lines);
-    }
-
-    @FunctionalInterface
-    interface SinglePairAnswer {
-
-        Single<Pair<Integer, Integer>> getAnswer(Observable<String> lines);
-    }
-
-    @FunctionalInterface
-    interface SingleLongAnswer {
-
-        Single<Long> getAnswer(Observable<String> lines);
-    }
-
-    private static String printIntAnswer(String task, String fileName, SingleIntAnswer singleIntAnswer) {
-        return setTimeAndStart(task, singleIntAnswer.getAnswer(Utils.readLines(fileName).toObservable())
+    private static void printAnswer(String task, String fileName, Function<Observable<String>, Single<String>> function) {
+        setTimeAndStart(task, function.apply(Utils.readLines(fileName).toObservable())
             .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
     }
 
-    private static String printStringAnswer(String task, String fileName, SingleStringAnswer singleStringAnswer) {
-        return setTimeAndStart(task, singleStringAnswer.getAnswer(Utils.readLines(fileName).toObservable())
-            .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
-    }
-
-    private static String printPairAnswer(String task, String fileName, SinglePairAnswer singlePairAnswer) {
-        return setTimeAndStart(task, singlePairAnswer.getAnswer(Utils.readLines(fileName).toObservable())
-            .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result.getFirst() * result.getSecond())));
-    }
-
-    private static String printLongAnswer(String task, String fileName, SingleLongAnswer singleLongAnswer) {
-        return setTimeAndStart(task, singleLongAnswer.getAnswer(Utils.readLines(fileName).toObservable())
-            .doOnSuccess(result -> LOGGER.info(() -> task + ": " + result)));
-    }
-
-    private static String setTimeAndStart(String task, Single job) {
+    private static void setTimeAndStart(String task, Single job) {
         Timer timer = new Timer(task);
         job
             .doOnSubscribe(something -> timer.start())
             .doAfterTerminate(timer::stop)
             .subscribe();
-        return task;
     }
 
-    private static int startBoth(Map.Entry<Integer, Pair<BiFunction<String, String, String>, BiFunction<String, String, String>>> entry) {
-        entry.getValue().getFirst().apply(String.format(FIRST_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
-        entry.getValue().getSecond().apply(String.format(SECOND_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()));
+    private static int startBoth(Map.Entry<Integer, Pair<Function<Observable<String>, Single<String>>, Function<Observable<String>, Single<String>>>> entry) {
+        printAnswer(String.format(FIRST_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()), entry.getValue().getFirst());
+        printAnswer(String.format(SECOND_TASK_FORMAT, entry.getKey()), String.format(FILE_FORMAT, entry.getKey()), entry.getValue().getSecond());
         return 2;
     }
 

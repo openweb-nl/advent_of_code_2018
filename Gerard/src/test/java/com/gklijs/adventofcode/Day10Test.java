@@ -62,6 +62,6 @@ class Day10Test {
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example2(TestScheduler scheduler) {
-        testSingle(scheduler, data, Day10::stepsNeeded, 3);
+        testSingle(scheduler, data, Day10::stepsNeeded, "3");
     }
 }

@@ -31,6 +31,6 @@ class Day12Test {
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example1(TestScheduler scheduler) {
-        testSingle(scheduler, data, Day12::plantIndex, 325);
+        testSingle(scheduler, data, Day12::plantIndex, "325");
     }
 }

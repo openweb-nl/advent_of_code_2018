@@ -3,6 +3,7 @@ package com.gklijs.adventofcode.day6;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.IntStream;
@@ -19,7 +20,7 @@ public class Day6 {
         //prevent instantiation
     }
 
-    public static Single<Integer> largestFiniteArea(Observable<String> coords) {
+    public static Single<String> largestFiniteArea(Observable<String> coords) {
         return coords
             .map(Day6::getCord)
             .reduce(new Pair<>(new int[]{Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE}, new HashSet<>()), Day6::reduce)
@@ -27,10 +28,11 @@ public class Day6 {
             .map(Day6::toFrequencyMap)
             .map(Map::values)
             .flattenAsObservable(i -> i)
-            .reduce(0 , (o, n) -> n > o ? n : o);
+            .reduce(0, (o, n) -> n > o ? n : o)
+            .map(Objects::toString);
     }
 
-    public static Single<Integer> toAllLessThen(Observable<String> coords, int threshHold) {
+    public static Single<String> toAllLessThen(Observable<String> coords, int threshHold) {
         return coords
             .map(Day6::getCord)
             .reduce(new Pair<>(new int[]{Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE}, new HashSet<>()), Day6::reduce)
@@ -38,7 +40,7 @@ public class Day6 {
             .flattenAsObservable(s -> s)
             .filter(x -> x[2] < threshHold)
             .count()
-            .map(Long::intValue);
+            .map(Objects::toString);
     }
 
     private static Triple<Integer,Integer, UUID> getCord(String value){

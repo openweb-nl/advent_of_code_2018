@@ -29,6 +29,6 @@ class Day7Test {
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example2(TestScheduler scheduler) {
-        testSingle(scheduler, data, x -> Day7.work(x, 2, 0), 15);
+        testSingle(scheduler, data, x -> Day7.work(x, 2, 0), "15");
     }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.gklijs.adventofcode.utils.Pair;
 import com.gklijs.adventofcode.utils.Triple;
@@ -16,19 +17,21 @@ public class Day12 {
         //prevent instantiation
     }
 
-    public static Single<Integer> plantIndex(Observable<String> input) {
+    public static Single<String> plantIndex(Observable<String> input) {
         return input
             .reduce(new Pair<>(null, new HashMap<>()), Day12::update)
             .map(pair -> new Triple<>(pair.getFirst(), pair.getSecond(), 0))
             .map(Day12::doTwenty)
-            .map(Day12::getSum);
+            .map(Day12::getSum)
+            .map(Objects::toString);
     }
 
-    public static Single<Long> plantIndexTwo(Observable<String> input) {
+    public static Single<String> plantIndexTwo(Observable<String> input) {
         return input
             .reduce(new Pair<>(null, new HashMap<>()), Day12::update)
             .map(pair -> new Triple<>(pair.getFirst(), pair.getSecond(), 0))
-            .map(Day12::doFiftyBillion);
+            .map(Day12::doFiftyBillion)
+            .map(Objects::toString);
     }
 
     private static int getKey(boolean first, boolean second, boolean third, boolean fourth, boolean fifth) {

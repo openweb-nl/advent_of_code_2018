@@ -27,11 +27,12 @@ public class Day7 {
             .map(x -> x.stream().map(Object::toString).collect(Collectors.joining()));
     }
 
-    public static Single<Integer> work(Observable<String> possibleSteps, int workers, int additionalSeconds) {
+    public static Single<String> work(Observable<String> possibleSteps, int workers, int additionalSeconds) {
         return possibleSteps
             .map(Day7::toInstruction)
             .reduce(new HashMap<>(), Day7::toGraph)
-            .map(graph -> go(graph, workers, additionalSeconds));
+            .map(graph -> go(graph, workers, additionalSeconds))
+            .map(Object::toString);
     }
 
     private static Pair<Character, Character> toInstruction(String rep){

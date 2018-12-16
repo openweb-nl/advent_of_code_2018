@@ -19,12 +19,13 @@ public class Day14 {
             .map(Day14::printLastTen);
     }
 
-    public static Single<Integer> doTill(Observable<String> input) {
+    public static Single<String> doTill(Observable<String> input) {
         return input
             .lastOrError()
             .map(Day14::toIntArray)
             .map(sequence -> new Pair<>(new RecipeList(100000000), sequence))
-            .map(pair -> pair.getFirst().complete(pair.getSecond()));
+            .map(pair -> pair.getFirst().complete(pair.getSecond()))
+            .map(Object::toString);
     }
 
     private static String printLastTen(int[] scores) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import com.gklijs.adventofcode.Utils;
@@ -18,15 +19,16 @@ public class Day5 {
         //prevent instantiation
     }
 
-    public static Single<Integer> react(Observable<String> polymer) {
+    public static Single<String> react(Observable<String> polymer) {
         return concat(polymer, Single.just("").repeat().toObservable())
             .scan(new Pair<>(new ArrayList<>(), -1), Day5::doReaction)
             .takeUntil(result -> result.getSecond() == 0)
             .lastOrError()
-            .map(result -> result.getFirst().size());
+            .map(result -> result.getFirst().size())
+            .map(Objects::toString);
     }
 
-    public static Single<Integer> reactDeleteReact(Observable<String> polymer) {
+    public static Single<String> reactDeleteReact(Observable<String> polymer) {
         return concat(polymer, Single.just("").repeat().toObservable())
             .scan(new Pair<>(new ArrayList<>(), -1), Day5::doReaction)
             .takeUntil(result -> result.getSecond() == 0)
@@ -35,7 +37,8 @@ public class Day5 {
             .map(Day5::variants)
             .flattenAsFlowable(g -> g)
             .map(Day5::sizeReactChild)
-            .reduce(Integer.MAX_VALUE, Math::min);
+            .reduce(Integer.MAX_VALUE, Math::min)
+            .map(Objects::toString);
     }
 
     private static Pair<List<Character>, Integer> doReaction(Pair<List<Character>, Integer> result, String arg){

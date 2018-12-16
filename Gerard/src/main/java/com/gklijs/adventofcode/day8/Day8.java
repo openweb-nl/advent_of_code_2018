@@ -2,6 +2,7 @@ package com.gklijs.adventofcode.day8;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import com.gklijs.adventofcode.utils.Pair;
 import io.reactivex.Observable;
@@ -13,14 +14,16 @@ public class Day8 {
         //prevent instantiation
     }
 
-    public static Single<Integer> allMetaData(Observable<String> input) {
+    public static Single<String> allMetaData(Observable<String> input) {
         return buildTree(input)
-            .map(Day8::totalMeta);
+            .map(Day8::totalMeta)
+            .map(Object::toString);
     }
 
-    public static Single<Integer> getValue(Observable<String> input) {
+    public static Single<String> getValue(Observable<String> input) {
         return buildTree(input)
-            .map(Day8::getValue);
+            .map(Day8::getValue)
+            .map(Objects::toString);
     }
 
     private static Single<Node> buildTree(Observable<String> input){

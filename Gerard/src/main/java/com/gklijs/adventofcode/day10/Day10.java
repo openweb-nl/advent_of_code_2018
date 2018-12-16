@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
@@ -28,12 +29,13 @@ public class Day10 {
             .map(Day10::show);
     }
 
-    public static Single<Integer> stepsNeeded(Observable<String> input) {
+    public static Single<String> stepsNeeded(Observable<String> input) {
         return input
             .map(Day10::toStar)
             .collect((Callable<ArrayList<int[]>>) ArrayList::new, List::add)
             .map(Day10::process)
-            .map(Pair::getSecond);
+            .map(Pair::getSecond)
+            .map(Objects::toString);
     }
 
     private static String show(final List<int[]> stars) {

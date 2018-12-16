@@ -1,6 +1,7 @@
 package com.gklijs.adventofcode.day1;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import com.gklijs.adventofcode.Utils;
@@ -14,13 +15,14 @@ public class Day1 {
         //prevent instantiation
     }
 
-    public static Single<Integer> calculateFrequency(Observable<String> frequencyChanges) {
+    public static Single<String> calculateFrequency(Observable<String> frequencyChanges) {
         return frequencyChanges
             .map(Integer::valueOf)
-            .reduce(0, Integer::sum);
+            .reduce(0, Integer::sum)
+            .map(Objects::toString);
     }
 
-    public static Single<Integer> firstDoubleFrequency(Observable<String> frequencyChanges) {
+    public static Single<String> firstDoubleFrequency(Observable<String> frequencyChanges) {
         return frequencyChanges
             .repeat()
             .map(Integer::valueOf)
@@ -28,6 +30,7 @@ public class Day1 {
             .scan(new Pair<Set<Integer>, Integer>(new HashSet<>(), null), Utils::firstDuplicate)
             .takeUntil(pair -> pair.getSecond() != null)
             .lastOrError()
-            .map(Pair::getSecond);
+            .map(Pair::getSecond)
+            .map(Objects::toString);
     }
 }

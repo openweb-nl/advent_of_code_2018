@@ -75,35 +75,39 @@ public class Day15 {
         map.get(next.getSecond())[next.getFirst()] = current;
     }
 
+    private static void handleOption(Pair<Integer, Integer> option, Move move,
+                                     EnumMap<Move, Pair<List<Pair<Integer, Integer>>, Set<Pair<Integer, Integer>>>> paths,
+                                     List<Pair<Integer, Integer>> next,
+                                     List<Triple<Integer, Integer, Move>> targets,
+                                     List<char[]> map, char target) {
+        if (!paths.get(move).getSecond().contains(option)) {
+            if (isTarget(option, map, target)) {
+                paths.get(move).getSecond().add(option);
+                targets.add(new Triple<>(option.getSecond(), option.getFirst(), move));
+            } else if (isFree(option, map)) {
+                paths.get(move).getSecond().add(option);
+                next.add(option);
+            }
+        }
+    }
+
     private static void nextMove(EnumMap<Move, Pair<List<Pair<Integer, Integer>>, Set<Pair<Integer, Integer>>>> paths,
                                  List<Triple<Integer, Integer, Move>> targets,
                                  List<char[]> map, char target, boolean firstIter, Move move) {
-        if (paths.containsKey(move)) {
-            List<Pair<Integer, Integer>> endpoints = paths.get(move).getFirst();
-            List<Pair<Integer, Integer>> next = new ArrayList<>();
-            for (Move nextMove : Move.values()) {
-                if (nextMove == Move.NOT || (firstIter && Move.skip(move, nextMove) && paths.containsKey(nextMove))) {
-                    continue;
-                }
-                for (Pair<Integer, Integer> endpoint : endpoints) {
-                    Pair<Integer, Integer> option = nextMove.nextCord(endpoint);
-                    if (isTarget(option, map, target)) {
-                        targets.add(new Triple<>(option.getSecond(), option.getFirst(), move));
-                    }
-                    if (paths.get(move).getSecond().contains(option)) {
-                        continue;
-                    }
-                    if (isFree(option, map)) {
-                        paths.get(move).getSecond().add(option);
-                        next.add(option);
-                    }
-                }
+        List<Pair<Integer, Integer>> endpoints = paths.get(move).getFirst();
+        List<Pair<Integer, Integer>> next = new ArrayList<>();
+        for (Move nextMove : Move.values()) {
+            if (nextMove == Move.NOT || (firstIter && Move.skip(move, nextMove) && paths.containsKey(nextMove))) {
+                continue;
             }
-            if (next.isEmpty()) {
-                paths.remove(move);
-            } else {
-                paths.get(move).setFirst(next);
+            for (Pair<Integer, Integer> endpoint : endpoints) {
+                handleOption(nextMove.nextCord(endpoint), move, paths, next, targets, map, target);
             }
+        }
+        if (next.isEmpty()) {
+            paths.remove(move);
+        } else {
+            paths.get(move).setFirst(next);
         }
     }
 
@@ -111,7 +115,9 @@ public class Day15 {
                                  List<Triple<Integer, Integer, Move>> targets,
                                  List<char[]> map, char target, boolean firstIter) {
         for (Move move : Move.values()) {
-            nextMove(paths, targets, map, target, firstIter, move);
+            if (paths.containsKey(move)) {
+                nextMove(paths, targets, map, target, firstIter, move);
+            }
         }
     }
 

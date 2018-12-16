@@ -12,12 +12,12 @@ class Day5Test {
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example1(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"dabAcCaCBAcCcaDA"}, Day5::react, 10);
+        testSingle(scheduler, new String[]{"dabAcCaCBAcCcaDA"}, Day5::react, "10");
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example2(TestScheduler scheduler) {
-        testSingle(scheduler, new String[]{"dabAcCaCBAcCcaDA"}, Day5::reactDeleteReact, 4);
+        testSingle(scheduler, new String[]{"dabAcCaCBAcCcaDA"}, Day5::reactDeleteReact, "4");
     }
 }

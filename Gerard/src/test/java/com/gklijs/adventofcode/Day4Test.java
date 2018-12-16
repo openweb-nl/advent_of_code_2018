@@ -34,12 +34,12 @@ class Day4Test {
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example1(TestScheduler scheduler) {
-        testSingle(scheduler, data, Day4::bestOpportunity, new Pair<>(10, 24));
+        testSingle(scheduler, data, Day4::bestOpportunity, "240");
     }
 
     @ExtendWith(TestSchedulerExtension.class)
     @Test
     void example2(TestScheduler scheduler) {
-        testSingle(scheduler, data, Day4::mostAtSameMinute, new Pair<>(99, 45));
+        testSingle(scheduler, data, Day4::mostAtSameMinute, "4455");
     }
 }
