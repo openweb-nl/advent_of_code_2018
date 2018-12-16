@@ -15,11 +15,11 @@ public class DistanceMapCalculatorTest {
 
     @Before
     public void init() {
-        graph.addRelationShip("A", "B", 1);
-        graph.addRelationShip("A", "C", 2);
-        graph.addRelationShip("D", "C", 3);
-        graph.addRelationShip("B", "D", 5);
-        graph.addRelationShip("F", "D", 7);
+        graph.addBidirectedEdge("A", "B", 1);
+        graph.addBidirectedEdge("A", "C", 2);
+        graph.addBidirectedEdge("D", "C", 3);
+        graph.addBidirectedEdge("B", "D", 5);
+        graph.addBidirectedEdge("F", "D", 7);
     }
 
     @Test

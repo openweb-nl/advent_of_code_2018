@@ -9,6 +9,6 @@ public class DirectionalGraph extends AbstractGraph {
     public void addRelationShip(String from, String to) {
         Node fromNode = addNode(from);
         Node toNode = addNode(to);
-        addRelationShip(fromNode, toNode, 1);
+        addEdge(fromNode, toNode, 1);
     }
 }

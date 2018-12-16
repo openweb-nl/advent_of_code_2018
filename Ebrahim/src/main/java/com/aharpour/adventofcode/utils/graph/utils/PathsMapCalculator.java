@@ -54,7 +54,7 @@ public class PathsMapCalculator {
         int min = Integer.MAX_VALUE;
         for (AbstractGraph.Node node : unvisitedNode) {
             Path dis = pathsToDistance(distanceMap.get(node));
-            if (dis != null && dis.getLength() < min && !node.isBlocked()) {
+            if (dis != null && dis.getLength() < min && (!node.isBlocked() || dis.getLength() == 0)) {
                 min = dis.getLength();
                 minNode = node;
             }

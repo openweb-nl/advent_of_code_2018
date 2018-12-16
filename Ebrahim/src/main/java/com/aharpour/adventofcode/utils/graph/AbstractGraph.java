@@ -10,7 +10,7 @@ public abstract class AbstractGraph {
     private Map<String, Node> nodes = new HashMap<>();
 
 
-    protected void addRelationShip(Node from, Node to, int weight) {
+    protected void addEdge(Node from, Node to, int weight) {
         Edge edge = new Edge(from, to, weight);
         from.to.add(edge);
         to.from.add(edge);
@@ -22,7 +22,7 @@ public abstract class AbstractGraph {
 
 
     public Node getNode(String nodeName) {
-        return addNode(nodeName);
+        return nodes.get(nodeName);
     }
 
     public Node addNode(String nodeName) {

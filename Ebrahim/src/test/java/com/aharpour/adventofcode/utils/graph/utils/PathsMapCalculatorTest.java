@@ -18,13 +18,13 @@ public class PathsMapCalculatorTest {
 
     @Before
     public void init() {
-        graph.addRelationShip("A", "B", 1);
-        graph.addRelationShip("A", "C", 2);
-        graph.addRelationShip("D", "C", 3);
-        graph.addRelationShip("B", "C", 1);
-        graph.addRelationShip("B", "D", 5);
-        graph.addRelationShip("F", "D", 7);
-        graph.addRelationShip("F", "A", 12);
+        graph.addBidirectedEdge("A", "B", 1);
+        graph.addBidirectedEdge("A", "C", 2);
+        graph.addBidirectedEdge("D", "C", 3);
+        graph.addBidirectedEdge("B", "C", 1);
+        graph.addBidirectedEdge("B", "D", 5);
+        graph.addBidirectedEdge("F", "D", 7);
+        graph.addBidirectedEdge("F", "A", 12);
     }
 
     @Test
