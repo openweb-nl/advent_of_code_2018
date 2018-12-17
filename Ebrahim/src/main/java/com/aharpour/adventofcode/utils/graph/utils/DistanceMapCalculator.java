@@ -45,7 +45,7 @@ public class DistanceMapCalculator {
         int min = Integer.MAX_VALUE;
         for (AbstractGraph.Node node : unvisitedNode) {
             Integer dis = distanceMap.get(node);
-            if (dis != null && dis < min && !node.isBlocked()) {
+            if (dis != null && dis < min && (!node.isBlocked() || dis == 0)) {
                 min = dis;
                 minNode = node;
             }
