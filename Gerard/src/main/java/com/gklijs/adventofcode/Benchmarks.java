@@ -10,6 +10,7 @@ import com.gklijs.adventofcode.day13.Day13;
 import com.gklijs.adventofcode.day14.Day14;
 import com.gklijs.adventofcode.day15.Day15;
 import com.gklijs.adventofcode.day16.Day16;
+import com.gklijs.adventofcode.day17.Day17;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -227,24 +228,41 @@ public class Benchmarks {
         return benchAnswer("day14.txt", Day14::doTill);
     }
 
-    @Benchmark
+    /*
+    5.255 ±  0.063  ops/s
+     */
     public static String bench1of15() {
         return benchAnswer("day15.txt", Day15::lastTurn);
     }
 
-    
-    @Benchmark
+    /*
+    1.749 ±  0.030  ops/s
+     */
     public static String bench2of15() {
         return benchAnswer("day15.txt", Day15::noDeadElf);
     }
 
-    @Benchmark
+    /*
+    697.277 ±  9.677  ops/s
+     */
     public static String bench1of16() {
         return benchAnswer("day16.txt", Day16::threeOrMoreMatches);
     }
 
-    @Benchmark
+    /*
+    668.045 ± 14.380  ops/s
+     */
     public static String bench2of16() {
         return benchAnswer("day16.txt", Day16::getResult);
+    }
+
+    @Benchmark
+    public static String bench1of17() {
+        return benchAnswer("day17.txt", Day17::waterTotal);
+    }
+
+    @Benchmark
+    public static String bench2of17() {
+        return benchAnswer("day17.txt", Day17::waterRetained);
     }
 }
