@@ -13,10 +13,11 @@ import java.util.regex.Pattern;
 public class Day17 {
     private static final Pattern PATTERN = Pattern.compile("([xy])=(\\d+), ([xy])=(\\d+)..(\\d+)");
     private boolean[][] scan;
-    protected int xOffSet;
+    private int xOffSet;
+    private int yOffSet;
     protected Set<IntPair> wetSand = new HashSet<>();
     protected Set<IntPair> water = new HashSet<>();
-    protected int springX;
+    private int springX;
     private final boolean print;
 
     public Day17(int springX, String map, boolean print) {
@@ -25,7 +26,11 @@ public class Day17 {
         this.print = print;
     }
 
-    public boolean calculate(int x, int y) {
+    public void simulateWaterFlow() {
+        calculate(springX - xOffSet, 0);
+    }
+
+    private boolean calculate(int x, int y) {
         if (y + 1 >= scan[0].length) {
             wetSand.add(new IntPair(x, y));
             print();
@@ -117,6 +122,7 @@ public class Day17 {
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
         int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
 
         List<Row> rows = new ArrayList<>();
         while (matcher.find()) {
@@ -130,10 +136,15 @@ public class Day17 {
             if (maxY < row.yTo) {
                 maxY = row.yTo;
             }
+            if (minY > row.yFrom) {
+                minY = row.yFrom;
+            }
             rows.add(row);
         }
         xOffSet = (minX - 1);
-        scan = new boolean[maxX + 2 - xOffSet][maxY + 1];
+        yOffSet = minY;
+
+        scan = new boolean[maxX + 2 - xOffSet][maxY - yOffSet + 1];
         updateScan(rows);
 
     }
@@ -142,7 +153,7 @@ public class Day17 {
         for (Row row : rows) {
             for (int x = row.xFrom; x <= row.xTo; x++) {
                 for (int y = row.yFrom; y <= row.yTo; y++) {
-                    scan[x - xOffSet][y] = true;
+                    scan[x - xOffSet][y - yOffSet] = true;
                 }
             }
         }

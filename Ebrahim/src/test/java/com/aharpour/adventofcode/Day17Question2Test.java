@@ -3,11 +3,11 @@ package com.aharpour.adventofcode;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class Day17Question1Test {
+public class Day17Question2Test {
 
     @Test
     public void givenCase() {
-        Assert.assertEquals(57, new Day17Question1("x=495, y=2..7\n" +
+        Assert.assertEquals(29, new Day17Question2("x=495, y=2..7\n" +
                 "y=7, x=495..501\n" +
                 "x=501, y=3..7\n" +
                 "x=498, y=2..4\n" +
@@ -18,7 +18,7 @@ public class Day17Question1Test {
     }
     @Test
     public void realCase() {
-        Assert.assertEquals(27331, new Day17Question1("y=1388, x=546..564\n" +
+        Assert.assertEquals(22245, new Day17Question2("y=1388, x=546..564\n" +
                 "x=532, y=716..727\n" +
                 "x=453, y=581..592\n" +
                 "x=551, y=250..260\n" +
