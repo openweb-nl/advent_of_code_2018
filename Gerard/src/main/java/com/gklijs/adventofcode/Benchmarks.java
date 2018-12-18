@@ -257,21 +257,31 @@ public class Benchmarks {
         return benchAnswer("day16.txt", Day16::getResult);
     }
 
-    @Benchmark
+    /*
+    397.652 ± 49.691  ops/s
+     */
     public static String bench1of17() {
         return benchAnswer("day17.txt", Day17::waterTotal);
     }
 
-    @Benchmark
+    /*
+    382.027 ±  5.123  ops/s
+     */
     public static String bench2of17() {
         return benchAnswer("day17.txt", Day17::waterRetained);
     }
 
+    /*
+    264.664 ±  6.111  ops/s
+     */
     @Benchmark
     public static String bench1of18() {
         return benchAnswer("day18.txt", Day18::afterTen);
     }
 
+    /*
+    5.918 ±  0.173  ops/s
+     */
     @Benchmark
     public static String bench2of18() {
         return benchAnswer("day18.txt", Day18::afterBillion);

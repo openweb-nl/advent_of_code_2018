@@ -2,9 +2,7 @@ package com.gklijs.adventofcode;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import io.reactivex.Single;
 import io.vertx.core.AbstractVerticle;
@@ -107,10 +105,10 @@ public class MainVerticle extends AbstractVerticle {
 
     private Handler<HttpServerRequest> getRequestHandler() {
         return req -> {
+            req.response()
+                .putHeader("content-type", "text/html");
             if (req.method().equals(HttpMethod.GET)) {
-                req.response()
-                    .putHeader("content-type", "text/html")
-                    .end(FORM);
+                req.response().end(FORM);
             } else {
                 req.setExpectMultipart(true);
                 req.endHandler(v -> {
@@ -118,18 +116,11 @@ public class MainVerticle extends AbstractVerticle {
                     int day = Integer.parseInt(req.getFormAttribute("day"));
                     String part = req.getFormAttribute("part");
                     Single<String> s = "1".equals(part) ? ANS.get(day).getFirst().apply(fromIterable(input)) : ANS.get(day).getSecond().apply(fromIterable(input));
-                    String result;
-                    String type;
-                    try {
-                        result = s.blockingGet();
-                        type = "is-success";
-                    } catch (RuntimeException e) {
-                        result = "Some error occurred, please make sure you selected the right day for the input. Error was: " + e.toString();
-                        type = "is-danger";
-                    }
-                    req.response()
-                        .putHeader("content-type", "text/html")
-                        .end(String.format(RESULT, type, day, part, result));
+                    s.doOnSuccess(result ->
+                        req.response().end(String.format(RESULT, "is-success", day, part, result)))
+                        .doOnError(t -> req.response().end(String.format(RESULT, "is-danger", day, part,
+                            "Some error occurred, please make sure you selected the right day for the input. Error was: " + t.toString())))
+                        .subscribe();
                 });
             }
         };
