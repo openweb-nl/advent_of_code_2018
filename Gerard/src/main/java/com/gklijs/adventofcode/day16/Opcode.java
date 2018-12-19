@@ -2,7 +2,7 @@ package com.gklijs.adventofcode.day16;
 
 import java.util.function.BiFunction;
 
-public enum Opcode {
+enum Opcode {
     ADDR((a, b) -> a + b, false, false),
     ADDI((a, b) -> a + b, false, true),
     MULR((a, b) -> a * b, false, false),
