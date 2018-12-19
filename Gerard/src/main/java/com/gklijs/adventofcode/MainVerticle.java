@@ -2,9 +2,7 @@ package com.gklijs.adventofcode;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import io.reactivex.Single;
 import io.vertx.core.AbstractVerticle;
@@ -47,6 +45,15 @@ public class MainVerticle extends AbstractVerticle {
         "                           <option value=\"14\">Day 14</option>\n" +
         "                           <option value=\"15\">Day 15</option>\n" +
         "                           <option value=\"16\">Day 16</option>\n" +
+        "                           <option value=\"17\">Day 17</option>\n" +
+        "                           <option value=\"18\">Day 18</option>\n" +
+        "                           <option value=\"19\">Day 19</option>\n" +
+        "                           <option value=\"20\">Day 20</option>\n" +
+        "                           <option value=\"21\">Day 21</option>\n" +
+        "                           <option value=\"22\">Day 22</option>\n" +
+        "                           <option value=\"23\">Day 23</option>\n" +
+        "                           <option value=\"24\">Day 24</option>\n" +
+        "                           <option value=\"25\">Day 25</option>\n" +
         "                       </div>\n" +
         "                   </select>\n" +
         "               </div>\n" +
@@ -98,10 +105,10 @@ public class MainVerticle extends AbstractVerticle {
 
     private Handler<HttpServerRequest> getRequestHandler() {
         return req -> {
+            req.response()
+                .putHeader("content-type", "text/html");
             if (req.method().equals(HttpMethod.GET)) {
-                req.response()
-                    .putHeader("content-type", "text/html")
-                    .end(FORM);
+                req.response().end(FORM);
             } else {
                 req.setExpectMultipart(true);
                 req.endHandler(v -> {
@@ -109,18 +116,11 @@ public class MainVerticle extends AbstractVerticle {
                     int day = Integer.parseInt(req.getFormAttribute("day"));
                     String part = req.getFormAttribute("part");
                     Single<String> s = "1".equals(part) ? ANS.get(day).getFirst().apply(fromIterable(input)) : ANS.get(day).getSecond().apply(fromIterable(input));
-                    String result;
-                    String type;
-                    try {
-                        result = s.blockingGet();
-                        type = "is-success";
-                    } catch (RuntimeException e) {
-                        result = "Some error occurred, please make sure you selected the right day for the input. Error was: " + e.toString();
-                        type = "is-danger";
-                    }
-                    req.response()
-                        .putHeader("content-type", "text/html")
-                        .end(String.format(RESULT, type, day, part, result));
+                    s.doOnSuccess(result ->
+                        req.response().end(String.format(RESULT, "is-success", day, part, result)))
+                        .doOnError(t -> req.response().end(String.format(RESULT, "is-danger", day, part,
+                            "Some error occurred, please make sure you selected the right day for the input. Error was: " + t.toString())))
+                        .subscribe();
                 });
             }
         };

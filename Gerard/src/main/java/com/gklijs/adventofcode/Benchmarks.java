@@ -10,6 +10,9 @@ import com.gklijs.adventofcode.day13.Day13;
 import com.gklijs.adventofcode.day14.Day14;
 import com.gklijs.adventofcode.day15.Day15;
 import com.gklijs.adventofcode.day16.Day16;
+import com.gklijs.adventofcode.day17.Day17;
+import com.gklijs.adventofcode.day18.Day18;
+import com.gklijs.adventofcode.day19.Day19;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -227,24 +230,69 @@ public class Benchmarks {
         return benchAnswer("day14.txt", Day14::doTill);
     }
 
-    @Benchmark
+    /*
+    5.255 ±  0.063  ops/s
+     */
     public static String bench1of15() {
         return benchAnswer("day15.txt", Day15::lastTurn);
     }
 
-    
-    @Benchmark
+    /*
+    1.749 ±  0.030  ops/s
+     */
     public static String bench2of15() {
         return benchAnswer("day15.txt", Day15::noDeadElf);
     }
 
-    @Benchmark
+    /*
+    697.277 ±  9.677  ops/s
+     */
     public static String bench1of16() {
         return benchAnswer("day16.txt", Day16::threeOrMoreMatches);
     }
 
-    @Benchmark
+    /*
+    668.045 ± 14.380  ops/s
+     */
     public static String bench2of16() {
         return benchAnswer("day16.txt", Day16::getResult);
+    }
+
+    /*
+    397.652 ± 49.691  ops/s
+     */
+    public static String bench1of17() {
+        return benchAnswer("day17.txt", Day17::waterTotal);
+    }
+
+    /*
+    382.027 ±  5.123  ops/s
+     */
+    public static String bench2of17() {
+        return benchAnswer("day17.txt", Day17::waterRetained);
+    }
+
+    /*
+    264.664 ±  6.111  ops/s
+     */
+    public static String bench1of18() {
+        return benchAnswer("day18.txt", Day18::afterTen);
+    }
+
+    /*
+    5.918 ±  0.173  ops/s
+     */
+    public static String bench2of18() {
+        return benchAnswer("day18.txt", Day18::afterBillion);
+    }
+
+    @Benchmark
+    public static String bench1of19() {
+        return benchAnswer("day19.txt", Day19::first);
+    }
+
+    @Benchmark
+    public static String bench2of19() {
+        return benchAnswer("day19.txt", Day19::second);
     }
 }

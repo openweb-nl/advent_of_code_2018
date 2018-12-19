@@ -13,6 +13,9 @@ import com.gklijs.adventofcode.day13.Day13;
 import com.gklijs.adventofcode.day14.Day14;
 import com.gklijs.adventofcode.day15.Day15;
 import com.gklijs.adventofcode.day16.Day16;
+import com.gklijs.adventofcode.day17.Day17;
+import com.gklijs.adventofcode.day18.Day18;
+import com.gklijs.adventofcode.day19.Day19;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
@@ -51,6 +54,9 @@ public class Answers {
         ANS.put(14, new Pair<>(Day14::tenAfter, Day14::doTill));
         ANS.put(15, new Pair<>(Day15::lastTurn, Day15::noDeadElf));
         ANS.put(16, new Pair<>(Day16::threeOrMoreMatches, Day16::getResult));
+        ANS.put(17, new Pair<>(Day17::waterTotal, Day17::waterRetained));
+        ANS.put(18, new Pair<>(Day18::afterTen, Day18::afterBillion));
+        ANS.put(19, new Pair<>(Day19::first, Day19::second));
     }
 
     public static void main(String[] args) {

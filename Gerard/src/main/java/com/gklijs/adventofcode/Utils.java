@@ -74,8 +74,16 @@ public class Utils {
         return charList;
     }
 
-    public static List<char[]> addString(List<char[]> tracks, String line) {
-        tracks.add(line.toCharArray());
-        return tracks;
+    public static List<char[]> addString(List<char[]> lines, String line) {
+        lines.add(line.toCharArray());
+        return lines;
+    }
+
+    public static char[][] toArrayOfArrays(List<char[]> lines) {
+        char[][] result = new char[lines.size()][];
+        for (int y = 0; y < result.length; y++) {
+            result[y] = lines.get(y);
+        }
+        return result;
     }
 }
