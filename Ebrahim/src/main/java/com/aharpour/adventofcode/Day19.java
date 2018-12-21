@@ -1,12 +1,13 @@
 package com.aharpour.adventofcode;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.ToString;
-
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.IntBinaryOperator;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.ToString;
 
 public class Day19 {
 
@@ -15,6 +16,8 @@ public class Day19 {
     private Map<String, Opcode> opcodes = new HashMap<>();
     private int instructionPointer;
     private Instruction[] instructions;
+    private boolean verbose = false;
+    protected PrintStream out = System.out;
 
 
     public Day19(String input) {
@@ -27,9 +30,64 @@ public class Day19 {
         while (registers[instructionPointer] < length) {
             int instructionIndex = registers[instructionPointer];
             applyOptimization(instructionIndex);
+            if (verbose) {
+                printResiters();
+                printInstruction(instructionIndex);
+            }
             applyInstruction(instructions[instructionIndex]);
         }
 
+    }
+
+    protected void printResiters() {
+        out.println("r0=" + registers[0] + " r1=" + registers[1] + " r2=" + registers[2] + " r3=" + registers[3]
+                + " r4=" + registers[4] + " r5=" + registers[5]);
+    }
+
+    protected void printInstruction(int instructionIndex) {
+        Instruction instruction = instructions[instructionIndex];
+        Opcode opcode = opcodes.get(instruction.name);
+        String a;
+        String b;
+        if (opcode instanceof OpcodeRR) {
+            a = "r" + instruction.a;
+            b = "r" + instruction.b;
+        } else if (opcode instanceof OpcodeRI) {
+            a = "r" + instruction.a;
+            b = Integer.toString(instruction.b);
+        } else {
+            a = Integer.toString(instruction.a);
+            b = "r" + instruction.b;
+        }
+        if (instruction.name.startsWith("set")) {
+            out.println("r" + instruction.c + " = " + a);
+        } else {
+            out.println("r" + instruction.c + " = " + a + " " + getSymbol(instruction.name) + " " + b);
+        }
+    }
+
+    private String getSymbol(String name) {
+        String symbol = "";
+        if (name.startsWith("add")) {
+            symbol = "+";
+        } else if (name.startsWith("mul")) {
+            symbol = "*";
+        } else if (name.startsWith("bor")) {
+            symbol = "|";
+        } else if (name.startsWith("eq")) {
+            symbol = "==";
+        } else if (name.startsWith("gt")) {
+            symbol = ">";
+        } else if (name.startsWith("ban")) {
+            symbol = "&";
+        }
+        return symbol;
+    }
+
+    public void printInstructions() {
+        for (int i = 0; i < instructions.length; i++) {
+            printInstruction(i);
+        }
     }
 
     public void applyOptimization(int instructionIndex) {
@@ -66,6 +124,13 @@ public class Day19 {
         return registers;
     }
 
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
+
+    public void setOut(PrintStream out) {
+        this.out = out;
+    }
 
     private class OpcodeIR extends Opcode {
         private OpcodeIR(IntBinaryOperator operator) {
