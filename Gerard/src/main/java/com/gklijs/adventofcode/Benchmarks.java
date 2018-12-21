@@ -12,7 +12,8 @@ import com.gklijs.adventofcode.day15.Day15;
 import com.gklijs.adventofcode.day16.Day16;
 import com.gklijs.adventofcode.day17.Day17;
 import com.gklijs.adventofcode.day18.Day18;
-import com.gklijs.adventofcode.day19.Day19;
+import com.gklijs.adventofcode.day19day21.Day19;
+import com.gklijs.adventofcode.day19day21.Day21;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day20.Day20;
 import com.gklijs.adventofcode.day3.Day3;
@@ -301,13 +302,27 @@ public class Benchmarks {
         return benchAnswer("day19.txt", Day19::second);
     }
 
-    @Benchmark
+    /*
+    110.121 ± 4.785  ops/s
+     */
     public static String bench1of20() {
         return benchAnswer("day20.txt", Day20::mostDoors);
     }
 
-    @Benchmark
+    /*
+    218.322 ± 7.574  ops/s
+     */
     public static String bench2of20() {
         return benchAnswer("day20.txt", Day20::thousandDoors);
+    }
+
+    @Benchmark
+    public static String bench1of21() {
+        return benchAnswer("day21.txt", Day21::min);
+    }
+
+    @Benchmark
+    public static String bench2of21() {
+        return benchAnswer("day21.txt", Day21::max);
     }
 }

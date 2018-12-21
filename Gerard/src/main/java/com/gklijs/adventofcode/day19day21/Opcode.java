@@ -1,4 +1,4 @@
-package com.gklijs.adventofcode.day19;
+package com.gklijs.adventofcode.day19day21;
 
 import java.util.function.BiFunction;
 
@@ -11,8 +11,8 @@ enum Opcode {
     MULI("muli", (a, b) -> a * b, false, true),
     BANR("banr", (a, b) -> a & b, false, false),
     BANI("bani", (a, b) -> a & b, false, true),
-    BONR("bonr", (a, b) -> a | b, false, false),
-    BONI("boni", (a, b) -> a | b, false, true),
+    BORR("borr", (a, b) -> a | b, false, false),
+    BORI("bori", (a, b) -> a | b, false, true),
     SETR("setr", (a, b) -> a, false, false),
     SETI("seti", (a, b) -> a, true, true),
     GTIR("gtir", (a, b) -> a > b ? 1 : 0, true, false),

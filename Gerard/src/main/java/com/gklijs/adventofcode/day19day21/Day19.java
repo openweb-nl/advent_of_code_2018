@@ -1,4 +1,4 @@
-package com.gklijs.adventofcode.day19;
+package com.gklijs.adventofcode.day19day21;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class Day19 {
             .map(Objects::toString);
     }
 
-    private static Pair<Integer, List<Pair<Opcode, int[]>>> update(Pair<Integer, List<Pair<Opcode, int[]>>> result, String input) {
+    static Pair<Integer, List<Pair<Opcode, int[]>>> update(Pair<Integer, List<Pair<Opcode, int[]>>> result, String input) {
         StringBuilder builder = new StringBuilder();
         if (input.charAt(0) == '#') {
             for (char c : input.toCharArray()) {

@@ -1,6 +1,5 @@
 package com.gklijs.adventofcode;
 
-import com.gklijs.adventofcode.day19.Day19;
 import com.gklijs.adventofcode.day20.Day20;
 import com.gklijs.adventofcode.test.TestSchedulerExtension;
 import io.reactivex.schedulers.TestScheduler;

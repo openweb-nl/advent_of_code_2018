@@ -15,7 +15,8 @@ import com.gklijs.adventofcode.day15.Day15;
 import com.gklijs.adventofcode.day16.Day16;
 import com.gklijs.adventofcode.day17.Day17;
 import com.gklijs.adventofcode.day18.Day18;
-import com.gklijs.adventofcode.day19.Day19;
+import com.gklijs.adventofcode.day19day21.Day19;
+import com.gklijs.adventofcode.day19day21.Day21;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day20.Day20;
 import com.gklijs.adventofcode.day3.Day3;
@@ -59,6 +60,7 @@ public class Answers {
         ANS.put(18, new Pair<>(Day18::afterTen, Day18::afterBillion));
         ANS.put(19, new Pair<>(Day19::first, Day19::second));
         ANS.put(20, new Pair<>(Day20::mostDoors, Day20::thousandDoors));
+        ANS.put(21, new Pair<>(Day21::min, Day21::max));
     }
 
     public static void main(String[] args) {
