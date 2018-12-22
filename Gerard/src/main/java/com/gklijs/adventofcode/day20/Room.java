@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gklijs.adventofcode.utils.Direction;
 import com.gklijs.adventofcode.utils.Pair;
 
 class Room {

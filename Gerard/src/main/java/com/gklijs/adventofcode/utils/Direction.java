@@ -1,11 +1,10 @@
-package com.gklijs.adventofcode.day20;
+package com.gklijs.adventofcode.utils;
 
 import java.util.function.UnaryOperator;
 
 import com.gklijs.adventofcode.errors.InvalidInputException;
-import com.gklijs.adventofcode.utils.Pair;
 
-enum Direction {
+public enum Direction {
     UP('N', pair -> pair.changeSecond(y -> y - 1)),
     DOWN('S', pair -> pair.changeSecond(y -> y + 1)),
     LEFT('W', pair -> pair.changeFirst(x -> x - 1)),
@@ -19,7 +18,7 @@ enum Direction {
         this.next = next;
     }
 
-    static Direction get(char value) {
+    public static Direction get(char value) {
         for (Direction type : values()) {
             if (type.c == value) {
                 return type;
@@ -28,7 +27,7 @@ enum Direction {
         throw new InvalidInputException("char " + value + " is no valid value for a direction");
     }
 
-    static boolean validDirection(char value) {
+    public static boolean validDirection(char value) {
         for (Direction type : values()) {
             if (type.c == value) {
                 return true;
@@ -37,12 +36,12 @@ enum Direction {
         return false;
     }
 
-    Pair<Integer, Integer> nextCord(Pair<Integer, Integer> pair) {
+    public Pair<Integer, Integer> nextCord(Pair<Integer, Integer> pair) {
         Pair<Integer, Integer> result = new Pair<>(pair.getFirst(), pair.getSecond());
         return next.apply(result);
     }
 
-    static Direction opposite(Direction direction) {
+    public static Direction opposite(Direction direction) {
         switch (direction) {
             case UP:
                 return Direction.DOWN;
