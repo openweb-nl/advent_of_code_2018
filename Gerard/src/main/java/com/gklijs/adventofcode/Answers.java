@@ -19,6 +19,7 @@ import com.gklijs.adventofcode.day19day21.Day19;
 import com.gklijs.adventofcode.day19day21.Day21;
 import com.gklijs.adventofcode.day2.Day2;
 import com.gklijs.adventofcode.day20.Day20;
+import com.gklijs.adventofcode.day22.Day22;
 import com.gklijs.adventofcode.day3.Day3;
 import com.gklijs.adventofcode.day4.Day4;
 import com.gklijs.adventofcode.day5.Day5;
@@ -61,6 +62,8 @@ public class Answers {
         ANS.put(19, new Pair<>(Day19::first, Day19::second));
         ANS.put(20, new Pair<>(Day20::mostDoors, Day20::thousandDoors));
         ANS.put(21, new Pair<>(Day21::min, Day21::max));
+        ANS.put(22, new Pair<>(Day22::riskOfArea, Day22::rescue));
+        //1094 to high 1088 to low not 1090
     }
 
     public static void main(String[] args) {
