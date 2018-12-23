@@ -1,11 +1,10 @@
 package com.aharpour.adventofcode.utils.geometry;
 
-import java.util.Comparator;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Comparator;
 
 import static java.lang.Math.abs;
 
@@ -56,6 +55,6 @@ public class TwoDPoint {
 
     public static Comparator<TwoDPoint> getComparator() {
         return Comparator.comparingInt(TwoDPoint::getY)
-                .thenComparing(Comparator.comparingInt(TwoDPoint::getX));
+                .thenComparingInt(TwoDPoint::getX);
     }
 }
