@@ -4,11 +4,12 @@ import com.aharpour.adventofcode.utils.graph.AbstractGraph;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Path implements Cloneable{
     @Getter
-    private LinkedList<AbstractGraph.Edge> edges = new LinkedList<>();
+    private List<AbstractGraph.Edge> edges = new ArrayList<>();
 
     @Getter
     private int length = 0;
@@ -17,7 +18,7 @@ public class Path implements Cloneable{
     }
 
     Path addSegment(AbstractGraph.Edge edge) {
-        if (!edges.isEmpty() && edges.getLast().getTo() != edge.getFrom()) {
+        if (!edges.isEmpty() && edges.get(edges.size() - 1).getTo() != edge.getFrom()) {
             throw new IllegalArgumentException();
         }
         edges.add(edge);
@@ -28,7 +29,7 @@ public class Path implements Cloneable{
     @SneakyThrows
     public Path deepClone() {
         Path clone = (Path) super.clone();
-        clone.edges = (LinkedList<AbstractGraph.Edge>) this.edges.clone();
+        clone.edges = new ArrayList<>(this.edges);
         return clone;
     }
 }

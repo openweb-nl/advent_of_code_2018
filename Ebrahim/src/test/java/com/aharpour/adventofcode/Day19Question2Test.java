@@ -7,7 +7,7 @@ public class Day19Question2Test {
 
     @Test
     public void realCase() {
-        Assert.assertEquals(1694, new Day19Question2("#ip 4\n" +
+        Assert.assertEquals(18964204, new Day19Question2("#ip 4\n" +
                 "addi 4 16 4\n" +
                 "seti 1 2 3\n" +
                 "seti 1 6 1\n" +
